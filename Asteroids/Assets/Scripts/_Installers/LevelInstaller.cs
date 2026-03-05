@@ -14,6 +14,11 @@ namespace _Installers
             Container.Bind<PlayerConfig>().FromScriptableObject(playerConfig).AsSingle().NonLazy();
             Container.Bind<PlayerInputActionMap>().FromNew().AsSingle().NonLazy();
             Container.Bind<IInput>().To<InputHandler>().FromNew().AsSingle().NonLazy();
+            Container.Bind<EntitiesContainer>().FromNew().AsSingle().NonLazy();
+
+            Container.Bind<IPositionWrapper>().To<InvertedClampedEntityPositionWrapper>().FromNew().AsSingle()
+                .NonLazy();
+            Container.BindInterfacesAndSelfTo<EntityOutOfBoundsController>().FromNew().AsSingle().NonLazy();
         }
     }
 }

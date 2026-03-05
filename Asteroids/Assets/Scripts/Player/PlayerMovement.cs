@@ -1,11 +1,13 @@
 using System;
+using System.Collections.Generic;
+using ModestTree;
 using UnityEngine;
 using Zenject;
 
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class PlayerMovement : MonoBehaviour
+    public class PlayerMovement : Entity
     {
         [SerializeField] private float speed;
         [SerializeField] private float rotationSpeed;
@@ -17,6 +19,9 @@ namespace Player
 
         private float _rotation;
 
+        private Queue<Action> _actionsToPerform;
+        private bool _isChangingPosition;
+
         [Inject]
         public void Construct(IInput input, PlayerConfig config)
         {
@@ -24,16 +29,29 @@ namespace Player
             speed = config.Speed;
             rotationSpeed = config.RotationSpeed;
         }
-        
+
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _actionsToPerform = new Queue<Action>();
         }
 
         private void Start()
         {
             _input.PlayerPerformedMovingForward += Input_OnPlayerPerformedMovingForward;
             _input.PlayerCanceledMovingForward += Input_OnPlayerCanceledMovingForward;
+        }
+
+        private void FixedUpdate()
+        {
+            if (!_actionsToPerform.IsEmpty())
+                PerformNextAction();
+
+            if (_input == null)
+                return;
+
+            Rotate();
+            Move();
         }
 
         private void Input_OnPlayerPerformedMovingForward()
@@ -46,13 +64,9 @@ namespace Player
             _isMoveForward = false;
         }
 
-        private void FixedUpdate()
+        private void PerformNextAction()
         {
-            if (_input == null)
-                return;
-
-            Rotate();
-            Move();
+            _actionsToPerform.Dequeue().Invoke();
         }
 
         private void Rotate()
@@ -68,6 +82,38 @@ namespace Player
                 return;
 
             _rb.AddForce(transform.up * speed, ForceMode2D.Force);
+        }
+
+
+        // TODO: пересмотреть
+        
+        public override void Enable()
+        {
+            //  _rb.simulated = true;
+            // _actionsToPerform.Enqueue(() => _rb.simulated = true);
+        }
+
+        public override void Disable()
+        {
+            //   _rb.simulated = false;
+            //     _actionsToPerform.Enqueue(() => _rb.simulated = false);
+        }
+
+        public override void SetPosition(Vector3 position)
+        {
+            if (_isChangingPosition)
+                return;
+
+            _isChangingPosition = true;
+            _rb.interpolation = RigidbodyInterpolation2D.None;
+            _actionsToPerform.Enqueue(() => _rb.position = position);
+            _actionsToPerform.Enqueue(() =>
+            {
+                _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+                _isChangingPosition = false;
+            });
+            //_rb.MovePosition(position);
+            // _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         }
     }
 }

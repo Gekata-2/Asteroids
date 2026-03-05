@@ -8,15 +8,17 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private Transform playerSpawnPoint;
 
     private DiContainer _di;
-    private LevelBounds _levelBounds;
+
     private IInput _inputHandler;
+    private EntitiesContainer _entitiesContainer;
 
     [Inject]
-    private void Construct(LevelBounds bounds, DiContainer diContainer, IInput inputHandler)
+    private void Construct(DiContainer diContainer, IInput inputHandler,
+        EntitiesContainer entitiesContainer)
     {
-        _levelBounds = bounds;
         _di = diContainer;
         _inputHandler = inputHandler;
+        _entitiesContainer = entitiesContainer;
     }
 
     private GameObject _player;
@@ -25,7 +27,7 @@ public class LevelBootstrap : MonoBehaviour
     {
         _player = _di.InstantiatePrefab(playerPrefab);
         _player.transform.position = playerSpawnPoint.position;
-        _levelBounds.Init(_player.transform);
+        _entitiesContainer.AddEntity(_player.GetComponent<Entity>());
     }
 
     private void Start()

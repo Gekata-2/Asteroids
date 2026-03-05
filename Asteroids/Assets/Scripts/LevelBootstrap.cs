@@ -1,4 +1,5 @@
-﻿using Player;
+﻿using Entities;
+using Player;
 using UnityEngine;
 using Zenject;
 

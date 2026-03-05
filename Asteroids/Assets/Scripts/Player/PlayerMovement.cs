@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
@@ -15,20 +17,23 @@ namespace Player
 
         private float _rotation;
 
-        public void Init(IInput input, PlayerConfig config)
+        [Inject]
+        public void Construct(IInput input, PlayerConfig config)
         {
             _input = input;
             speed = config.Speed;
             rotationSpeed = config.RotationSpeed;
-
-            _input.PlayerPerformedMovingForward += Input_OnPlayerPerformedMovingForward;
-            _input.PlayerCanceledMovingForward += Input_OnPlayerCanceledMovingForward;
         }
-
-
+        
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+        }
+
+        private void Start()
+        {
+            _input.PlayerPerformedMovingForward += Input_OnPlayerPerformedMovingForward;
+            _input.PlayerCanceledMovingForward += Input_OnPlayerCanceledMovingForward;
         }
 
         private void Input_OnPlayerPerformedMovingForward()
@@ -45,7 +50,7 @@ namespace Player
         {
             if (_input == null)
                 return;
-        
+
             Rotate();
             Move();
         }

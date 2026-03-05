@@ -7,6 +7,8 @@ public class LevelBootstrap : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Transform playerSpawnPoint;
 
+    [SerializeField] private LevelBounds levelBounds;
+
     private GameObject _player;
     private PlayerInputActionMap _inputActionMap;
     private InputHandler _inputHandler;
@@ -17,6 +19,7 @@ public class LevelBootstrap : MonoBehaviour
         _player.transform.position = playerSpawnPoint.position;
         _inputActionMap = new PlayerInputActionMap();
         _inputHandler = new InputHandler(_inputActionMap);
+        levelBounds.Init(_player.transform);
     }
 
     private void Start()

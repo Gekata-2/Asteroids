@@ -1,5 +1,7 @@
-﻿using Entities;
+﻿using DefaultNamespace;
+using Entities;
 using Player;
+using UI;
 using UnityEngine;
 using Zenject;
 
@@ -17,6 +19,10 @@ namespace _Installers
             Container.Bind<PlayerInputActionMap>().FromNew().AsSingle().NonLazy();
             Container.Bind<IInput>().To<InputHandler>().FromNew().AsSingle().NonLazy();
             Container.Bind<EntitiesContainer>().FromNew().AsSingle().NonLazy();
+
+            Container.Bind<PlayerModel>().To<PlayerState>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<PlayerDataController>().FromNew().AsSingle().NonLazy();
+            Container.Bind<PlayerDataView>().To<TextPlayerDataView>().FromComponentsInHierarchy().AsSingle().NonLazy();
         }
     }
 }

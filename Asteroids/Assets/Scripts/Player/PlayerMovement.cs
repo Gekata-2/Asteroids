@@ -7,21 +7,32 @@ using Zenject;
 
 namespace Player
 {
+    public interface IPlayerMovement
+    {
+        Vector2 Position { get; }
+        float Speed { get; }
+        float Rotation { get; }
+    }
+
     [RequireComponent(typeof(Rigidbody2D))]
-    public class PlayerMovement : Entity
+    public class PlayerMovement : Entity, IPlayerMovement
     {
         [SerializeField] private float speed;
         [SerializeField] private float rotationSpeed;
 
         private IInput _input;
         private Rigidbody2D _rb;
-
-        private bool _isMoveForward;
-
         private float _rotation;
 
-        private Queue<Action> _actionsToPerform;
+        private bool _isMoveForward;
         private bool _isChangingPosition;
+        
+        private Queue<Action> _actionsToPerform;
+
+        public Vector2 Position => _rb.position;
+        public float Speed => _rb.linearVelocity.magnitude;
+        public float Rotation => _rotation;
+        
 
         [Inject]
         public void Construct(IInput input, PlayerConfig config)
@@ -74,6 +85,7 @@ namespace Player
         {
             float rotationDelta = -_input.PlayerRotation() * rotationSpeed;
             _rotation += rotationDelta;
+            _rotation = _rotation % 360;
             _rb.SetRotation(Quaternion.Euler(0, 0, _rotation));
         }
 
@@ -87,7 +99,7 @@ namespace Player
 
 
         // TODO: пересмотреть
-        
+
         public override void Enable()
         {
             //  _rb.simulated = true;

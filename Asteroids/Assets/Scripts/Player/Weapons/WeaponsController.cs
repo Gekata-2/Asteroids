@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Player.Weapons.Laser;
+using Player.Weapons.MachineGun;
 using UnityEngine;
 using Zenject;
 
-namespace Player
+namespace Player.Weapons
 {
     public class WeaponsController : MonoBehaviour
     {

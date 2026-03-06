@@ -1,7 +1,9 @@
-﻿using DefaultNamespace;
-using Entities;
+﻿using Entities;
 using Player;
+using Player.Weapons;
+using Player.Weapons.Laser;
 using UI;
+using UI.Laser;
 using UnityEngine;
 using Zenject;
 
@@ -23,6 +25,11 @@ namespace _Installers
             Container.Bind<PlayerModel>().To<PlayerState>().FromNew().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PlayerDataController>().FromNew().AsSingle().NonLazy();
             Container.Bind<PlayerDataView>().To<TextPlayerDataView>().FromComponentsInHierarchy().AsSingle().NonLazy();
+
+
+            Container.Bind<LaserModel>().To<SimpleLaserModel>().FromNew().AsSingle().NonLazy();
+            Container.Bind<LaserView>().To<LaserIconView>().FromComponentsInHierarchy().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<LaserController>().FromNew().AsSingle().NonLazy();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Player
+namespace Player.Weapons.MachineGun
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class Bullet : MonoBehaviour

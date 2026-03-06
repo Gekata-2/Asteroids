@@ -1,7 +1,6 @@
-﻿using Player;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace DefaultNamespace
+namespace Player
 {
     public class PlayerState : PlayerModel
     {

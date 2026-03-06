@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Player
+namespace Player.Weapons
 {
     [CreateAssetMenu(menuName = "Create Player Weapons Config", fileName = "Player Weapons Config", order = 0)]
     public class PlayerWeaponsConfig : ScriptableObject

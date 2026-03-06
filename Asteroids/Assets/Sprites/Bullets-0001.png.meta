@@ -175,6 +175,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Laser2
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 144
+        width: 31
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9255330407f6f7f43b9c5b5231244621
+      internalID: 1560164217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -193,6 +215,7 @@ TextureImporter:
       Bullet green: -2038231237
       Bullets-0001_3: -67281673
       Laser: -1342531085
+      Laser2: 1560164217
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

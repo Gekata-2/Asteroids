@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace Player
+namespace Player.Weapons.MachineGun
 {
     public class MachineGunShooter : MonoBehaviour
     {

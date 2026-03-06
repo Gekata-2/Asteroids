@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Player
+namespace Player.Weapons.Laser
 {
-    class LaserCharges
+    public class LaserCharges
     {
         public LaserCharges(int max)
         {

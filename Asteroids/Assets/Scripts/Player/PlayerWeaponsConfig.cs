@@ -18,6 +18,20 @@ namespace Player
             public float BulletSpeed => bulletSpeed;
         }
 
+        [Serializable]
+        public class LaserConfig
+        {
+            [SerializeField] private float cooldown = 15f;
+            [SerializeField] private float lenght = 4f;
+            [SerializeField] private float duration = 2f;
+            [SerializeField] private int charges = 1;
+            public float Cooldown => cooldown;
+            public float Lenght => lenght;
+            public float Duration => duration;
+            public int Charges => charges;
+        }
+
         public MachineGunConfig MachineGun;
+        public LaserConfig Laser;
     }
 }

@@ -15,3 +15,8 @@ MonoBehaviour:
   MachineGun:
     rateOfFire: 2
     bulletSpeed: 3
+  Laser:
+    cooldown: 6
+    lenght: 8
+    duration: 0.5
+    charges: 3

@@ -7,6 +7,10 @@ namespace Player
     {
         event Action PlayerPerformedMovingForward;
         event Action PlayerCanceledMovingForward;
+        event Action ShootMachineGunPerformed;
+        event Action ShootMachineGunCanceled;
+        event Action ShootLaserPerformed;
+
 
         float PlayerRotation();
 
@@ -19,6 +23,9 @@ namespace Player
     {
         public event Action PlayerPerformedMovingForward;
         public event Action PlayerCanceledMovingForward;
+        public event Action ShootMachineGunPerformed;
+        public event Action ShootMachineGunCanceled;
+        public event Action ShootLaserPerformed;
 
         private readonly PlayerInputActionMap _playerInput;
 
@@ -30,8 +37,28 @@ namespace Player
         public void Enable()
         {
             _playerInput.Player.Enable();
+
             _playerInput.Player.MoveForward.performed += MoveForward_OnStarted;
             _playerInput.Player.MoveForward.canceled += MoveForward_OnCanceled;
+
+            _playerInput.Player.ShootLaser.performed += ShootLaser_OnPerformed;
+            _playerInput.Player.ShootMachineGun.performed += ShootMachineGun_OnPerformed;
+            _playerInput.Player.ShootMachineGun.canceled += ShootMachineGun_OnCanceled;
+        }
+
+        private void ShootLaser_OnPerformed(InputAction.CallbackContext context)
+        {
+            ShootLaserPerformed?.Invoke();
+        }
+
+        private void ShootMachineGun_OnPerformed(InputAction.CallbackContext context)
+        {
+            ShootMachineGunPerformed?.Invoke();
+        }
+
+        private void ShootMachineGun_OnCanceled(InputAction.CallbackContext context)
+        {
+            ShootMachineGunCanceled?.Invoke();
         }
 
         private void MoveForward_OnStarted(InputAction.CallbackContext context)
@@ -46,10 +73,14 @@ namespace Player
 
         public void Disable()
         {
+            _playerInput.Player.Disable();
+
             _playerInput.Player.MoveForward.performed -= MoveForward_OnStarted;
             _playerInput.Player.MoveForward.canceled -= MoveForward_OnCanceled;
 
-            _playerInput.Player.Disable();
+            _playerInput.Player.ShootLaser.performed -= ShootLaser_OnPerformed;
+            _playerInput.Player.ShootMachineGun.performed -= ShootMachineGun_OnPerformed;
+            _playerInput.Player.ShootMachineGun.canceled -= ShootMachineGun_OnCanceled;
         }
 
 

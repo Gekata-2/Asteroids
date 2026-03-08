@@ -40,33 +40,55 @@ namespace Asteroids
         {
             _asteroids.Add(asteroid);
             _entitiesContainer.AddEntity(asteroid);
+            SubscribeToAsteroid(asteroid);
+        }
+
+        private void SubscribeToAsteroid(Asteroid asteroid)
+        {
             asteroid.CollidedWithBullet += Asteroid_OnCollidedWithBullet;
+            asteroid.SweepedByLaser += Asteroid_OnSweepedByLaser;
+        }
+
+        private void UnsubscribeFromAsteroid(Asteroid asteroid)
+        {
+            asteroid.CollidedWithBullet -= Asteroid_OnCollidedWithBullet;
+            asteroid.SweepedByLaser -= Asteroid_OnSweepedByLaser;
         }
 
         private void Asteroid_OnCollidedWithBullet(Asteroid asteroid)
         {
-            asteroid.CollidedWithBullet -= Asteroid_OnCollidedWithBullet;
+            UnsubscribeFromAsteroid(asteroid);
 
             Queue<AsteroidsChainData> chain = asteroid.SplitChain;
-            asteroid.Die();
-            _asteroids.Remove(asteroid);
-            _entitiesContainer.RemoveEntity(asteroid);
-            
+            DestroyAsteroid(asteroid);
+
             if (chain.IsEmpty())
                 return;
             _asteroidsSpawner.SpawnAsteroidsFromPosition(chain, asteroid.transform.position);
             chain.Dequeue();
         }
 
+        private void DestroyAsteroid(Asteroid asteroid)
+        {
+            asteroid.Die();
+            _asteroids.Remove(asteroid);
+            _entitiesContainer.RemoveEntity(asteroid);
+        }
+
+        private void Asteroid_OnSweepedByLaser(Asteroid asteroid)
+        {
+            DestroyAsteroid(asteroid);
+        }
+
         public void Pause()
         {
-            foreach (Asteroid asteroid in _asteroids) 
+            foreach (Asteroid asteroid in _asteroids)
                 asteroid.Pause();
         }
 
         public void Resume()
         {
-            foreach (Asteroid asteroid in _asteroids) 
+            foreach (Asteroid asteroid in _asteroids)
                 asteroid.Resume();
         }
     }

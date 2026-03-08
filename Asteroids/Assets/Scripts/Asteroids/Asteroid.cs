@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Player;
+using Player.Weapons.Laser;
 using Player.Weapons.MachineGun;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Asteroids
     public class Asteroid : PhysicalEntity, IDamageble
     {
         public event Action<Asteroid> CollidedWithBullet;
+        public event Action<Asteroid> SweepedByLaser; 
 
         private float _speed;
         private Vector2 _moveDirection;
@@ -54,8 +56,15 @@ namespace Asteroids
 
         public void TakeDamage(Damage damage)
         {
-            if (damage.Source is Bullet)
-                CollidedWithBullet?.Invoke(this);
+            switch (damage.Source)
+            {
+                case Bullet:
+                    CollidedWithBullet?.Invoke(this);
+                    break;
+                case Laser:
+                    SweepedByLaser?.Invoke(this);
+                    break;
+            }
         }
 
         public void AddTorque(float value)

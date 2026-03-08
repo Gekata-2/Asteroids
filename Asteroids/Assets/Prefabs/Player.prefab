@@ -357,10 +357,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser Container
       objectReference: {fileID: 0}
-    - target: {fileID: 5713972727584403880, guid: 5f3b264d7e0adc14cb32ad3043661ef6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

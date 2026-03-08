@@ -13,7 +13,17 @@ MonoBehaviour:
   m_Name: Asteroids Config
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.AsteroidsConfig
   asteroidsData:
-  - prefab: {fileID: 7270455880547072814, guid: d648ddb75e3f96546a923a289bfa3e2a, type: 3}
-    speedData:
-      minSpeed: 1
-      maxSpeed: 3
+  - {fileID: 0}
+  chain:
+  - data: {fileID: 11400000, guid: 600a43e0975668e4fa3d9727d5a69cc5, type: 2}
+    minCount: 0
+    maxCount: 0
+    size: 1
+  - data: {fileID: 11400000, guid: 600a43e0975668e4fa3d9727d5a69cc5, type: 2}
+    minCount: 2
+    maxCount: 2
+    size: 1.25
+  - data: {fileID: 11400000, guid: 600a43e0975668e4fa3d9727d5a69cc5, type: 2}
+    minCount: 5
+    maxCount: 15
+    size: 0.5

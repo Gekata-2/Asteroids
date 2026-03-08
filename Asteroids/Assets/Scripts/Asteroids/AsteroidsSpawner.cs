@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using ModestTree;
 using UnityEngine;
@@ -16,6 +18,8 @@ namespace Asteroids
         private AsteroidsConfig _asteroidsConfig;
         private AsteroidsSpawnerConfig _spawnerConfig;
 
+        public Transform AsteroidsContainer => asteroidsContainer;
+
         [Inject]
         private void Construct(AsteroidsConfig asteroidsConfig, AsteroidsSpawnerConfig spawnerConfig)
         {
@@ -32,12 +36,6 @@ namespace Asteroids
 
         private void Update()
         {
-            if (_asteroidsConfig.AsteroidsData.IsEmpty())
-            {
-                Debug.LogWarning("Asteroids Data is Empty");
-                return;
-            }
-
             if (Time.time >= _nextSpawnTimestamp)
             {
                 SpawnAsteroid();
@@ -57,16 +55,35 @@ namespace Asteroids
 
         private void SpawnAsteroid()
         {
-            AsteroidsConfig.AsteroidData asteroidData = _asteroidsConfig.AsteroidsData.First();
+            AsteroidData asteroidData = _asteroidsConfig.Chain.First().Data;
             Asteroid asteroid = Instantiate(asteroidData.Prefab, asteroidsContainer);
-            asteroid.Initialize(GetAsteroidSpeed(asteroidData.Speed),GetAsteroidDirection());
+
+            Queue<AsteroidsChainData> splitChain = new(_asteroidsConfig.Chain);
+            splitChain.Dequeue();
+
+            asteroid.Initialize(GetAsteroidSpeed(asteroidData.Speed), GetAsteroidDirection(), splitChain);
             AsteroidSpawned?.Invoke(asteroid);
         }
 
-        private float GetAsteroidSpeed(AsteroidsConfig.AsteroidSpeedData speedData) =>
+        public void SpawnAsteroids(Queue<AsteroidsChainData> chain, Vector3 position)
+        {
+            AsteroidsChainData split = chain.Peek();
+            int newAsteroidsCount = Random.Range(split.MinNewAsteroids, split.MaxNewAsteroids);
+            AsteroidData data = split.Data;
+            for (int i = 0; i < newAsteroidsCount; i++)
+            {
+                Asteroid asteroid = Instantiate(data.Prefab, position, Quaternion.identity);
+                //  asteroid.SetPosition(position);
+                asteroid.Initialize(GetAsteroidSpeed(data.Speed), GetAsteroidDirection(), chain);
+                asteroid.transform.localScale = Vector3.one * split.Size;
+                AsteroidSpawned?.Invoke(asteroid);
+            }
+        }
+
+        private float GetAsteroidSpeed(AsteroidData.AsteroidSpeedData speedData) =>
             Random.Range(speedData.min, speedData.max);
 
-        private Vector2 GetAsteroidDirection() 
+        private Vector2 GetAsteroidDirection()
             => Random.insideUnitCircle.normalized;
 
         private float GetNextSpawnTimestamp() =>

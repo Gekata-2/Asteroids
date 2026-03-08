@@ -4,28 +4,26 @@ using UnityEngine;
 
 namespace Asteroids
 {
+    [Serializable]
+    public class AsteroidsChainData
+    {
+        [SerializeField] private AsteroidData data;
+        [SerializeField] private int minCount = 1;
+        [SerializeField] private int maxCount = 1;
+        [SerializeField] private float size = 1;
+
+        public AsteroidData Data => data;
+        public int MinNewAsteroids => minCount;
+        public int MaxNewAsteroids => maxCount;
+        public float Size => size;
+    }
+
     [CreateAssetMenu(menuName = "Create Asteroids Config", fileName = "Asteroids Config", order = 0)]
     public class AsteroidsConfig : ScriptableObject
     {
-        [Serializable]
-        public class AsteroidSpeedData
-        {
-            public float min = 1f;
-            public float max = 1f;
-        }
-
-        [Serializable]
-        public class AsteroidData
-        {
-            [SerializeField] private Asteroid prefab;
-            [SerializeField] private AsteroidSpeedData speedData;
-
-            public Asteroid Prefab => prefab;
-            public AsteroidSpeedData Speed => speedData;
-        }
-
         [SerializeField] private List<AsteroidData> asteroidsData;
+        [SerializeField] private List<AsteroidsChainData> chain;
 
-        public List<AsteroidData> AsteroidsData => asteroidsData;
+        public List<AsteroidsChainData> Chain => chain;
     }
 }

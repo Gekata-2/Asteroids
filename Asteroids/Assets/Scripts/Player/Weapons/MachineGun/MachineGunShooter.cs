@@ -74,6 +74,7 @@ namespace Player.Weapons.MachineGun
 
         private void OnReturnBulletToPool(Bullet bullet)
         {
+            bullet.Collided -= Bullet_OnCollided;
             bullet.gameObject.SetActive(false);
             if (_activeBullets.Contains(bullet))
                 _activeBullets.Remove(bullet);
@@ -81,6 +82,7 @@ namespace Player.Weapons.MachineGun
 
         private void OnTakeBulletFromPool(Bullet bullet)
         {
+            bullet.Collided += Bullet_OnCollided;
             bullet.gameObject.SetActive(true);
             if (!_activeBullets.Contains(bullet))
                 _activeBullets.Add(bullet);
@@ -91,6 +93,11 @@ namespace Player.Weapons.MachineGun
             Bullet bullet = Instantiate(bulletPrefab, bulletsOrigin);
             _pauseService?.AddItem(bullet);
             return bullet;
+        }
+
+        private void Bullet_OnCollided(Bullet bullet)
+        {
+            _bulletsPool.Release(bullet);
         }
 
         public void Enable()

@@ -11,11 +11,13 @@ namespace Player.Weapons
         {
             [SerializeField, Min(0.01f)] private float rateOfFire;
             [SerializeField, Min(0f)] private float bulletSpeed;
+            [SerializeField, Min(0.01f)] private float bulletLifeTime;
 
             public float RateOfFire => rateOfFire;
             public float FireCooldown => Mathf.Approximately(rateOfFire, 0f) ? float.MaxValue : 1f / rateOfFire;
 
             public float BulletSpeed => bulletSpeed;
+            public float BulletLifeTime => bulletLifeTime;
         }
 
         [Serializable]

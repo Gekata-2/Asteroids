@@ -1,5 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Services;
 using UnityEngine;
+using UnityEngine.Pool;
 using Zenject;
 
 namespace Player.Weapons.MachineGun
@@ -9,15 +14,83 @@ namespace Player.Weapons.MachineGun
         [SerializeField] private Transform bulletsOrigin;
         [SerializeField] private Bullet bulletPrefab;
 
-        private PlayerWeaponsConfig _weaponsConfig;
+        [Header("Bullets Pool")] [SerializeField, Min(1)]
+        private int maxSize = 10;
+
+        [SerializeField, Min(1)] private int defaultCapacity = 20;
+
+        private PlayerWeaponsConfig.MachineGunConfig _config;
         private bool _canShoot;
-        private Coroutine _cooldownRoutine;
         private bool _isPaused;
 
+        private Coroutine _cooldownRoutine;
+
+        private PauseService _pauseService;
+        private ObjectPool<Bullet> _bulletsPool;
+        private List<Bullet> _activeBullets;
+
         [Inject]
-        private void Construct(PlayerWeaponsConfig weaponsConfig)
+        private void Construct(PlayerWeaponsConfig weaponsConfig, PauseService pauseService)
         {
-            _weaponsConfig = weaponsConfig;
+            _config = weaponsConfig.MachineGun;
+            _pauseService = pauseService;
+        }
+
+        private void Awake()
+        {
+            _activeBullets = new List<Bullet>();
+            _bulletsPool = new ObjectPool<Bullet>(
+                CreateBullet,
+                OnTakeBulletFromPool,
+                OnReturnBulletToPool,
+                OnDestroyBullet,
+                collectionCheck: true,
+                defaultCapacity: defaultCapacity,
+                maxSize: maxSize
+            );
+        }
+
+        private void Start()
+        {
+            _bulletsPool.PreWarm(defaultCapacity);
+        }
+
+
+        private void Update()
+        {
+            if (_isPaused)
+                return;
+
+            List<Bullet> bulletsToRelease = _activeBullets.Where(bullet => bullet.TimeToLive <= 0f).ToList();
+            foreach (Bullet t in bulletsToRelease)
+                _bulletsPool.Release(t);
+        }
+
+        private void OnDestroyBullet(Bullet bullet)
+        {
+            _pauseService?.RemoveItem(bullet);
+            Destroy(bullet.gameObject);
+        }
+
+        private void OnReturnBulletToPool(Bullet bullet)
+        {
+            bullet.gameObject.SetActive(false);
+            if (_activeBullets.Contains(bullet))
+                _activeBullets.Remove(bullet);
+        }
+
+        private void OnTakeBulletFromPool(Bullet bullet)
+        {
+            bullet.gameObject.SetActive(true);
+            if (!_activeBullets.Contains(bullet))
+                _activeBullets.Add(bullet);
+        }
+
+        private Bullet CreateBullet()
+        {
+            Bullet bullet = Instantiate(bulletPrefab, bulletsOrigin);
+            _pauseService?.AddItem(bullet);
+            return bullet;
         }
 
         public void Enable()
@@ -30,15 +103,14 @@ namespace Player.Weapons.MachineGun
             if (_cooldownRoutine != null)
                 StopCoroutine(_cooldownRoutine);
 
-            Bullet bullet = Instantiate(bulletPrefab);
+            Bullet bullet = _bulletsPool.Get();
             Transform bulletTransform = bullet.transform;
 
             (bulletTransform.position, bulletTransform.rotation) = (bulletsOrigin.position, bulletsOrigin.rotation);
 
-            bullet.SetSpeed(_weaponsConfig.MachineGun.BulletSpeed);
-            bullet.SetDirection(bullet.transform.up);
+            bullet.Initialize(new Bullet.BulletData(_config.BulletSpeed, bulletTransform.up, _config.BulletLifeTime));
 
-            _cooldownRoutine = StartCoroutine(CooldownRoutine(_weaponsConfig.MachineGun.FireCooldown));
+            _cooldownRoutine = StartCoroutine(CooldownRoutine(_config.FireCooldown));
         }
 
         private IEnumerator CooldownRoutine(float cooldown)
@@ -48,9 +120,7 @@ namespace Player.Weapons.MachineGun
             while (timer >= 0f)
             {
                 if (!_isPaused)
-                {
                     timer -= Time.deltaTime;
-                }
 
                 yield return null;
             }

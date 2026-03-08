@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Player Weapons Config
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerWeaponsConfig
   MachineGun:
-    rateOfFire: 2
+    rateOfFire: 20
     bulletSpeed: 3
+    bulletLifeTime: 5
   Laser:
     cooldown: 6
     lenght: 8

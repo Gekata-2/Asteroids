@@ -1,5 +1,4 @@
-﻿using System;
-using Player.Weapons.Laser;
+﻿using Player.Weapons.Laser;
 using Player.Weapons.MachineGun;
 using Services;
 using UnityEngine;
@@ -34,10 +33,8 @@ namespace Player.Weapons
 
         private void Update()
         {
-            if (_isMachineGunShootPressed)
-            {
+            if (_isMachineGunShootPressed) 
                 machineGunShooter.TryShoot();
-            }
         }
 
         private void Start()

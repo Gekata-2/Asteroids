@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Player.Weapons.MachineGun
 {
-    public class MachineGunShooter : MonoBehaviour
+    public class MachineGunShooter : Weapon
     {
         [SerializeField] private Transform bulletsOrigin;
         [SerializeField] private Bullet bulletPrefab;
@@ -12,6 +12,7 @@ namespace Player.Weapons.MachineGun
         private PlayerWeaponsConfig _weaponsConfig;
         private bool _canShoot;
         private Coroutine _cooldownRoutine;
+        private bool _isPaused;
 
         [Inject]
         private void Construct(PlayerWeaponsConfig weaponsConfig)
@@ -22,9 +23,9 @@ namespace Player.Weapons.MachineGun
         public void Enable()
             => _canShoot = true;
 
-        public void TryShoot()
+        public override void TryShoot()
         {
-            if (!_canShoot)
+            if (!_canShoot || _isPaused)
                 return;
             if (_cooldownRoutine != null)
                 StopCoroutine(_cooldownRoutine);
@@ -43,8 +44,26 @@ namespace Player.Weapons.MachineGun
         private IEnumerator CooldownRoutine(float cooldown)
         {
             _canShoot = false;
-            yield return new WaitForSeconds(cooldown);
+            float timer = cooldown;
+            while (timer >= 0f)
+            {
+                if (!_isPaused)
+                {
+                    timer -= Time.deltaTime;
+                }
+
+                yield return null;
+            }
+
             _canShoot = true;
         }
+
+        public override void SetEnable(bool isEnabled)
+        {
+        }
+
+        public override void Pause() => _isPaused = true;
+
+        public override void Resume() => _isPaused = false;
     }
 }

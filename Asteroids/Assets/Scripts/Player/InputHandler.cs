@@ -10,6 +10,7 @@ namespace Player
         event Action ShootMachineGunPerformed;
         event Action ShootMachineGunCanceled;
         event Action ShootLaserPerformed;
+        event Action PausePerformed;
 
 
         float PlayerRotation();
@@ -26,6 +27,7 @@ namespace Player
         public event Action ShootMachineGunPerformed;
         public event Action ShootMachineGunCanceled;
         public event Action ShootLaserPerformed;
+        public event Action PausePerformed;
 
         private readonly PlayerInputActionMap _playerInput;
 
@@ -44,6 +46,13 @@ namespace Player
             _playerInput.Player.ShootLaser.performed += ShootLaser_OnPerformed;
             _playerInput.Player.ShootMachineGun.performed += ShootMachineGun_OnPerformed;
             _playerInput.Player.ShootMachineGun.canceled += ShootMachineGun_OnCanceled;
+
+            _playerInput.Player.Pause.performed += Pause_OnPerformed;
+        }
+
+        private void Pause_OnPerformed(InputAction.CallbackContext context)
+        {
+            PausePerformed?.Invoke();
         }
 
         private void ShootLaser_OnPerformed(InputAction.CallbackContext context)
@@ -71,6 +80,9 @@ namespace Player
             PlayerCanceledMovingForward?.Invoke();
         }
 
+        public float PlayerRotation() 
+            => _playerInput.Player.Rotate.ReadValue<float>();
+
         public void Disable()
         {
             _playerInput.Player.Disable();
@@ -81,12 +93,8 @@ namespace Player
             _playerInput.Player.ShootLaser.performed -= ShootLaser_OnPerformed;
             _playerInput.Player.ShootMachineGun.performed -= ShootMachineGun_OnPerformed;
             _playerInput.Player.ShootMachineGun.canceled -= ShootMachineGun_OnCanceled;
-        }
 
-
-        public float PlayerRotation()
-        {
-            return _playerInput.Player.Rotate.ReadValue<float>();
+            _playerInput.Player.Pause.performed -= Pause_OnPerformed;
         }
     }
 }

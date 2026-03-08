@@ -127,6 +127,15 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""e898ea29-c491-4278-8bd9-60866b757e3e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -193,6 +202,17 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ShootLaser"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba94b155-98aa-496a-a88f-8a0358794b8d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -784,6 +804,7 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_ShootMachineGun = m_Player.FindAction("ShootMachineGun", throwIfNotFound: true);
         m_Player_ShootLaser = m_Player.FindAction("ShootLaser", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -881,6 +902,7 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_ShootMachineGun;
     private readonly InputAction m_Player_ShootLaser;
+    private readonly InputAction m_Player_Pause;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -908,6 +930,10 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ShootLaser".
         /// </summary>
         public InputAction @ShootLaser => m_Wrapper.m_Player_ShootLaser;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Pause".
+        /// </summary>
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -946,6 +972,9 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
             @ShootLaser.started += instance.OnShootLaser;
             @ShootLaser.performed += instance.OnShootLaser;
             @ShootLaser.canceled += instance.OnShootLaser;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         /// <summary>
@@ -969,6 +998,9 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
             @ShootLaser.started -= instance.OnShootLaser;
             @ShootLaser.performed -= instance.OnShootLaser;
             @ShootLaser.canceled -= instance.OnShootLaser;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         /// <summary>
@@ -1297,6 +1329,13 @@ public partial class @PlayerInputActionMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnShootLaser(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPause(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

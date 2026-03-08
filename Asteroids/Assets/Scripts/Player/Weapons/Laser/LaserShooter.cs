@@ -12,6 +12,7 @@ namespace Player.Weapons.Laser
 
         private Coroutine _cooldownRoutine;
         private Coroutine _laserActiveRoutine;
+        private bool _isPaused;
 
         [Inject]
         private void Construct(LaserModel model)
@@ -27,7 +28,7 @@ namespace Player.Weapons.Laser
 
         public override void TryShoot()
         {
-            if (_model.IsNoChargesLeft)
+            if (_model.IsNoChargesLeft || _isPaused)
                 return;
 
             _model.UseCharge();
@@ -58,7 +59,15 @@ namespace Player.Weapons.Laser
 
         private IEnumerator LaserDisableRoutine(float duration)
         {
-            yield return new WaitForSeconds(duration);
+            float timer = duration;
+            while (timer >= 0f)
+            {
+                if (!_isPaused)
+                    timer -= Time.deltaTime;
+
+                yield return null;
+            }
+
             laser.Disable();
         }
 
@@ -69,18 +78,20 @@ namespace Player.Weapons.Laser
 
             while (timer > 0f)
             {
-                if (timer - Time.deltaTime <= 0)
+                if (!_isPaused)
                 {
-                    _model.RestoreCharge();
-                    _model.SetCooldownTimeLeft(0f);
+                    if (timer - Time.deltaTime <= 0)
+                    {
+                        _model.RestoreCharge();
+                        _model.SetCooldownTimeLeft(0f);
 
-                    if (!_model.IsChargesFull)
-                        timer = cooldown;
+                        if (!_model.IsChargesFull)
+                            timer = cooldown;
+                    }
+
+                    timer -= Time.deltaTime;
+                    _model.SetCooldownTimeLeft(timer);
                 }
-
-                timer -= Time.deltaTime;
-                _model.SetCooldownTimeLeft(timer);
-
 
                 yield return null;
             }
@@ -93,5 +104,9 @@ namespace Player.Weapons.Laser
         {
             _model.ResetCharges();
         }
+
+        public override void Pause() => _isPaused = true;
+
+        public override void Resume() => _isPaused = false;
     }
 }

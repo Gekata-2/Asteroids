@@ -1,5 +1,7 @@
-﻿using Player.Weapons.Laser;
+﻿using System;
+using Player.Weapons.Laser;
 using Player.Weapons.MachineGun;
+using Services;
 using UnityEngine;
 using Zenject;
 
@@ -11,12 +13,23 @@ namespace Player.Weapons
         [SerializeField] private LaserShooter laserShooter;
 
         private IInput _input;
+        private PauseService _pauseService;
         private bool _isMachineGunShootPressed;
 
         [Inject]
-        private void Construct(IInput input)
+        private void Construct(IInput input, PauseService pauseService)
         {
             _input = input;
+            _pauseService = pauseService;
+        }
+
+        private void Awake()
+        {
+            if (_pauseService != null)
+            {
+                _pauseService.AddItem(laserShooter);
+                _pauseService.AddItem(machineGunShooter);
+            }
         }
 
         private void Update()
@@ -32,7 +45,7 @@ namespace Player.Weapons
             _input.ShootMachineGunPerformed += Input_OnShootMachineGunPerformed;
             _input.ShootMachineGunCanceled += Input_OnShootMachineGunCanceled;
             _input.ShootLaserPerformed += Input_OnShootLaserPerformed;
-            
+
             machineGunShooter.Enable();
         }
 

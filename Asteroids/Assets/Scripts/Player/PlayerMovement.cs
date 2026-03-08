@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using Entities;
 using ModestTree;
+using Services;
 using UnityEngine;
 using Zenject;
 
 namespace Player
 {
-    public interface IPlayerMovement
+    public interface IPlayerMovement : IPausable
     {
         Vector2 Position { get; }
         float Speed { get; }
@@ -54,8 +55,17 @@ namespace Player
             _input.PlayerCanceledMovingForward += Input_OnPlayerCanceledMovingForward;
         }
 
+        private void OnDestroy()
+        {
+            _input.PlayerPerformedMovingForward -= Input_OnPlayerPerformedMovingForward;
+            _input.PlayerCanceledMovingForward -= Input_OnPlayerCanceledMovingForward;
+        }
+
         private void FixedUpdate()
         {
+            if (!_rb.simulated)
+                return;
+
             if (!_actionsToPerform.IsEmpty())
                 PerformNextAction();
 
@@ -136,6 +146,16 @@ namespace Player
             });
             //_rb.MovePosition(position);
             // _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        }
+
+        public void Pause()
+        {
+            _rb.simulated = false;
+        }
+
+        public void Resume()
+        {
+            _rb.simulated = true;
         }
     }
 }

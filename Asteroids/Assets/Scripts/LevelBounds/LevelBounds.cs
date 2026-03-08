@@ -43,31 +43,6 @@ namespace LevelBounds
             List<Entity> entities = FindEntitiesOutOfBounds();
             if (!entities.IsEmpty())
                 EntitiesOutOfBounds?.Invoke(entities);
-
-            //  WrapEntitiesPositions(entities);
-        }
-
-        private void WrapEntitiesPositions(List<Entity> entities)
-        {
-            foreach (Entity entity in entities)
-                WrapEntityPosition(entity);
-        }
-
-        private void WrapEntityPosition(Entity entity)
-        {
-            Vector3 position = entity.transform.position;
-            Vector3 newPosition = position;
-            Vector3 invertedPosition = -position;
-            if (invertedPosition.x > _bounds.extents.x || invertedPosition.x < -_bounds.extents.x)
-            {
-                newPosition.x = Mathf.Clamp(invertedPosition.x, -_bounds.extents.x + skinWidth,
-                    _bounds.extents.x - skinWidth);
-            }
-
-            Debug.LogWarning(newPosition);
-            entity.Disable();
-            entity.SetPosition(newPosition);
-            entity.Enable();
         }
 
 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Entities;
 using ModestTree;
 using Services;
 using UnityEngine;
@@ -10,11 +11,13 @@ namespace Asteroids
     {
         private AsteroidsSpawner _asteroidsSpawner;
         private List<Asteroid> _asteroids;
+        private EntitiesContainer _entitiesContainer;
 
         [Inject]
-        private void Construct(AsteroidsSpawner asteroidsSpawner)
+        private void Construct(AsteroidsSpawner asteroidsSpawner, EntitiesContainer entitiesContainer)
         {
             _asteroidsSpawner = asteroidsSpawner;
+            _entitiesContainer = entitiesContainer;
         }
 
         private void Awake()
@@ -36,6 +39,7 @@ namespace Asteroids
         private void AsteroidsSpawner_OnAsteroidSpawned(Asteroid asteroid)
         {
             _asteroids.Add(asteroid);
+            _entitiesContainer.AddEntity(asteroid);
             asteroid.CollidedWithBullet += Asteroid_OnCollidedWithBullet;
         }
 
@@ -45,26 +49,25 @@ namespace Asteroids
 
             Queue<AsteroidsChainData> chain = asteroid.SplitChain;
             asteroid.Die();
+            _asteroids.Remove(asteroid);
+            _entitiesContainer.RemoveEntity(asteroid);
+            
             if (chain.IsEmpty())
                 return;
-            _asteroidsSpawner.SpawnAsteroids(chain, asteroid.transform.position);
+            _asteroidsSpawner.SpawnAsteroidsFromPosition(chain, asteroid.transform.position);
             chain.Dequeue();
         }
 
         public void Pause()
         {
-            foreach (Asteroid asteroid in _asteroids)
-            {
+            foreach (Asteroid asteroid in _asteroids) 
                 asteroid.Pause();
-            }
         }
 
         public void Resume()
         {
-            foreach (Asteroid asteroid in _asteroids)
-            {
+            foreach (Asteroid asteroid in _asteroids) 
                 asteroid.Resume();
-            }
         }
     }
 }

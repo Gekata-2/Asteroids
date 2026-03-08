@@ -8,7 +8,7 @@ using Zenject;
 
 namespace Player
 {
-    public interface IPlayerMovement : IPausable
+    public interface IPlayerMovement
     {
         Vector2 Position { get; }
         float Speed { get; }
@@ -183,12 +183,12 @@ namespace Player
         }
 
 
-        public void Pause()
+        public override void Pause()
         {
             _rb.simulated = false;
         }
 
-        public void Resume()
+        public override void Resume()
         {
             _rb.simulated = true;
         }

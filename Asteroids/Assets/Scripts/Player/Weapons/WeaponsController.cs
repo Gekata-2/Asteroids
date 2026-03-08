@@ -16,7 +16,7 @@ namespace Player.Weapons
         private bool _isMachineGunShootPressed;
 
         [Inject]
-        private void Construct(IInput input, PauseService pauseService)
+        private void Construct(IInput input, PauseService pauseService = null)
         {
             _input = input;
             _pauseService = pauseService;

@@ -1,15 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using ModestTree;
+using Services;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Asteroids
 {
-    public class AsteroidsSpawner : MonoBehaviour
+    public class AsteroidsSpawner : MonoBehaviour, IPausable
     {
         public event Action<Asteroid> AsteroidSpawned;
 
@@ -18,7 +17,8 @@ namespace Asteroids
         private AsteroidsConfig _asteroidsConfig;
         private AsteroidsSpawnerConfig _spawnerConfig;
 
-        public Transform AsteroidsContainer => asteroidsContainer;
+        private float _timer;
+        private bool _isActive;
 
         [Inject]
         private void Construct(AsteroidsConfig asteroidsConfig, AsteroidsSpawnerConfig spawnerConfig)
@@ -27,30 +27,23 @@ namespace Asteroids
             _spawnerConfig = spawnerConfig;
         }
 
-        private float _nextSpawnTimestamp;
-
         private void Start()
         {
-            _nextSpawnTimestamp = float.MaxValue;
+            _timer = float.MaxValue;
         }
 
         private void Update()
         {
-            if (Time.time >= _nextSpawnTimestamp)
+            if (!_isActive)
+                return;
+
+            _timer -= Time.deltaTime;
+            
+            if (_timer <= 0f)
             {
                 SpawnAsteroid();
-                _nextSpawnTimestamp = GetNextSpawnTimestamp();
+                _timer = GetNextTimer();
             }
-        }
-
-
-        public void StartSpawning()
-        {
-            _nextSpawnTimestamp = Time.time + _spawnerConfig.StartDelay;
-        }
-
-        public void StopSpawning()
-        {
         }
 
         private void SpawnAsteroid()
@@ -62,20 +55,25 @@ namespace Asteroids
             splitChain.Dequeue();
 
             asteroid.Initialize(GetAsteroidSpeed(asteroidData.Speed), GetAsteroidDirection(), splitChain);
+            asteroid.AddTorque(GetAsteroidTorque(asteroidData.Torque));
             AsteroidSpawned?.Invoke(asteroid);
         }
 
-        public void SpawnAsteroids(Queue<AsteroidsChainData> chain, Vector3 position)
+        private float GetNextTimer()
+            => Random.Range(_spawnerConfig.MinInterval, _spawnerConfig.MaxInterval);
+
+        public void SpawnAsteroidsFromPosition(Queue<AsteroidsChainData> asteroidsChainRemainder, Vector3 position)
         {
-            AsteroidsChainData split = chain.Peek();
+            AsteroidsChainData split = asteroidsChainRemainder.Peek();
             int newAsteroidsCount = Random.Range(split.MinNewAsteroids, split.MaxNewAsteroids);
-            AsteroidData data = split.Data;
+            AsteroidData asteroidData = split.Data;
             for (int i = 0; i < newAsteroidsCount; i++)
             {
-                Asteroid asteroid = Instantiate(data.Prefab, position, Quaternion.identity);
-                //  asteroid.SetPosition(position);
-                asteroid.Initialize(GetAsteroidSpeed(data.Speed), GetAsteroidDirection(), chain);
+                Asteroid asteroid = Instantiate(asteroidData.Prefab, position, Quaternion.identity);
+                asteroid.Initialize(GetAsteroidSpeed(asteroidData.Speed), GetAsteroidDirection(),
+                    asteroidsChainRemainder);
                 asteroid.transform.localScale = Vector3.one * split.Size;
+                asteroid.AddTorque(GetAsteroidTorque(asteroidData.Torque));
                 AsteroidSpawned?.Invoke(asteroid);
             }
         }
@@ -86,7 +84,24 @@ namespace Asteroids
         private Vector2 GetAsteroidDirection()
             => Random.insideUnitCircle.normalized;
 
-        private float GetNextSpawnTimestamp() =>
-            Time.time + Random.Range(_spawnerConfig.MinInterval, _spawnerConfig.MaxInterval);
+        private float GetAsteroidTorque(AsteroidData.AsteroidTorqueData torqueData)
+            => Random.Range(torqueData.min, torqueData.max);
+
+
+        public void Pause()
+        {
+            _isActive = false;
+        }
+
+        public void Resume()
+        {
+            _isActive = true;
+        }
+
+        public void StartSpawning()
+        {
+            _isActive = true;
+            _timer = GetNextTimer();
+        }
     }
 }

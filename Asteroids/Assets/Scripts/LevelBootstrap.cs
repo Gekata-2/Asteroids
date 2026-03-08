@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using Asteroids;
+using Entities;
 using Player;
 using Services;
 using UnityEngine;
@@ -14,28 +15,35 @@ public class LevelBootstrap : MonoBehaviour
     private EntitiesContainer _entitiesContainer;
     private PlayerModel _playerModel;
     private PauseService _pauseService;
+    private AsteroidsSpawner _asteroidsSpawner;
 
     private GameObject _player;
 
     [Inject]
     private void Construct(DiContainer diContainer, IInput inputHandler,
-        EntitiesContainer entitiesContainer, PlayerModel playerModel, PauseService pauseService)
+        EntitiesContainer entitiesContainer, PlayerModel playerModel,
+        AsteroidsSpawner asteroidsSpawner,
+        PauseService pauseService = null)
     {
         _di = diContainer;
         _inputHandler = inputHandler;
         _entitiesContainer = entitiesContainer;
         _playerModel = playerModel;
+        _asteroidsSpawner = asteroidsSpawner;
         _pauseService = pauseService;
     }
 
     private void Awake()
     {
         _player = _di.InstantiatePrefab(playerPrefab);
-        IPlayerMovement playerMovement = _player.GetComponent<IPlayerMovement>();
         _player.transform.position = playerSpawnPoint.position;
-        _entitiesContainer.AddEntity(_player.GetComponent<Entity>());
+        IPlayerMovement playerMovement = _player.GetComponent<IPlayerMovement>();
         _playerModel.SetPlayer(playerMovement);
-        _pauseService.AddItem(playerMovement);
+
+        _entitiesContainer.AddEntity(_player.GetComponent<Entity>());
+        
+        _pauseService?.AddItem(_entitiesContainer);
+        _pauseService?.AddItem(_asteroidsSpawner);
     }
 
     private void Start()

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using Services;
+using Zenject;
 
 namespace Entities
 {
-    class EntitiesContainer
+    class EntitiesContainer : IPausable
     {
         private readonly List<Entity> _entities;
 
@@ -13,6 +15,7 @@ namespace Entities
         {
             _entities = entities;
         }
+
 
         public void AddEntity(Entity entity)
         {
@@ -40,5 +43,17 @@ namespace Entities
 
         public void Clear()
             => _entities.Clear();
+
+        public void Pause()
+        {
+            foreach (Entity entity in _entities)
+                entity.Pause();
+        }
+
+        public void Resume()
+        {
+            foreach (Entity entity in _entities)
+                entity.Resume();
+        }
     }
 }

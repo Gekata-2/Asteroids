@@ -2,43 +2,25 @@ using System;
 using System.Collections.Generic;
 using Player;
 using Player.Weapons.MachineGun;
-using Services;
 using UnityEngine;
 
 namespace Asteroids
 {
-    interface IDamageble
-    {
-        void TakeDamage(Damage damage);
-    }
-
-    public class Damage
-    {
-        public Damage(object source)
-        {
-            Source = source;
-        }
-
-        public object Source { get; }
-    }
-
-
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Asteroid : PhysicalEntity, IDamageble, IPausable
+    public class Asteroid : PhysicalEntity, IDamageble
     {
         public event Action<Asteroid> CollidedWithBullet;
 
         private float _speed;
         private Vector2 _moveDirection;
         private Vector2 _velocity;
-        private Queue<AsteroidsChainData> _splitChain;
-        public Queue<AsteroidsChainData> SplitChain => _splitChain;
+        public Queue<AsteroidsChainData> SplitChain { get; private set; }
 
         public void Initialize(float speed, Vector2 moveDirection, Queue<AsteroidsChainData> splitChain)
         {
             _speed = speed;
             _moveDirection = moveDirection.normalized;
-            _splitChain = splitChain;
+            SplitChain = splitChain;
             UpdateVelocity();
         }
 
@@ -73,17 +55,20 @@ namespace Asteroids
         public void TakeDamage(Damage damage)
         {
             if (damage.Source is Bullet)
-            {
                 CollidedWithBullet?.Invoke(this);
-            }
         }
 
-        public void Pause()
+        public void AddTorque(float value)
+        {
+            _rb.AddTorque(value);
+        }
+
+        public override void Pause()
         {
             _rb.simulated = false;
         }
 
-        public void Resume()
+        public override void Resume()
         {
             _rb.simulated = true;
         }

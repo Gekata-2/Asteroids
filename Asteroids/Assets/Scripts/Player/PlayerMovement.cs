@@ -26,13 +26,13 @@ namespace Player
 
         private bool _isMoveForward;
         private bool _isChangingPosition;
-        
+
         private Queue<Action> _actionsToPerform;
 
         public Vector2 Position => _rb.position;
         public float Speed => _rb.linearVelocity.magnitude;
         public float Rotation => _rotation;
-        
+
 
         [Inject]
         public void Construct(IInput input, PlayerConfig config)
@@ -84,9 +84,18 @@ namespace Player
         private void Rotate()
         {
             float rotationDelta = -_input.PlayerRotation() * rotationSpeed;
-            _rotation += rotationDelta;
-            _rotation = _rotation % 360;
+            _rotation = GetNewRotation(rotationDelta);
+
             _rb.SetRotation(Quaternion.Euler(0, 0, _rotation));
+        }
+
+        private float GetNewRotation(float rotationDelta)
+        {
+            float newRotation = _rotation + rotationDelta;
+            newRotation %= 360f;
+            if (newRotation < 0f)
+                newRotation = 360f + newRotation;
+            return newRotation;
         }
 
         private void Move()

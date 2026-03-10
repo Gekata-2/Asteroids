@@ -1,17 +1,20 @@
 ﻿using System;
+using Entities;
+using Player;
 using UnityEngine;
 
 namespace Asteroids
 {
     [CreateAssetMenu(menuName = "Create Asteroid Data", fileName = "Asteroid Data", order = 0)]
-    public class AsteroidData : ScriptableObject
+    public class AsteroidData : EntityData
     {
         [Serializable]
         public class AsteroidSpeedData
         {
             public float min = 1f;
             public float max = 1f;
-        } 
+        }
+
         [Serializable]
         public class AsteroidTorqueData
         {

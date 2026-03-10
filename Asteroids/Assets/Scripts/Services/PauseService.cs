@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Services
 {
@@ -7,11 +8,11 @@ namespace Services
         void Pause();
         void Resume();
     }
-    
-    public class PauseService
+
+    public class PauseService : IDisposable
     {
         private readonly List<IPausable> _items;
-        
+
         public bool IsGamePaused { get; private set; }
 
         public PauseService(List<IPausable> startingItems = null)
@@ -27,7 +28,7 @@ namespace Services
 
         public void RemoveItem(IPausable item)
         {
-            if (_items.Contains(item)) 
+            if (_items.Contains(item))
                 _items.Remove(item);
         }
 
@@ -40,7 +41,7 @@ namespace Services
         {
             foreach (IPausable item in _items)
                 item.Pause();
-            
+
             IsGamePaused = true;
         }
 
@@ -48,8 +49,13 @@ namespace Services
         {
             foreach (IPausable item in _items)
                 item.Resume();
-            
+
             IsGamePaused = false;
+        }
+
+        public void Dispose()
+        {
+            Clear();
         }
     }
 }

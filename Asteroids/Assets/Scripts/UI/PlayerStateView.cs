@@ -2,7 +2,7 @@
 
 namespace UI
 {
-    public abstract class PlayerDataView : MonoBehaviour
+    public abstract class PlayerStateView : MonoBehaviour
     {
         public abstract void SetX(float x);
 

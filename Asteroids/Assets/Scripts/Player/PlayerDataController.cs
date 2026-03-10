@@ -6,10 +6,10 @@ namespace Player
 {
     public class PlayerDataController : IFixedTickable, IInitializable
     {
-        private readonly PlayerDataView _view;
+        private readonly PlayerStateView _view;
         private readonly PlayerModel _model;
 
-        public PlayerDataController(PlayerDataView view, PlayerModel model)
+        public PlayerDataController(PlayerStateView view, PlayerModel model)
         {
             _view = view;
             _model = model;

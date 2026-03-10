@@ -1,4 +1,6 @@
 ﻿using Services;
+using Services.Awards;
+using Services.EventBus;
 using Zenject;
 
 namespace _Installers
@@ -12,6 +14,8 @@ namespace _Installers
             Container.Bind<UIManager>().FromNew().AsSingle().NonLazy();
             Container.Bind<ExitGameService>().FromNew().AsSingle().NonLazy();
             Container.Bind<CursorService>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TimeService>().FromNew().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<AwardsController>().FromNew().AsSingle().NonLazy();
         }
     }
 }

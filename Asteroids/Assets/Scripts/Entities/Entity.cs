@@ -1,3 +1,4 @@
+using Player;
 using Services;
 using UnityEngine;
 
@@ -5,6 +6,14 @@ namespace Entities
 {
     public abstract class Entity : MonoBehaviour, IPausable
     {
+        public EntityData Data { get; private set; }
+
+        public void InitializeData(EntityData entityData)
+        {
+            if (Data == null) 
+                Data = entityData;
+        }
+        
         public abstract void Enable();
         public abstract void Disable();
         public abstract void SetPosition(Vector3 position);

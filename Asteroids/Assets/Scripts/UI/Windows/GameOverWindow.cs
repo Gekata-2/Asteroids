@@ -1,5 +1,6 @@
 ﻿using Player;
 using Services;
+using Services.EventBus;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;

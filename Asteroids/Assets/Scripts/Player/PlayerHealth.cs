@@ -1,6 +1,6 @@
-﻿using Asteroids;
-using Entities;
+﻿using Entities;
 using Services;
+using Services.EventBus;
 using UnityEngine;
 using Zenject;
 
@@ -13,7 +13,6 @@ namespace Player
         
         public void TakeDamage(Damage damage)
         {
-            Debug.Log("Death");
             _eventBus.Invoke(new PlayerDeadEvent(damage.Source));
         }
     }

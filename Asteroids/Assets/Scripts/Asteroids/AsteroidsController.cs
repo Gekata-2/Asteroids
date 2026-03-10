@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Entities;
 using ModestTree;
 using Services;
+using Services.EventBus;
 using UnityEngine;
 using Zenject;
 
@@ -12,12 +13,15 @@ namespace Asteroids
         private AsteroidsSpawner _asteroidsSpawner;
         private List<Asteroid> _asteroids;
         private EntitiesContainer _entitiesContainer;
+        private EventBus _eventBus;
 
         [Inject]
-        private void Construct(AsteroidsSpawner asteroidsSpawner, EntitiesContainer entitiesContainer)
+        private void Construct(AsteroidsSpawner asteroidsSpawner, EntitiesContainer entitiesContainer,
+            EventBus eventBus)
         {
             _asteroidsSpawner = asteroidsSpawner;
             _entitiesContainer = entitiesContainer;
+            _eventBus = eventBus;
         }
 
         private void Awake()
@@ -73,6 +77,7 @@ namespace Asteroids
             asteroid.Die();
             _asteroids.Remove(asteroid);
             _entitiesContainer.RemoveEntity(asteroid);
+            _eventBus.Invoke(new EntityDestroyedEvent(asteroid));
         }
 
         private void Asteroid_OnSweepedByLaser(Asteroid asteroid)

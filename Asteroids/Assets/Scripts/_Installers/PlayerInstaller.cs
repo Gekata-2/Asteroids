@@ -19,11 +19,13 @@ namespace _Installers
             Container.Bind<PlayerWeaponsConfig>().FromScriptableObject(weaponsConfig).AsSingle().NonLazy();
             Container.Bind<PlayerInputActionMap>().FromNew().AsSingle().NonLazy();
             Container.Bind<IInput>().To<InputHandler>().FromNew().AsSingle().NonLazy();
-         
+
 
             Container.Bind<PlayerModel>().To<PlayerState>().FromNew().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PlayerDataController>().FromNew().AsSingle().NonLazy();
-            Container.Bind<PlayerDataView>().To<TextPlayerDataView>().FromComponentsInHierarchy().AsSingle().NonLazy();
+            Container.Bind<PlayerStateView>().To<TextPlayerStateView>().FromComponentsInHierarchy().AsSingle()
+                .NonLazy();
+            Container.Bind<ScoreView>().To<TextScoreView>().FromComponentsInHierarchy().AsSingle().NonLazy();
 
 
             Container.Bind<LaserModel>().To<SimpleLaserModel>().FromNew().AsSingle().NonLazy();

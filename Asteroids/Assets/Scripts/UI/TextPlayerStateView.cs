@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace UI
 {
-    public class TextPlayerDataView : PlayerDataView
+    public class TextPlayerStateView : PlayerStateView
     {
         [SerializeField] private TMP_Text xCoordText;
         [SerializeField] private TMP_Text yCoordText;

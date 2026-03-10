@@ -50,6 +50,7 @@ namespace Asteroids
         {
             AsteroidData asteroidData = _asteroidsConfig.Chain.First().Data;
             Asteroid asteroid = Instantiate(asteroidData.Prefab, asteroidsContainer);
+            asteroid.InitializeData(asteroidData);
 
             Queue<AsteroidsChainData> splitChain = new(_asteroidsConfig.Chain);
             splitChain.Dequeue();
@@ -70,6 +71,7 @@ namespace Asteroids
             for (int i = 0; i < newAsteroidsCount; i++)
             {
                 Asteroid asteroid = Instantiate(asteroidData.Prefab, position, Quaternion.identity);
+                asteroid.InitializeData(asteroidData);
                 asteroid.Initialize(GetAsteroidSpeed(asteroidData.Speed), GetAsteroidDirection(),
                     asteroidsChainRemainder);
                 asteroid.transform.localScale = Vector3.one * split.Size;

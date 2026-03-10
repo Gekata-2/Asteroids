@@ -2,7 +2,7 @@
 
 namespace EnemyAI.StateMachine.States
 {
-    public class BaseState : IState
+    public abstract class BaseState : IState 
     {
         protected readonly UFO _enemy;
         public string Name { get; }

@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using ModestTree;
-using Services;
 using Services.EventBus;
 using UnityEngine;
 using Zenject;
 
 namespace Entities.Asteroids
 {
-    public class AsteroidsController : MonoBehaviour, IPausable
+    public class AsteroidsController : MonoBehaviour
     {
         private AsteroidsSpawner _asteroidsSpawner;
         private List<Asteroid> _asteroids;
@@ -37,6 +36,10 @@ namespace Entities.Asteroids
         private void OnDestroy()
         {
             _asteroidsSpawner.AsteroidSpawned -= AsteroidsSpawner_OnAsteroidSpawned;
+            foreach (Asteroid asteroid in _asteroids)
+                UnsubscribeFromAsteroid(asteroid);
+
+            _asteroids.Clear();
         }
 
         private void AsteroidsSpawner_OnAsteroidSpawned(Asteroid asteroid)
@@ -82,18 +85,6 @@ namespace Entities.Asteroids
         private void Asteroid_OnSweepedByLaser(Asteroid asteroid)
         {
             DestroyAsteroid(asteroid);
-        }
-
-        public void Pause()
-        {
-            foreach (Asteroid asteroid in _asteroids)
-                asteroid.Pause();
-        }
-
-        public void Resume()
-        {
-            foreach (Asteroid asteroid in _asteroids)
-                asteroid.Resume();
         }
     }
 }

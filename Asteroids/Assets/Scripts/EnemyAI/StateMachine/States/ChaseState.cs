@@ -16,10 +16,25 @@ namespace EnemyAI.StateMachine.States
         public override void OnEnter()
         {
             _data = _enemy.Data as UfoData;
+            SetRotation(GetDesiredRotation());
+        }
+        
+        public override void FixedUpdate()
+        {
+            float desiredRotation = GetDesiredRotation();
+
+            SetRotation(Mathf.MoveTowardsAngle(_enemy.Rotation, desiredRotation,
+                _data.Movement.SteeringSpeed * Time.fixedDeltaTime));
+            _enemy.Rb.linearVelocity = _enemy.transform.up;
         }
 
+        private void SetRotation(float rotation)
+        {
+            _enemy.Rotation = rotation;
+            _enemy.Rb.SetRotation(Quaternion.Euler(0, 0, _enemy.Rotation));
+        }
 
-        public override void FixedUpdate()
+        private float GetDesiredRotation()
         {
             Vector2 direction = (_player.Position - _enemy.Rb.position).normalized;
 
@@ -27,12 +42,7 @@ namespace EnemyAI.StateMachine.States
             if (desiredRotation < 0f)
                 desiredRotation = 360f - Mathf.Abs(desiredRotation);
             desiredRotation -= 90f;
-
-            _enemy.Rotation = Mathf.MoveTowardsAngle(_enemy.Rotation, desiredRotation,
-                _data.Movement.SteeringSpeed * Time.fixedDeltaTime);
-            _enemy.Rb.SetRotation(Quaternion.Euler(0, 0, _enemy.Rotation));
-
-            _enemy.Rb.linearVelocity = _enemy.transform.up;
+            return desiredRotation;
         }
     }
 }

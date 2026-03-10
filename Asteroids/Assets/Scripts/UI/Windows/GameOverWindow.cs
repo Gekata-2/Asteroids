@@ -53,6 +53,9 @@ namespace UI.Windows
 
         private void Input_OnUICancel()
         {
+            if (_uiManager.CurrentState != UIState.GameOver)
+                return;
+
             _exitGameService.PerformExit();
         }
 

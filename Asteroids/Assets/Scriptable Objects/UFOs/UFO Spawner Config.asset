@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f36dfb20feb463ba4039f89c3df3308, type: 3}
   m_Name: UFO Spawner Config
   m_EditorClassIdentifier: Assembly-CSharp::Entities.UFO.UFOSpawnerConfig
-  minInterval: 1
-  maxInterval: 3
+  minInterval: 100
+  maxInterval: 100
   startDelay: 2

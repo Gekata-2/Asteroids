@@ -38,7 +38,7 @@ namespace Entities.Asteroids
                 return;
 
             _timer -= Time.deltaTime;
-            
+
             if (_timer <= 0f)
             {
                 SpawnAsteroid();
@@ -103,7 +103,7 @@ namespace Entities.Asteroids
         public void StartSpawning()
         {
             _isActive = true;
-            _timer = GetNextTimer();
+            _timer = _spawnerConfig.StartDelay;
         }
     }
 }

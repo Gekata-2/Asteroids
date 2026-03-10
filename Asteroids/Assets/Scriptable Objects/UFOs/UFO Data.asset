@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Entities.UFO.UFOData
   score: 15
   prefab: {fileID: 5075061622665474813, guid: c7e4c9fb1a9006c438a0c973c685fadb, type: 3}
+  movement:
+    steeringSpeed: 120
+    speed: 2

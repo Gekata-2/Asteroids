@@ -13,8 +13,8 @@ namespace Player
 
     public class PlayerMovement : PhysicalEntity, IPlayerMovement
     {
-        [SerializeField] private float speed;
-        [SerializeField] private float rotationSpeed;
+        private float _speed;
+        private float _rotationSpeed;
 
         private IInput _input;
 
@@ -34,8 +34,8 @@ namespace Player
         public void Construct(IInput input, PlayerConfig config)
         {
             _input = input;
-            speed = config.Speed;
-            rotationSpeed = config.RotationSpeed;
+            _speed = config.Speed;
+            _rotationSpeed = config.RotationSpeed;
         }
 
 
@@ -78,7 +78,7 @@ namespace Player
 
         private void Rotate()
         {
-            float rotationDelta = -_input.PlayerRotation() * rotationSpeed;
+            float rotationDelta = -_input.PlayerRotation() * _rotationSpeed;
             _rotation = GetNewRotation(rotationDelta);
 
             _rb.SetRotation(Quaternion.Euler(0, 0, _rotation));
@@ -98,7 +98,7 @@ namespace Player
             if (!_isMoveForward)
                 return;
 
-            _rb.AddForce(transform.up * speed, ForceMode2D.Force);
+            _rb.AddForce(transform.up * _speed, ForceMode2D.Force);
         }
 
 

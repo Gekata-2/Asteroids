@@ -27,7 +27,15 @@ namespace Entities.UFO
     {
         private StateMachine _stateMachine;
         private IEnemyTargetable _target;
+        private bool _initialized;
+        public float Rotation { get; set; }
         public Rigidbody2D Rb => _rb;
+
+        public override void InitializeData(EntityData entityData)
+        {
+            base.InitializeData(entityData);
+            _initialized = true;
+        }
 
         public void SetTarget(IEnemyTargetable target)
         {
@@ -39,7 +47,7 @@ namespace Entities.UFO
             _stateMachine = new StateMachine();
             IdleState idleState = new IdleState(this);
             ChaseState chaseState = new ChaseState(_target, this);
-            _stateMachine.AddTransition(idleState, chaseState, new FuncPredicate(() => true));
+            _stateMachine.AddTransition(idleState, chaseState, new FuncPredicate(() => _initialized));
             _stateMachine.SetState(idleState);
         }
 

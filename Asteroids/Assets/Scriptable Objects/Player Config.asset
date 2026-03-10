@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eaf5cc0e67c406daa0dffe65ef6e75f, type: 3}
   m_Name: Player Config
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.PlayerConfig
-  speed: 2.25
-  rotationSpeed: 5
+  speed: 3
+  rotationSpeed: 7

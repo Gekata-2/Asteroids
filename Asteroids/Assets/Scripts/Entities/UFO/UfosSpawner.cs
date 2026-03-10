@@ -47,6 +47,7 @@ namespace Entities.UFO
         private void SpawnUFO()
         {
             UFO ufo = Instantiate(_ufoData.Prefab, container);
+            ufo.InitializeData(_ufoData);
             UFOSpawned?.Invoke(ufo);
         }
 
@@ -67,7 +68,7 @@ namespace Entities.UFO
         public void StartSpawning()
         {
             _isActive = true;
-            _timer = GetNextTimer();
+            _timer = _spawnerConfig.StartDelay;
         }
     }
 }

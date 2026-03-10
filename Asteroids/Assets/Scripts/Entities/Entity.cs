@@ -8,7 +8,7 @@ namespace Entities
     {
         public EntityData Data { get; private set; }
 
-        public void InitializeData(EntityData entityData)
+        public virtual void InitializeData(EntityData entityData)
         {
             if (Data == null) 
                 Data = entityData;

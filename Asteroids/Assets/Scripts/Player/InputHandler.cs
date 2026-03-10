@@ -11,14 +11,20 @@ namespace Player
         event Action ShootMachineGunCanceled;
         event Action ShootLaserPerformed;
         event Action PausePerformed;
+        event Action UISubmit;
+        event Action UICancel;
 
 
         float PlayerRotation();
 
         void Enable();
         void Disable();
+
+        void SetPlayerActionsEnabled(bool isEnabled);
+        void SetUIActionsEnabled(bool isEnabled);
     }
 
+    
 
     public class InputHandler : IInput
     {
@@ -28,6 +34,8 @@ namespace Player
         public event Action ShootMachineGunCanceled;
         public event Action ShootLaserPerformed;
         public event Action PausePerformed;
+        public event Action UISubmit;
+        public event Action UICancel;
 
         private readonly PlayerInputActionMap _playerInput;
 
@@ -39,7 +47,7 @@ namespace Player
         public void Enable()
         {
             _playerInput.Player.Enable();
-
+            
             _playerInput.Player.MoveForward.performed += MoveForward_OnStarted;
             _playerInput.Player.MoveForward.canceled += MoveForward_OnCanceled;
 
@@ -48,6 +56,25 @@ namespace Player
             _playerInput.Player.ShootMachineGun.canceled += ShootMachineGun_OnCanceled;
 
             _playerInput.Player.Pause.performed += Pause_OnPerformed;
+
+            _playerInput.UI.Submit.performed += Submit_OnPerformed;
+            _playerInput.UI.Cancel.performed += Cancel_OnPerformed;
+        }
+
+        public void SetPlayerActionsEnabled(bool isEnabled)
+        {
+            if (isEnabled)
+                _playerInput.Player.Enable();
+            else
+                _playerInput.Player.Disable();
+        }
+
+        public void SetUIActionsEnabled(bool isEnabled)
+        {
+            if (isEnabled)
+                _playerInput.UI.Enable();
+            else
+                _playerInput.UI.Disable();
         }
 
         private void Pause_OnPerformed(InputAction.CallbackContext context)
@@ -80,13 +107,23 @@ namespace Player
             PlayerCanceledMovingForward?.Invoke();
         }
 
-        public float PlayerRotation() 
+        private void Submit_OnPerformed(InputAction.CallbackContext context)
+        {
+            UISubmit?.Invoke();
+        }
+
+        private void Cancel_OnPerformed(InputAction.CallbackContext context)
+        {
+            UICancel?.Invoke();
+        }
+
+        public float PlayerRotation()
             => _playerInput.Player.Rotate.ReadValue<float>();
 
         public void Disable()
         {
             _playerInput.Player.Disable();
-
+            _playerInput.UI.Disable();
             _playerInput.Player.MoveForward.performed -= MoveForward_OnStarted;
             _playerInput.Player.MoveForward.canceled -= MoveForward_OnCanceled;
 
@@ -95,6 +132,9 @@ namespace Player
             _playerInput.Player.ShootMachineGun.canceled -= ShootMachineGun_OnCanceled;
 
             _playerInput.Player.Pause.performed -= Pause_OnPerformed;
+
+            _playerInput.UI.Submit.performed -= Submit_OnPerformed;
+            _playerInput.UI.Cancel.performed -= Cancel_OnPerformed;
         }
     }
 }

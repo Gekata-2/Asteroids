@@ -1,4 +1,4 @@
-﻿namespace Asteroids
+﻿namespace Entities
 {
     interface IDamageble
     {

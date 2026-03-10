@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Entities;
 using Player;
 using Player.Weapons.Laser;
 using Player.Weapons.MachineGun;
@@ -64,6 +65,14 @@ namespace Asteroids
                 case Laser:
                     SweepedByLaser?.Invoke(this);
                     break;
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.TryGetComponent(out PlayerHealth playerHealth))
+            {
+                playerHealth.TakeDamage(new Damage(this));
             }
         }
 

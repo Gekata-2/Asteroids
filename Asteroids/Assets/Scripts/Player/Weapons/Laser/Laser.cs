@@ -1,4 +1,4 @@
-using Asteroids;
+using Entities;
 using UnityEngine;
 
 namespace Player.Weapons.Laser

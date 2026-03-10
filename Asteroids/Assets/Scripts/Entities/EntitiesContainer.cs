@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Services;
-using Zenject;
 
 namespace Entities
 {
-    class EntitiesContainer : IPausable
+    class EntitiesContainer : IPausable,IDisposable
     {
         private readonly List<Entity> _entities;
 
@@ -54,6 +54,11 @@ namespace Entities
         {
             foreach (Entity entity in _entities)
                 entity.Resume();
+        }
+
+        public void Dispose()
+        {
+            Clear();
         }
     }
 }

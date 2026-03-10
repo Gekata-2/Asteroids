@@ -1,3 +1,4 @@
+using Entities;
 using LevelBounds;
 using Zenject;
 
@@ -7,6 +8,7 @@ namespace _Installers
     {
         public override void InstallBindings()
         {
+            Container.BindInterfacesAndSelfTo<EntitiesContainer>().FromNew().AsSingle().NonLazy();
             Container.Bind<LevelBounds.LevelBounds>().FromComponentInHierarchy().AsSingle().NonLazy();
             Container.Bind<IPositionWrapper>().To<InvertedClampedEntityPositionWrapper>().FromNew().AsSingle()
                 .NonLazy();

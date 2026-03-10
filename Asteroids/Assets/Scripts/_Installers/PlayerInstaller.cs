@@ -1,5 +1,4 @@
-﻿using Entities;
-using Player;
+﻿using Player;
 using Player.Weapons;
 using Player.Weapons.Laser;
 using UI;
@@ -20,7 +19,7 @@ namespace _Installers
             Container.Bind<PlayerWeaponsConfig>().FromScriptableObject(weaponsConfig).AsSingle().NonLazy();
             Container.Bind<PlayerInputActionMap>().FromNew().AsSingle().NonLazy();
             Container.Bind<IInput>().To<InputHandler>().FromNew().AsSingle().NonLazy();
-            Container.Bind<EntitiesContainer>().FromNew().AsSingle().NonLazy();
+         
 
             Container.Bind<PlayerModel>().To<PlayerState>().FromNew().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PlayerDataController>().FromNew().AsSingle().NonLazy();

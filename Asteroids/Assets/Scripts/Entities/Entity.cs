@@ -8,8 +8,8 @@ namespace Entities
         public abstract void Enable();
         public abstract void Disable();
         public abstract void SetPosition(Vector3 position);
+        
         public abstract void Pause();
-
         public abstract void Resume();
     }
 }

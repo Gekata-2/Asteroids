@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using Entities;
-using ModestTree;
-using Services;
 using UnityEngine;
 using Zenject;
 
@@ -13,68 +9,6 @@ namespace Player
         Vector2 Position { get; }
         float Speed { get; }
         float Rotation { get; }
-    }
-
-    class RigidBody2DPositionChanger
-    {
-        private readonly Queue<Action> _actions;
-
-        public RigidBody2DPositionChanger(Vector3 position, Rigidbody2D rb)
-        {
-            _actions = new Queue<Action>();
-            _actions.Enqueue(() => rb.interpolation = RigidbodyInterpolation2D.None);
-            _actions.Enqueue(() => rb.position = position);
-            _actions.Enqueue(() => rb.interpolation = RigidbodyInterpolation2D.Interpolate);
-        }
-
-        public void PerformNext()
-        {
-            if (_actions.IsEmpty())
-                return;
-
-            _actions.Dequeue().Invoke();
-        }
-
-        public bool IsFinished
-            => _actions.IsEmpty();
-    }
-
-    [RequireComponent(typeof(Rigidbody2D))]
-    public abstract class PhysicalEntity : Entity
-    {
-        private RigidBody2DPositionChanger _positionChanger;
-        protected Rigidbody2D _rb;
-
-        private void Awake()
-        {
-            _rb = GetComponent<Rigidbody2D>();
-        }
-
-        public override void Enable()
-        {
-        }
-
-        public override void Disable()
-        {
-        }
-
-        public override void SetPosition(Vector3 position)
-        {
-            if (_positionChanger != null)
-                return;
-
-            _positionChanger = new RigidBody2DPositionChanger(position, _rb);
-        }
-
-        protected void HandlePositionChanger()
-        {
-            if (_positionChanger == null)
-                return;
-
-            _positionChanger.PerformNext();
-            if (_positionChanger.IsFinished)
-                _positionChanger = null;
-        }
     }
 
     public class PlayerMovement : PhysicalEntity, IPlayerMovement

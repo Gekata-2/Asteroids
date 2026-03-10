@@ -1,6 +1,7 @@
 ﻿using Player;
 using Services;
 using Services.EventBus;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -10,22 +11,25 @@ namespace UI.Windows
     public class GameOverWindow : MonoBehaviour
     {
         [SerializeField] private GameObject window;
+        [SerializeField] private TMP_Text score;
 
         private IInput _input;
         private PauseService _pauseService;
         private EventBus _eventBus;
         private UIManager _uiManager;
         private ExitGameService _exitGameService;
+        private PlayerModel _playerModel;
 
         [Inject]
         private void Construct(IInput input, PauseService pauseService, EventBus eventBus, UIManager uiManager,
-            ExitGameService exitGameService)
+            ExitGameService exitGameService, PlayerModel playerModel)
         {
             _input = input;
             _pauseService = pauseService;
             _eventBus = eventBus;
             _uiManager = uiManager;
             _exitGameService = exitGameService;
+            _playerModel = playerModel;
         }
 
         private void Start()
@@ -59,6 +63,7 @@ namespace UI.Windows
 
         private void Open()
         {
+            score.text = $"{_playerModel.Score}";
             window.SetActive(true);
             _pauseService.PerformPause();
             _uiManager.SetState(UIState.GameOver);

@@ -4,7 +4,7 @@ using Services;
 
 namespace Entities
 {
-    class EntitiesContainer : IPausable,IDisposable
+    public class EntitiesContainer : IPausable,IDisposable
     {
         private readonly List<Entity> _entities;
 

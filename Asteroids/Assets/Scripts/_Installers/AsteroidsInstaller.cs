@@ -1,4 +1,4 @@
-﻿using Asteroids;
+﻿using Entities.Asteroids;
 using UnityEngine;
 using Zenject;
 

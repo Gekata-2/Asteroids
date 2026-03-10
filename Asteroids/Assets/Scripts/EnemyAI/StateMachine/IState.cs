@@ -1,0 +1,11 @@
+namespace EnemyAI.StateMachine
+{
+    public interface IState
+    {
+        string GetName();
+        void Update();
+        void FixedUpdate();
+        void OnEnter();
+        void OnExit();
+    }
+}

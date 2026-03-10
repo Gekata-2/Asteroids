@@ -6,7 +6,7 @@ using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
-namespace Asteroids
+namespace Entities.Asteroids
 {
     public class AsteroidsSpawner : MonoBehaviour, IPausable
     {

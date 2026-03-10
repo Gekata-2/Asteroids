@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Asteroids
+namespace Entities.Asteroids
 {
     [Serializable]
     public class AsteroidsChainData

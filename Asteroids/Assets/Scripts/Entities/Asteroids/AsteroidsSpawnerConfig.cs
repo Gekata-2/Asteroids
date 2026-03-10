@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Asteroids
+namespace Entities.Asteroids
 {
     [CreateAssetMenu(menuName = "Create Asteroids Spawner Config", fileName = "Asteroids Spawner Config", order = 0)]
     class AsteroidsSpawnerConfig : ScriptableObject

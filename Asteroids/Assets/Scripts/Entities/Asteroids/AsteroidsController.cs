@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using Entities;
 using ModestTree;
 using Services;
 using Services.EventBus;
 using UnityEngine;
 using Zenject;
 
-namespace Asteroids
+namespace Entities.Asteroids
 {
     public class AsteroidsController : MonoBehaviour, IPausable
     {

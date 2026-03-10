@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 517392462550661871}
   - component: {fileID: 8789946487600211437}
   - component: {fileID: -5079509310783742989}
+  - component: {fileID: 7071195440467202193}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -318,6 +319,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9884e5a4b1f4cb7afb3a755147da7fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerHealth
+--- !u!114 &7071195440467202193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8707059178151170775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c97a002d2df64af3b202e03755afd7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.EnemyTarget
 --- !u!1001 &239361280173869343
 PrefabInstance:
   m_ObjectHideFlags: 0

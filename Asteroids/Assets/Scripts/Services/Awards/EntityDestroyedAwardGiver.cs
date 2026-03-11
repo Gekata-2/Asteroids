@@ -12,9 +12,7 @@ namespace Services.Awards
             _playerModel = playerModel;
         }
 
-        public void GiveAwardFor(EntityDestroyedEvent timeLivedEvent)
-        {
-            _playerModel.AddScore(timeLivedEvent.Entity.Data.Score);
-        }
+        public void GiveAwardFor(EntityDestroyedEvent entityDestroyedEvent) 
+            => _playerModel.AddScore(entityDestroyedEvent.Entity.Data.Score);
     }
 }

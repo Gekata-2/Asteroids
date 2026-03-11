@@ -19,6 +19,7 @@ namespace Entities
         
         public abstract void Pause();
         public abstract void Resume();
+        
         public void MarkEnteredLevel() 
             => HasEnteredLevel = true;
     }

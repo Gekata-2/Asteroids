@@ -10,7 +10,7 @@ namespace EnemyAI.StateMachine.States
 
         public override void OnEnter()
         {
-            _enemy.NotifyAboutDeath();
+            _enemy.Die();
         }
         
     }

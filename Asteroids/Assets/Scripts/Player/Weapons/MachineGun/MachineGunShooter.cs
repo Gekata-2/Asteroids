@@ -14,9 +14,8 @@ namespace Player.Weapons.MachineGun
         [SerializeField] private Transform bulletsOrigin;
         [SerializeField] private Bullet bulletPrefab;
 
-        [Header("Bullets Pool")] [SerializeField, Min(1)]
-        private int maxSize = 10;
-
+        [Header("Bullets Pool")] 
+        [SerializeField, Min(1)] private int maxSize = 10;
         [SerializeField, Min(1)] private int defaultCapacity = 20;
 
         private PlayerWeaponsConfig.MachineGunConfig _config;
@@ -54,16 +53,15 @@ namespace Player.Weapons.MachineGun
         {
             _bulletsPool.PreWarm(defaultCapacity);
         }
-
-
+        
         private void Update()
         {
             if (_isPaused)
                 return;
 
             List<Bullet> bulletsToRelease = _activeBullets.Where(bullet => bullet.TimeToLive <= 0f).ToList();
-            foreach (Bullet t in bulletsToRelease)
-                _bulletsPool.Release(t);
+            foreach (Bullet bullet in bulletsToRelease)
+                _bulletsPool.Release(bullet);
         }
 
         private void OnDestroyBullet(Bullet bullet)
@@ -100,9 +98,6 @@ namespace Player.Weapons.MachineGun
             _bulletsPool.Release(bullet);
         }
 
-        public void Enable()
-            => _canShoot = true;
-
         public override void TryShoot()
         {
             if (!_canShoot || _isPaused)
@@ -119,6 +114,7 @@ namespace Player.Weapons.MachineGun
 
             _cooldownRoutine = StartCoroutine(CooldownRoutine(_config.FireCooldown));
         }
+        
 
         private IEnumerator CooldownRoutine(float cooldown)
         {
@@ -135,10 +131,8 @@ namespace Player.Weapons.MachineGun
             _canShoot = true;
         }
 
-        public override void SetEnable(bool isEnabled)
-        {
-        }
-
+        public void Enable() => _canShoot = true;
+        
         public override void Pause() => _isPaused = true;
 
         public override void Resume() => _isPaused = false;

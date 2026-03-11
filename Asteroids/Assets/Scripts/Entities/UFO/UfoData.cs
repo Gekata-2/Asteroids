@@ -18,6 +18,7 @@ namespace Entities.UFO
         
         [SerializeField] private UFO prefab;
         [SerializeField] private MovementData movement;
+    
         public UFO Prefab => prefab;
         public MovementData Movement => movement;
     }

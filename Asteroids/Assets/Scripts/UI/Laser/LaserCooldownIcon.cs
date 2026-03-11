@@ -7,9 +7,7 @@ namespace UI.Laser
     {
         [SerializeField] private Image fillImage;
 
-        public void SetProgress(float value)
-        {
-            fillImage.fillAmount = value;
-        }
+        public void SetProgress(float value) 
+            => fillImage.fillAmount = value;
     }
 }

@@ -7,8 +7,14 @@ namespace Player.Weapons.Laser
         protected readonly LaserView View;
         protected PlayerWeaponsConfig.LaserConfig Config;
         protected LaserCharges Charges;
+        
         public bool IsOnCooldown { get; protected set; }
         protected float CooldownTimeLeft;
+        
+        protected LaserModel(LaserView view)
+        {
+            View = view;
+        }
 
         public bool IsNoChargesLeft => Charges.IsZero();
         public bool IsChargesFull => Charges.IsFull();
@@ -16,14 +22,7 @@ namespace Player.Weapons.Laser
         public float Cooldown => Config.Cooldown;
         public float Lenght => Config.Lenght;
 
-
-        protected LaserModel(LaserView view)
-        {
-            View = view;
-        }
-
         public abstract void SetConfig(PlayerWeaponsConfig.LaserConfig config);
-        public abstract void SetMaxCharges(int count);
         public abstract void SetCooldownTimeLeft(float time);
         public abstract void SetIsOnCooldown(bool isOnCooldown);
         public abstract void UseCharge();

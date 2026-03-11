@@ -4,7 +4,7 @@ using Services;
 
 namespace Entities
 {
-    public class EntitiesContainer : IPausable,IDisposable
+    public class EntitiesContainer : IPausable, IDisposable
     {
         private readonly List<Entity> _entities;
 
@@ -16,7 +16,6 @@ namespace Entities
             _entities = entities;
         }
 
-
         public void AddEntity(Entity entity)
         {
             if (!_entities.Contains(entity))
@@ -27,18 +26,6 @@ namespace Entities
         {
             if (_entities.Contains(entity))
                 _entities.Remove(entity);
-        }
-
-        public void AddEntities(List<Entity> entities)
-        {
-            foreach (Entity entity in entities)
-                AddEntity(entity);
-        }
-
-        public void RemoveEntities(List<Entity> entities)
-        {
-            foreach (Entity entity in entities)
-                RemoveEntity(entity);
         }
 
         public void Clear()

@@ -3,12 +3,6 @@ using System.Collections.Generic;
 
 namespace Services
 {
-    public interface IPausable
-    {
-        void Pause();
-        void Resume();
-    }
-
     public class PauseService : IDisposable
     {
         private readonly List<IPausable> _items;

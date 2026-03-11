@@ -13,23 +13,19 @@ namespace Player
 
     public class PlayerMovement : PhysicalEntity, IPlayerMovement
     {
+        private IInput _input;
+        
         private float _speed;
         private float _rotationSpeed;
-
-        private IInput _input;
-
         private float _rotation;
 
         private bool _isMoveForward;
         private bool _isChangingPosition;
-
         
-
         public Vector2 Position => _rb.position;
         public float Speed => _rb.linearVelocity.magnitude;
         public float Rotation => _rotation;
-
-
+        
         [Inject]
         public void Construct(IInput input, PlayerConfig config)
         {
@@ -66,15 +62,11 @@ namespace Player
         }
 
 
-        private void Input_OnPlayerPerformedMovingForward()
-        {
-            _isMoveForward = true;
-        }
+        private void Input_OnPlayerPerformedMovingForward() 
+            => _isMoveForward = true;
 
-        private void Input_OnPlayerCanceledMovingForward()
-        {
-            _isMoveForward = false;
-        }
+        private void Input_OnPlayerCanceledMovingForward() 
+            => _isMoveForward = false;
 
         private void Rotate()
         {
@@ -100,17 +92,11 @@ namespace Player
 
             _rb.AddForce(transform.up * _speed, ForceMode2D.Force);
         }
-
-
         
-        public override void Pause()
-        {
-            _rb.simulated = false;
-        }
+        public override void Pause() 
+            => _rb.simulated = false;
 
-        public override void Resume()
-        {
-            _rb.simulated = true;
-        }
+        public override void Resume() 
+            => _rb.simulated = true;
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
-using EnemyAI.StateMachine;
 
-namespace Entities.UFO
+namespace EnemyAI.StateMachine
 {
     public class FuncPredicate : IPredicate
     {

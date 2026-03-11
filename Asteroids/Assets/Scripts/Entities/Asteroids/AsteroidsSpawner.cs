@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Entities.Spawner;
 using Entities.UFO;
 using Services;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
-
 
 namespace Entities.Asteroids
 {
@@ -58,13 +58,13 @@ namespace Entities.Asteroids
             AsteroidData asteroidData = _asteroidsConfig.Chain.First().Data;
             Vector2 spawnPosition = _spawnPositionPicker.GetNextPosition();
             Asteroid asteroid = Instantiate(asteroidData.Prefab, spawnPosition, Quaternion.identity);
-            asteroid.transform.parent = asteroidsContainer;
-            asteroid.InitializeData(asteroidData);
 
             Queue<AsteroidsSplitData> splitChain = new(_asteroidsConfig.Chain);
             splitChain.Dequeue();
 
-            asteroid.Initialize(GetAsteroidSpeed(asteroidData.Speed), GetAsteroidInitialDirection(spawnPosition),
+            asteroid.transform.parent = asteroidsContainer;
+            asteroid.InitializeData(asteroidData);
+            asteroid.InitializeBehaviour(GetAsteroidSpeed(asteroidData.Speed), GetAsteroidInitialDirection(spawnPosition),
                 splitChain);
             asteroid.AddTorque(GetAsteroidTorque(asteroidData.Torque));
             AsteroidSpawned?.Invoke(asteroid);
@@ -76,13 +76,15 @@ namespace Entities.Asteroids
         public void SpawnAsteroidsFromPosition(Queue<AsteroidsSplitData> asteroidsChainRemainder, Vector3 position)
         {
             AsteroidsSplitData split = asteroidsChainRemainder.Peek();
-            int newAsteroidsCount = Random.Range(split.MinNewAsteroids, split.MaxNewAsteroids + 1);
             AsteroidData asteroidData = split.Data;
+           
+            int newAsteroidsCount = Random.Range(split.MinNewAsteroids, split.MaxNewAsteroids + 1);
+            
             for (int i = 0; i < newAsteroidsCount; i++)
             {
                 Asteroid asteroid = Instantiate(asteroidData.Prefab, position, Quaternion.identity);
                 asteroid.InitializeData(asteroidData);
-                asteroid.Initialize(GetAsteroidSpeed(asteroidData.Speed), GetAsteroidRandomDirection(),
+                asteroid.InitializeBehaviour(GetAsteroidSpeed(asteroidData.Speed), GetAsteroidRandomDirection(),
                     asteroidsChainRemainder);
                 asteroid.transform.localScale = Vector3.one * split.Size;
                 asteroid.AddTorque(GetAsteroidTorque(asteroidData.Torque));

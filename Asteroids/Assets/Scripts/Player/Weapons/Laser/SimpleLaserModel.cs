@@ -15,11 +15,6 @@ namespace Player.Weapons.Laser
             View.SetChargesCount(Charges.Current);
         }
 
-        public override void SetMaxCharges(int count)
-        {
-            Charges = new LaserCharges(Config.Charges);
-        }
-
         public override void SetCooldownTimeLeft(float time)
         {
             CooldownTimeLeft = time;

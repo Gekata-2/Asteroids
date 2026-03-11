@@ -26,8 +26,9 @@ namespace Player.Weapons.MachineGun
             }
         }
 
-        private float _speed;
         private Rigidbody2D _rb;
+        
+        private float _speed;
         private Vector2 _direction;
         public float TimeToLive { get; private set; }
 

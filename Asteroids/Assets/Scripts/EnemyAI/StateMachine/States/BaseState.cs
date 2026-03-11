@@ -5,10 +5,9 @@ namespace EnemyAI.StateMachine.States
     public abstract class BaseState : IState 
     {
         protected readonly UFO _enemy;
-        public string Name { get; }
+        private string Name { get; }
 
-
-        public BaseState(UFO enemy, string name = "Base State")
+        protected BaseState(UFO enemy, string name = "Base State")
         {
             _enemy = enemy;
             Name = name;

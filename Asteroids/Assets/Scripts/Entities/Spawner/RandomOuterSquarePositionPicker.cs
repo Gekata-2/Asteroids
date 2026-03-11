@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using Zenject;
 
-namespace Entities.UFO
+namespace Entities.Spawner
 {
     class RandomOuterSquarePositionPicker
     {
-        private float _sideSize;
+        private readonly float _sideSize;
 
         public RandomOuterSquarePositionPicker(float sideSize)
         {

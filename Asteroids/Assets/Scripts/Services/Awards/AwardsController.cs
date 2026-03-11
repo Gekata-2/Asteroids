@@ -28,20 +28,17 @@ namespace Services.Awards
             _timeLivedAwardGiver = new TimeLivedAwardGiver(_playerModel);
         }
 
-        private void OnEntityDestroyed(EntityDestroyedEvent @event)
-        {
-            _entityDestroyedAwardGiver.GiveAwardFor(@event);
-        }
-
-
-        public void Dispose()
-        {
-            _eventBus.Unsubscribe<EntityDestroyedEvent>(OnEntityDestroyed);
-        }
+        private void OnEntityDestroyed(EntityDestroyedEvent @event) 
+            => _entityDestroyedAwardGiver.GiveAwardFor(@event);
 
         public void LateTick()
         {
             _timeLivedAwardGiver.GiveAwardFor(new TimeLivedEvent(_timeService.TimeElapsed));
+        }
+
+        public void Dispose()
+        {
+            _eventBus.Unsubscribe<EntityDestroyedEvent>(OnEntityDestroyed);
         }
     }
 }

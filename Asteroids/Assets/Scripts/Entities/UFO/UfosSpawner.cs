@@ -1,5 +1,5 @@
 ﻿using System;
-using Entities.Asteroids;
+using Entities.Spawner;
 using Services;
 using UnityEngine;
 using Zenject;
@@ -52,8 +52,8 @@ namespace Entities.UFO
         {
             UFO ufo = Instantiate(_ufoData.Prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
             ufo.transform.parent = container;
-
             ufo.InitializeData(_ufoData);
+            
             UFOSpawned?.Invoke(ufo);
         }
 

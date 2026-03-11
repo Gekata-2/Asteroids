@@ -12,6 +12,7 @@ namespace Player.Weapons.Laser
 
         private Coroutine _cooldownRoutine;
         private Coroutine _laserActiveRoutine;
+        
         private bool _isPaused;
 
         [Inject]
@@ -37,6 +38,8 @@ namespace Player.Weapons.Laser
             StartCooldown();
         }
 
+      
+
         private void StartCooldown()
         {
             if (_model.IsOnCooldown)
@@ -55,20 +58,6 @@ namespace Player.Weapons.Laser
                 StopCoroutine(_laserActiveRoutine);
 
             _laserActiveRoutine = StartCoroutine(LaserDisableRoutine(_model.Duration));
-        }
-
-        private IEnumerator LaserDisableRoutine(float duration)
-        {
-            float timer = duration;
-            while (timer >= 0f)
-            {
-                if (!_isPaused)
-                    timer -= Time.deltaTime;
-
-                yield return null;
-            }
-
-            laser.Disable();
         }
 
         private IEnumerator CooldownRoutine(float cooldown)
@@ -96,13 +85,21 @@ namespace Player.Weapons.Laser
                 yield return null;
             }
 
-
             _model.SetIsOnCooldown(false);
         }
 
-        public override void SetEnable(bool isEnabled)
+        private IEnumerator LaserDisableRoutine(float duration)
         {
-            _model.ResetCharges();
+            float timer = duration;
+            while (timer >= 0f)
+            {
+                if (!_isPaused)
+                    timer -= Time.deltaTime;
+
+                yield return null;
+            }
+
+            laser.Disable();
         }
 
         public override void Pause() => _isPaused = true;

@@ -11,29 +11,31 @@ namespace Entities.Asteroids
     public class Asteroid : PhysicalEntity, IDamageble
     {
         public event Action<Asteroid> CollidedWithBullet;
-        public event Action<Asteroid> SweepedByLaser; 
+        public event Action<Asteroid> SweepedByLaser;
 
         private float _speed;
         private Vector2 _moveDirection;
         private Vector2 _velocity;
+
         public Queue<AsteroidsSplitData> SplitChain { get; private set; }
 
-        public void Initialize(float speed, Vector2 moveDirection, Queue<AsteroidsSplitData> splitChain)
+        public void InitializeBehaviour(float speed, Vector2 moveDirection, Queue<AsteroidsSplitData> splitChain)
         {
             _speed = speed;
             _moveDirection = moveDirection.normalized;
             SplitChain = splitChain;
+            
             UpdateVelocity();
         }
-
-        private void UpdateVelocity()
-            => _velocity = _moveDirection * _speed;
 
         private void FixedUpdate()
         {
             HandlePositionChanger();
             Move();
         }
+
+        private void UpdateVelocity()
+            => _velocity = _moveDirection * _speed;
 
         private void Move()
         {
@@ -61,24 +63,16 @@ namespace Entities.Asteroids
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.TryGetComponent(out PlayerHealth playerHealth))
-            {
                 playerHealth.TakeDamage(new Damage(this));
-            }
         }
 
-        public void AddTorque(float value)
-        {
-            _rb.AddTorque(value);
-        }
+        public void AddTorque(float value) 
+            => _rb.AddTorque(value);
 
-        public override void Pause()
-        {
-            _rb.simulated = false;
-        }
+        public override void Pause() 
+            => _rb.simulated = false;
 
-        public override void Resume()
-        {
-            _rb.simulated = true;
-        }
+        public override void Resume() 
+            => _rb.simulated = true;
     }
 }

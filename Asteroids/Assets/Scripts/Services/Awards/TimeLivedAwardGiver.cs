@@ -15,12 +15,12 @@ namespace Services.Awards
             _playerModel = playerModel;
         }
 
-        public void GiveAwardFor(TimeLivedEvent timeLivedEvent)
+        public void GiveAwardFor(TimeLivedEvent entityDestroyedEvent)
         {
-            if (timeLivedEvent.TotalTime - _lastAwardGivenTimeStamp >= SCORE_COOLDOWN)
+            if (entityDestroyedEvent.TotalTime - _lastAwardGivenTimeStamp >= SCORE_COOLDOWN)
             {
                 _playerModel.AddScore(SCORE_AWARD);
-                _lastAwardGivenTimeStamp = timeLivedEvent.TotalTime;
+                _lastAwardGivenTimeStamp = entityDestroyedEvent.TotalTime;
             }
         }
     }

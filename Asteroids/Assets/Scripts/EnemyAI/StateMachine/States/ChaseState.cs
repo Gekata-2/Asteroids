@@ -18,14 +18,14 @@ namespace EnemyAI.StateMachine.States
             _data = _enemy.Data as UfoData;
             SetRotation(GetDesiredRotation());
         }
-        
+
         public override void FixedUpdate()
         {
             float desiredRotation = GetDesiredRotation();
 
             SetRotation(Mathf.MoveTowardsAngle(_enemy.Rotation, desiredRotation,
                 _data.Movement.SteeringSpeed * Time.fixedDeltaTime));
-            _enemy.Rb.linearVelocity = _enemy.transform.up;
+            _enemy.Rb.linearVelocity = _enemy.transform.up * _data.Movement.Speed;
         }
 
         private void SetRotation(float rotation)

@@ -12,6 +12,7 @@ namespace LevelBounds
     {
         public event Action<List<Entity>> EntitiesOutOfBounds;
         public event Action<List<Entity>> EntitiesOutOfOuterBounds;
+        public event Action<List<Entity>> EntitiesFirstTimeEnteredLevel;
 
         [SerializeField] private float size = 3f;
         [SerializeField] private float outerBoundsSize = 20f;
@@ -37,7 +38,6 @@ namespace LevelBounds
             _outerBounds = GetBounds(outerBoundsSize);
         }
 
-
         private void OnValidate()
         {
             _bounds = GetBounds(size);
@@ -50,11 +50,10 @@ namespace LevelBounds
             EntitiesOutOfOuterBounds?.Invoke(entitiesOutOfOuterBounds);
 
             List<Entity> entitiesFirstEnteredLevel = FindEntitiesFirstEnteredLevel();
-            MarkEntitiesEnteredLevel(entitiesFirstEnteredLevel);
+            EntitiesFirstTimeEnteredLevel?.Invoke(entitiesFirstEnteredLevel);
 
             List<Entity> entities = FindEntitiesOutOfBounds();
-            if (!entities.IsEmpty())
-                EntitiesOutOfBounds?.Invoke(entities);
+            EntitiesOutOfBounds?.Invoke(entities);
         }
 
         private Bounds GetBounds(float size)
@@ -70,13 +69,7 @@ namespace LevelBounds
         private List<Entity> FindEntitiesFirstEnteredLevel() =>
             _entitiesContainer.Entities.Where(entity => !entity.HasEnteredLevel && !IsEntityOutOfBounds(entity))
                 .ToList();
-
-        private void MarkEntitiesEnteredLevel(List<Entity> entities)
-        {
-            foreach (Entity entity in entities)
-                entity.MarkEnteredLevel();
-        }
-
+        
         private bool IsEntityOutOfBounds(Entity entity)
             => !_bounds.Contains(entity.transform.position);
 
@@ -87,6 +80,7 @@ namespace LevelBounds
         {
             if (!drawGizmos)
                 return;
+            
             Gizmos.color = Color.blue;
             Gizmos.DrawWireCube(_outerBounds.center, _outerBounds.size);
 

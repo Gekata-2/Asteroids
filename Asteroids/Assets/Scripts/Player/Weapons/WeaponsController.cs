@@ -31,18 +31,12 @@ namespace Player.Weapons
             }
         }
 
-        private void Update()
-        {
-            if (_isMachineGunShootPressed) 
-                machineGunShooter.TryShoot();
-        }
-
         private void Start()
         {
             _input.ShootMachineGunPerformed += Input_OnShootMachineGunPerformed;
             _input.ShootMachineGunCanceled += Input_OnShootMachineGunCanceled;
             _input.ShootLaserPerformed += Input_OnShootLaserPerformed;
-
+            
             machineGunShooter.Enable();
         }
 
@@ -53,19 +47,19 @@ namespace Player.Weapons
             _input.ShootLaserPerformed -= Input_OnShootLaserPerformed;
         }
 
-        private void Input_OnShootLaserPerformed()
+        private void Update()
         {
-            laserShooter.TryShoot();
+            if (_isMachineGunShootPressed)
+                machineGunShooter.TryShoot();
         }
+
+        private void Input_OnShootLaserPerformed()
+            => laserShooter.TryShoot();
 
         private void Input_OnShootMachineGunCanceled()
-        {
-            _isMachineGunShootPressed = false;
-        }
+            => _isMachineGunShootPressed = false;
 
         private void Input_OnShootMachineGunPerformed()
-        {
-            _isMachineGunShootPressed = true;
-        }
+            => _isMachineGunShootPressed = true;
     }
 }

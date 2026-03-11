@@ -10,7 +10,7 @@ namespace Player.Weapons.Laser
             Current = max;
         }
 
-        public int Max { get; private set; }
+        private int Max { get; }
         public int Current { get; private set; }
 
         public void UseCharge()

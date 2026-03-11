@@ -38,8 +38,7 @@ namespace Services
             _input.SetPlayerActionsEnabled(false);
             _input.SetUIActionsEnabled(true);
         }
-
-
+        
         public bool CanOpenPause()
             => _current == UIState.None;
     }

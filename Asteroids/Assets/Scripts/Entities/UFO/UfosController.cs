@@ -33,26 +33,28 @@ namespace Entities.UFO
         private void Start()
         {
             _ufosSpawner.UFOSpawned += UfosSpawner_OnUFOSpawned;
-            _eventBus.Subscribe<EntityOutOfOuterBoundsDestroyed>(OnEntityOutOfOuterBoundsDestroyed);
+            _eventBus.Subscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
             _ufosSpawner.StartSpawning();
         }
 
-        private void OnEntityOutOfOuterBoundsDestroyed(EntityOutOfOuterBoundsDestroyed @event)
+        private void OnDestroy()
+        {
+            _ufosSpawner.UFOSpawned -= UfosSpawner_OnUFOSpawned;
+            _eventBus.Unsubscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
+          
+            foreach (UFO ufo in _ufos)
+                ufo.Died -= Ufo_OnDied;
+
+            _ufos.Clear();
+        }
+
+        private void OnEntityOutOfOuterBoundsDestroyed(EntityOutOfOuterBoundsDestroyedEvent @event)
         {
             if (@event.Entity is UFO ufo)
             {
                 ufo.Died -= Ufo_OnDied;
                 _ufos.Remove(ufo);
             }
-        }
-
-        private void OnDestroy()
-        {
-            _ufosSpawner.UFOSpawned -= UfosSpawner_OnUFOSpawned;
-            foreach (UFO ufo in _ufos)
-                ufo.Died -= Ufo_OnDied;
-
-            _ufos.Clear();
         }
 
         private void UfosSpawner_OnUFOSpawned(UFO ufo)

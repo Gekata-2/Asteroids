@@ -17,7 +17,7 @@ namespace Player.Weapons.Laser
 
         private void OnDestroy()
         {
-            laserCollider.TriggerEnter += LaserCollider_OnTriggerEnter;
+            laserCollider.TriggerEnter -= LaserCollider_OnTriggerEnter;
         }
 
         private void LaserCollider_OnTriggerEnter(Collider2D other)
@@ -32,8 +32,7 @@ namespace Player.Weapons.Laser
             localScale = new Vector3(localScale.x, value, localScale.z);
             laserObject.localScale = localScale;
         }
-
-
+        
         public void Enable()
         {
             gameObject.SetActive(true);

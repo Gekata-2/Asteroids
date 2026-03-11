@@ -13,10 +13,8 @@ namespace EnemyAI.StateMachine
         public void Update()
         {
             ITransition transition = GetTransition();
-            if (transition != null)
-            {
+            if (transition != null) 
                 ChangeState(transition.To);
-            }
 
             _current.State?.Update();
         }
@@ -36,9 +34,7 @@ namespace EnemyAI.StateMachine
         public void ChangeState(IState state)
         {
             if (state == _current.State)
-            {
                 return;
-            }
 
             IState previousState = _current.State;
             IState nextState = _nodes[state.GetType()].State;

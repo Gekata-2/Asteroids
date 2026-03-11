@@ -10,9 +10,10 @@ namespace Entities.Asteroids
     public class AsteroidsController : MonoBehaviour
     {
         private AsteroidsSpawner _asteroidsSpawner;
-        private List<Asteroid> _asteroids;
         private EntitiesContainer _entitiesContainer;
         private EventBus _eventBus;
+        
+        private List<Asteroid> _asteroids;
 
         [Inject]
         private void Construct(AsteroidsSpawner asteroidsSpawner, EntitiesContainer entitiesContainer,
@@ -31,26 +32,28 @@ namespace Entities.Asteroids
         private void Start()
         {
             _asteroidsSpawner.AsteroidSpawned += AsteroidsSpawner_OnAsteroidSpawned;
-            _eventBus.Subscribe<EntityOutOfOuterBoundsDestroyed>(OnEntityOutOfOuterBoundsDestroyed);
+            _eventBus.Subscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
             _asteroidsSpawner.StartSpawning();
         }
 
-        private void OnEntityOutOfOuterBoundsDestroyed(EntityOutOfOuterBoundsDestroyed @event)
+        private void OnDestroy()
+        {
+            _asteroidsSpawner.AsteroidSpawned -= AsteroidsSpawner_OnAsteroidSpawned;
+            _eventBus.Unsubscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
+            
+            foreach (Asteroid asteroid in _asteroids)
+                UnsubscribeFromAsteroid(asteroid);
+
+            _asteroids.Clear();
+        }
+
+        private void OnEntityOutOfOuterBoundsDestroyed(EntityOutOfOuterBoundsDestroyedEvent @event)
         {
             if (@event.Entity is Asteroid asteroid)
             {
                 UnsubscribeFromAsteroid(asteroid);
                 _asteroids.Remove(asteroid);
             }
-        }
-
-        private void OnDestroy()
-        {
-            _asteroidsSpawner.AsteroidSpawned -= AsteroidsSpawner_OnAsteroidSpawned;
-            foreach (Asteroid asteroid in _asteroids)
-                UnsubscribeFromAsteroid(asteroid);
-
-            _asteroids.Clear();
         }
 
         private void AsteroidsSpawner_OnAsteroidSpawned(Asteroid asteroid)
@@ -81,6 +84,7 @@ namespace Entities.Asteroids
 
             if (chain.IsEmpty())
                 return;
+            
             _asteroidsSpawner.SpawnAsteroidsFromPosition(chain, asteroid.transform.position);
             chain.Dequeue();
         }
@@ -93,6 +97,7 @@ namespace Entities.Asteroids
         private void DestroyAsteroid(Asteroid asteroid)
         {
             asteroid.Die();
+            
             _asteroids.Remove(asteroid);
             _entitiesContainer.RemoveEntity(asteroid);
             _eventBus.Invoke(new EntityDestroyedEvent(asteroid));

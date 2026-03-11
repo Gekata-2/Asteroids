@@ -76,7 +76,7 @@ namespace Entities.Asteroids
         {
             UnsubscribeFromAsteroid(asteroid);
 
-            Queue<AsteroidsChainData> chain = asteroid.SplitChain;
+            Queue<AsteroidsSplitData> chain = asteroid.SplitChain;
             DestroyAsteroid(asteroid);
 
             if (chain.IsEmpty())

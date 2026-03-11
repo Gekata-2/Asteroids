@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Entities.Asteroids
 {
     [Serializable]
-    public class AsteroidsChainData
+    public class AsteroidsSplitData
     {
         [SerializeField] private AsteroidData data;
         [SerializeField] private int minCount = 1;
@@ -21,8 +21,8 @@ namespace Entities.Asteroids
     [CreateAssetMenu(menuName = "Create Asteroids Config", fileName = "Asteroids Config", order = 0)]
     public class AsteroidsConfig : ScriptableObject
     {
-        [SerializeField] private List<AsteroidsChainData> chain;
+        [SerializeField] private List<AsteroidsSplitData> chain;
 
-        public List<AsteroidsChainData> Chain => chain;
+        public List<AsteroidsSplitData> Chain => chain;
     }
 }

@@ -61,7 +61,7 @@ namespace Entities.Asteroids
             asteroid.transform.parent = asteroidsContainer;
             asteroid.InitializeData(asteroidData);
 
-            Queue<AsteroidsChainData> splitChain = new(_asteroidsConfig.Chain);
+            Queue<AsteroidsSplitData> splitChain = new(_asteroidsConfig.Chain);
             splitChain.Dequeue();
 
             asteroid.Initialize(GetAsteroidSpeed(asteroidData.Speed), GetAsteroidInitialDirection(spawnPosition),
@@ -73,10 +73,10 @@ namespace Entities.Asteroids
         private float GetNextTimer()
             => Random.Range(_spawnerConfig.MinInterval, _spawnerConfig.MaxInterval);
 
-        public void SpawnAsteroidsFromPosition(Queue<AsteroidsChainData> asteroidsChainRemainder, Vector3 position)
+        public void SpawnAsteroidsFromPosition(Queue<AsteroidsSplitData> asteroidsChainRemainder, Vector3 position)
         {
-            AsteroidsChainData split = asteroidsChainRemainder.Peek();
-            int newAsteroidsCount = Random.Range(split.MinNewAsteroids, split.MaxNewAsteroids);
+            AsteroidsSplitData split = asteroidsChainRemainder.Peek();
+            int newAsteroidsCount = Random.Range(split.MinNewAsteroids, split.MaxNewAsteroids + 1);
             AsteroidData asteroidData = split.Data;
             for (int i = 0; i < newAsteroidsCount; i++)
             {

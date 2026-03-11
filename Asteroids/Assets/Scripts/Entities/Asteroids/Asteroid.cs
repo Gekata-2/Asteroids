@@ -16,9 +16,9 @@ namespace Entities.Asteroids
         private float _speed;
         private Vector2 _moveDirection;
         private Vector2 _velocity;
-        public Queue<AsteroidsChainData> SplitChain { get; private set; }
+        public Queue<AsteroidsSplitData> SplitChain { get; private set; }
 
-        public void Initialize(float speed, Vector2 moveDirection, Queue<AsteroidsChainData> splitChain)
+        public void Initialize(float speed, Vector2 moveDirection, Queue<AsteroidsSplitData> splitChain)
         {
             _speed = speed;
             _moveDirection = moveDirection.normalized;

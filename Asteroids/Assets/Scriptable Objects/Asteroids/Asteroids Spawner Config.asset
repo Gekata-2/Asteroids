@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6679570f8af14a8497be6ecb6b78d5b7, type: 3}
   m_Name: Asteroids Spawner Config
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidsSpawnerConfig
-  minInterval: 2
-  maxInterval: 5
-  startDelay: 2
+  minInterval: 3
+  maxInterval: 7
+  startDelay: 5
   spawnPositionSideLenght: 12

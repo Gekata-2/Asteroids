@@ -2361,7 +2361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &993495623
 Transform:
   m_ObjectHideFlags: 0
@@ -3558,6 +3558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelBounds
   size: 9
+  outerBoundsSize: 20
   skinWidth: 0.33
   drawGizmos: 1
 --- !u!4 &1681604405

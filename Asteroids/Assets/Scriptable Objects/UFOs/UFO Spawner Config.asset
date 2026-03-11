@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6679570f8af14a8497be6ecb6b78d5b7, type: 3}
   m_Name: UFO Spawner Config
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidsSpawnerConfig
-  minInterval: 1111
-  maxInterval: 1111
-  startDelay: 2
+  minInterval: 5
+  maxInterval: 15
+  startDelay: 20
   spawnPositionSideLenght: 11

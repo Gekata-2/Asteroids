@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73014f7654044360b9a882498cf06bdf, type: 3}
-  m_Name: Asteroid Big Data
+  m_Name: Asteroid Small Data
   m_EditorClassIdentifier: Assembly-CSharp::Asteroids.AsteroidData
-  score: 12
-  prefab: {fileID: 7270455880547072814, guid: d648ddb75e3f96546a923a289bfa3e2a, type: 3}
+  score: 5
+  prefab: {fileID: 3958659243998892299, guid: 0854b320327c08d44b92ef4ebdf9d203, type: 3}
   speedData:
-    min: 0.25
-    max: 0.5
+    min: 0.75
+    max: 1.25
   torqueData:
     min: -3
     max: 3

@@ -25,10 +25,8 @@ namespace LevelBounds
                 newPosition.y = Mathf.Clamp(invertedPosition.y,
                     -bounds.extents.y + skinWidth, bounds.extents.y - skinWidth);
             }
-
-            entity.Disable();
+            
             entity.SetPosition(newPosition);
-            entity.Enable();
         }
     }
 }

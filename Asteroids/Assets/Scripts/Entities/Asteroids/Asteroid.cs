@@ -45,15 +45,6 @@ namespace Entities.Asteroids
             Destroy(gameObject);
         }
 
-
-        public override void Enable()
-        {
-        }
-
-        public override void Disable()
-        {
-        }
-
         public void TakeDamage(Damage damage)
         {
             switch (damage.Source)

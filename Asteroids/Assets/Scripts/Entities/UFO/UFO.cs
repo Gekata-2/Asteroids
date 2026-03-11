@@ -8,24 +8,6 @@ using UnityEngine;
 
 namespace Entities.UFO
 {
-    public interface IEnemyTargetable
-    {
-        public Vector2 Position { get; }
-    }
-
-    public class FuncPredicate : IPredicate
-    {
-        private readonly Func<bool> _func;
-
-        public FuncPredicate(Func<bool> func)
-        {
-            _func = func;
-        }
-
-        public bool Evaluate()
-            => _func.Invoke();
-    }
-
     public class UFO : PhysicalEntity, IDamageble
     {
         public event Action<UFO> Died;

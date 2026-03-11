@@ -102,21 +102,7 @@ namespace Player
         }
 
 
-        // TODO: пересмотреть
-
-        public override void Enable()
-        {
-            //  _rb.simulated = true;
-            // _actionsToPerform.Enqueue(() => _rb.simulated = true);
-        }
-
-        public override void Disable()
-        {
-            //   _rb.simulated = false;
-            //     _actionsToPerform.Enqueue(() => _rb.simulated = false);
-        }
-
-
+        
         public override void Pause()
         {
             _rb.simulated = false;

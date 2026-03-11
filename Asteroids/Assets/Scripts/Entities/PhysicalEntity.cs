@@ -13,14 +13,7 @@ namespace Entities
             _rb = GetComponent<Rigidbody2D>();
         }
 
-        public override void Enable()
-        {
-        }
-
-        public override void Disable()
-        {
-        }
-
+        
         public override void SetPosition(Vector3 position)
         {
             if (_teleporter != null)

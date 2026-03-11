@@ -15,8 +15,6 @@ namespace Entities
                 Data = entityData;
         }
         
-        public abstract void Enable();
-        public abstract void Disable();
         public abstract void SetPosition(Vector3 position);
         
         public abstract void Pause();

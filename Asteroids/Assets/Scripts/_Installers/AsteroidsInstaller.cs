@@ -7,11 +7,11 @@ namespace _Installers
     public class AsteroidsInstaller : MonoInstaller
     {
         [SerializeField] private AsteroidsConfig asteroidsConfig;
-        [SerializeField] private AsteroidsSpawnerConfig asteroidsSpawnerConfig;
+        [SerializeField] private SimpleSpawnerConfig spawnerConfig;
 
         public override void InstallBindings()
         {
-            Container.Bind<AsteroidsSpawnerConfig>().FromScriptableObject(asteroidsSpawnerConfig).AsSingle().NonLazy();
+            Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig).WhenInjectedInto<AsteroidsSpawner>().NonLazy();
             Container.Bind<AsteroidsConfig>().FromScriptableObject(asteroidsConfig).AsSingle().NonLazy();
             Container.Bind<AsteroidsSpawner>().FromComponentInHierarchy().AsSingle().NonLazy();
         }

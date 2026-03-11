@@ -49,7 +49,7 @@ namespace Services
             IPlayerMovement playerMovement = _player.GetComponent<IPlayerMovement>();
             _playerModel.SetPlayer(playerMovement);
 
-            _entitiesContainer.AddEntity(_player.GetComponent<Entity>());
+           // _entitiesContainer.AddEntity(_player.GetComponent<Entity>());
 
             _pauseService?.AddItem(_entitiesContainer);
             _pauseService?.AddItem(_asteroidsSpawner);

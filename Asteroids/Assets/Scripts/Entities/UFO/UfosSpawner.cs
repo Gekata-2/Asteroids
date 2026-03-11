@@ -1,4 +1,5 @@
 ﻿using System;
+using Entities.Asteroids;
 using Services;
 using UnityEngine;
 using Zenject;
@@ -11,15 +12,17 @@ namespace Entities.UFO
         public event Action<UFO> UFOSpawned;
 
         [SerializeField] private Transform container;
+        [SerializeField] private bool drawGizmos;
 
         private UfoData _ufoData;
-        private UfospawnerConfig _spawnerConfig;
+        private SimpleSpawnerConfig _spawnerConfig;
 
         private float _timer;
         private bool _isActive;
+        private RandomOuterSquarePositionPicker _spawnPositionPicker;
 
         [Inject]
-        private void Construct(UfoData ufoData, UfospawnerConfig spawnerConfig)
+        private void Construct(UfoData ufoData, SimpleSpawnerConfig spawnerConfig)
         {
             _ufoData = ufoData;
             _spawnerConfig = spawnerConfig;
@@ -28,6 +31,7 @@ namespace Entities.UFO
         private void Start()
         {
             _timer = float.MaxValue;
+            _spawnPositionPicker = new RandomOuterSquarePositionPicker(_spawnerConfig.SpawnPositionSideLenght);
         }
 
         private void Update()
@@ -46,7 +50,9 @@ namespace Entities.UFO
 
         private void SpawnUFO()
         {
-            UFO ufo = Instantiate(_ufoData.Prefab, container);
+            UFO ufo = Instantiate(_ufoData.Prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
+            ufo.transform.parent = container;
+
             ufo.InitializeData(_ufoData);
             UFOSpawned?.Invoke(ufo);
         }
@@ -69,6 +75,13 @@ namespace Entities.UFO
         {
             _isActive = true;
             _timer = _spawnerConfig.StartDelay;
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (!drawGizmos)
+                return;
+            _spawnPositionPicker?.DrawGizmos();
         }
     }
 }

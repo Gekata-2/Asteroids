@@ -727,6 +727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entities.UFO.UfosSpawner
   container: {fileID: 458748473}
+  drawGizmos: 1
 --- !u!1 &473980667
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,7 +859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.UFOsInstaller
   ufoData: {fileID: 11400000, guid: 064801225bef42d458a30b479c78588b, type: 2}
-  spawnerConfig: {fileID: 11400000, guid: 95650d68cd770fe48a43ebab095194bd, type: 2}
+  spawnerConfig: {fileID: 11400000, guid: bffdeb19e9b23a34dbccc6e75e436849, type: 2}
 --- !u!224 &637877913 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7048497254007520178, guid: d5d3a9ce297891a46a3df1c5bae15c4f, type: 3}
@@ -3183,7 +3184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.AsteroidsInstaller
   asteroidsConfig: {fileID: 11400000, guid: 1dfcf413176dead4485e6d6888352e6f, type: 2}
-  asteroidsSpawnerConfig: {fileID: 11400000, guid: 5ed469316618e514baf36771f95f4ff4, type: 2}
+  spawnerConfig: {fileID: 11400000, guid: 5ed469316618e514baf36771f95f4ff4, type: 2}
 --- !u!4 &1317088369
 Transform:
   m_ObjectHideFlags: 0
@@ -3483,11 +3484,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 449118776}
   - {fileID: 1815354542}
   - {fileID: 1296308045}
   - {fileID: 1317088369}
   - {fileID: 563128495}
-  - {fileID: 449118776}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1627478175

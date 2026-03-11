@@ -28,8 +28,8 @@ namespace Entities.UFO
 
     public class UFO : PhysicalEntity, IDamageble
     {
-        public event Action<UFO> Died; 
-        
+        public event Action<UFO> Died;
+
         private StateMachine _stateMachine;
         private IEnemyTargetable _target;
         private bool _initialized;
@@ -57,12 +57,12 @@ namespace Entities.UFO
             ChaseState chaseState = new ChaseState(_target, this);
             DieState dieState = new DieState(this);
             DestroyState destroyState = new DestroyState(this);
-          
+
             _stateMachine.AddTransition(idleState, chaseState, new FuncPredicate(() => _initialized));
             _stateMachine.AddAnyTransition(dieState, new FuncPredicate(() => _hasBeenHitByBullet));
             _stateMachine.AddAnyTransition(destroyState, new FuncPredicate(() => _hasBeenSweepedByLaser));
             _stateMachine.SetState(idleState);
-          
+
             _isActive = true;
         }
 
@@ -74,8 +74,10 @@ namespace Entities.UFO
 
         private void FixedUpdate()
         {
-            if (_isActive)
-                _stateMachine.FixedUpdate();
+            if (!_isActive)
+                return;
+            HandlePositionChanger();
+            _stateMachine.FixedUpdate();
         }
 
         private void OnCollisionEnter2D(Collision2D other)

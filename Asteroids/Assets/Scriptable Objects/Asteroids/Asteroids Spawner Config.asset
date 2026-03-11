@@ -15,3 +15,4 @@ MonoBehaviour:
   minInterval: 2
   maxInterval: 5
   startDelay: 2
+  spawnPositionSideLenght: 12

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Entities.UFO;
 using Services;
 using UnityEngine;
 using Zenject;
@@ -15,13 +16,14 @@ namespace Entities.Asteroids
         [SerializeField] private Transform asteroidsContainer;
 
         private AsteroidsConfig _asteroidsConfig;
-        private AsteroidsSpawnerConfig _spawnerConfig;
+        private SimpleSpawnerConfig _spawnerConfig;
+        private RandomOuterSquarePositionPicker _spawnPositionPicker;
 
         private float _timer;
         private bool _isActive;
 
         [Inject]
-        private void Construct(AsteroidsConfig asteroidsConfig, AsteroidsSpawnerConfig spawnerConfig)
+        private void Construct(AsteroidsConfig asteroidsConfig, SimpleSpawnerConfig spawnerConfig)
         {
             _asteroidsConfig = asteroidsConfig;
             _spawnerConfig = spawnerConfig;
@@ -30,6 +32,7 @@ namespace Entities.Asteroids
         private void Start()
         {
             _timer = float.MaxValue;
+            _spawnPositionPicker = new RandomOuterSquarePositionPicker(_spawnerConfig.SpawnPositionSideLenght);
         }
 
         private void Update()
@@ -49,7 +52,9 @@ namespace Entities.Asteroids
         private void SpawnAsteroid()
         {
             AsteroidData asteroidData = _asteroidsConfig.Chain.First().Data;
-            Asteroid asteroid = Instantiate(asteroidData.Prefab, asteroidsContainer);
+
+            Asteroid asteroid = Instantiate(asteroidData.Prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
+            asteroid.transform.parent = asteroidsContainer;
             asteroid.InitializeData(asteroidData);
 
             Queue<AsteroidsChainData> splitChain = new(_asteroidsConfig.Chain);

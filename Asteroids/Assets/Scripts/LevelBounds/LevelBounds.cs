@@ -40,6 +40,9 @@ namespace LevelBounds
 
         private void FixedUpdate()
         {
+            List<Entity> entitiesFirstEnteredLevel = FindEntitiesFirstEnteredLevel();
+            MarkEntitiesEnteredLevel(entitiesFirstEnteredLevel);
+            
             List<Entity> entities = FindEntitiesOutOfBounds();
             if (!entities.IsEmpty())
                 EntitiesOutOfBounds?.Invoke(entities);
@@ -47,8 +50,19 @@ namespace LevelBounds
 
 
         private List<Entity> FindEntitiesOutOfBounds()
-            => _entitiesContainer.Entities.Where(IsEntityOutOfBounds).ToList();
+            => _entitiesContainer.Entities.Where(entity => entity.HasEnteredLevel && IsEntityOutOfBounds(entity))
+                .ToList();
 
+        private List<Entity> FindEntitiesFirstEnteredLevel() =>
+            _entitiesContainer.Entities.Where(entity => !entity.HasEnteredLevel && !IsEntityOutOfBounds(entity))
+                .ToList();
+
+        private void MarkEntitiesEnteredLevel(List<Entity> entities)
+        {
+            foreach (Entity entity in entities) 
+                entity.MarkEnteredLevel();
+        }
+        
         private bool IsEntityOutOfBounds(Entity entity)
             => !_bounds.Contains(entity.transform.position);
 

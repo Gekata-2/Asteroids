@@ -5,7 +5,7 @@ namespace Entities
     [RequireComponent(typeof(Rigidbody2D))]
     public abstract class PhysicalEntity : Entity
     {
-        private RigidBody2DPositionChanger _positionChanger;
+        private RigidBody2DTeleporter _teleporter;
         protected Rigidbody2D _rb;
 
         private void Awake()
@@ -23,20 +23,20 @@ namespace Entities
 
         public override void SetPosition(Vector3 position)
         {
-            if (_positionChanger != null)
+            if (_teleporter != null)
                 return;
 
-            _positionChanger = new RigidBody2DPositionChanger(position, _rb);
+            _teleporter = new RigidBody2DTeleporter(position, _rb);
         }
 
         protected void HandlePositionChanger()
         {
-            if (_positionChanger == null)
+            if (_teleporter == null)
                 return;
 
-            _positionChanger.PerformNext();
-            if (_positionChanger.IsFinished)
-                _positionChanger = null;
+            _teleporter.PerformNext();
+            if (_teleporter.IsFinished)
+                _teleporter = null;
         }
     }
 }

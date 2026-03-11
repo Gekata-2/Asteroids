@@ -7,6 +7,7 @@ namespace Entities
     public abstract class Entity : MonoBehaviour, IPausable
     {
         public EntityData Data { get; private set; }
+        public bool HasEnteredLevel { get; private set; } = false;
 
         public virtual void InitializeData(EntityData entityData)
         {
@@ -20,5 +21,7 @@ namespace Entities
         
         public abstract void Pause();
         public abstract void Resume();
+        public void MarkEnteredLevel() 
+            => HasEnteredLevel = true;
     }
 }

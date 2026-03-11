@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using LevelBounds;
 using Services.EventBus;
 using UnityEngine;
 using Zenject;
@@ -32,7 +33,17 @@ namespace Entities.UFO
         private void Start()
         {
             _ufosSpawner.UFOSpawned += UfosSpawner_OnUFOSpawned;
+            _eventBus.Subscribe<EntityOutOfOuterBoundsDestroyed>(OnEntityOutOfOuterBoundsDestroyed);
             _ufosSpawner.StartSpawning();
+        }
+
+        private void OnEntityOutOfOuterBoundsDestroyed(EntityOutOfOuterBoundsDestroyed @event)
+        {
+            if (@event.Entity is UFO ufo)
+            {
+                ufo.Died -= Ufo_OnDied;
+                _ufos.Remove(ufo);
+            }
         }
 
         private void OnDestroy()

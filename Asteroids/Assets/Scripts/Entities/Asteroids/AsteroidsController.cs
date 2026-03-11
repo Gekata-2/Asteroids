@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using LevelBounds;
 using ModestTree;
 using Services.EventBus;
 using UnityEngine;
@@ -30,7 +31,17 @@ namespace Entities.Asteroids
         private void Start()
         {
             _asteroidsSpawner.AsteroidSpawned += AsteroidsSpawner_OnAsteroidSpawned;
+            _eventBus.Subscribe<EntityOutOfOuterBoundsDestroyed>(OnEntityOutOfOuterBoundsDestroyed);
             _asteroidsSpawner.StartSpawning();
+        }
+
+        private void OnEntityOutOfOuterBoundsDestroyed(EntityOutOfOuterBoundsDestroyed @event)
+        {
+            if (@event.Entity is Asteroid asteroid)
+            {
+                UnsubscribeFromAsteroid(asteroid);
+                _asteroids.Remove(asteroid);
+            }
         }
 
         private void OnDestroy()
@@ -74,17 +85,17 @@ namespace Entities.Asteroids
             chain.Dequeue();
         }
 
+        private void Asteroid_OnSweepedByLaser(Asteroid asteroid)
+        {
+            DestroyAsteroid(asteroid);
+        }
+
         private void DestroyAsteroid(Asteroid asteroid)
         {
             asteroid.Die();
             _asteroids.Remove(asteroid);
             _entitiesContainer.RemoveEntity(asteroid);
             _eventBus.Invoke(new EntityDestroyedEvent(asteroid));
-        }
-
-        private void Asteroid_OnSweepedByLaser(Asteroid asteroid)
-        {
-            DestroyAsteroid(asteroid);
         }
     }
 }

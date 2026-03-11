@@ -21,7 +21,6 @@ namespace Entities.Asteroids
     [CreateAssetMenu(menuName = "Create Asteroids Config", fileName = "Asteroids Config", order = 0)]
     public class AsteroidsConfig : ScriptableObject
     {
-        [SerializeField] private List<AsteroidData> asteroidsData;
         [SerializeField] private List<AsteroidsChainData> chain;
 
         public List<AsteroidsChainData> Chain => chain;

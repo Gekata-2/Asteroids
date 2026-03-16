@@ -1,9 +1,9 @@
 ﻿using System;
-using Entities;
-using Services;
+using _Project.Scripts.Entities;
+using _Project.Scripts.Services;
 using UnityEngine;
 
-namespace Player.Weapons.MachineGun
+namespace _Project.Scripts.Player.Weapons.MachineGun
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class Bullet : MonoBehaviour, IPausable

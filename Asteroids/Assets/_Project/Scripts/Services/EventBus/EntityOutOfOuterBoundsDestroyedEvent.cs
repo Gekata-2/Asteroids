@@ -1,6 +1,6 @@
-﻿using Entities;
+﻿using _Project.Scripts.Entities;
 
-namespace Services.EventBus
+namespace _Project.Scripts.Services.EventBus
 {
     class EntityOutOfOuterBoundsDestroyedEvent
     {

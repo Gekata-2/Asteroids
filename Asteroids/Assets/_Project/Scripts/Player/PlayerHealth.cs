@@ -1,9 +1,9 @@
-﻿using Entities;
-using Services.EventBus;
+﻿using _Project.Scripts.Entities;
+using _Project.Scripts.Services.EventBus;
 using UnityEngine;
 using Zenject;
 
-namespace Player
+namespace _Project.Scripts.Player
 {
     public class PlayerHealth : MonoBehaviour , IDamageble
     {

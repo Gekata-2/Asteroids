@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Entities.UFO
+namespace _Project.Scripts.Entities.UFO
 {
     [CreateAssetMenu(menuName = "Create UFO Data", fileName = "UFO Data", order = 0)]
     public class UfoData : EntityData

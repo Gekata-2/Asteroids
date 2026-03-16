@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Player;
-using Player.Weapons.Laser;
-using Player.Weapons.MachineGun;
+using _Project.Scripts.Player;
+using _Project.Scripts.Player.Weapons.Laser;
+using _Project.Scripts.Player.Weapons.MachineGun;
 using UnityEngine;
 
-namespace Entities.Asteroids
+namespace _Project.Scripts.Entities.Asteroids
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class Asteroid : PhysicalEntity, IDamageble

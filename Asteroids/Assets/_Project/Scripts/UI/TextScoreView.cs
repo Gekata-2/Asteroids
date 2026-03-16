@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace UI
+namespace _Project.Scripts.UI
 {
     public class TextScoreView : ScoreView
     {

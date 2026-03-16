@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Entities.Asteroids
+namespace _Project.Scripts.Entities.Asteroids
 {
     [CreateAssetMenu(menuName = "Create Asteroid Data", fileName = "Asteroid Data", order = 0)]
     public class AsteroidData : EntityData

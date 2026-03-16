@@ -1,12 +1,12 @@
 ﻿using System;
-using EnemyAI.StateMachine;
-using EnemyAI.StateMachine.States;
-using Player;
-using Player.Weapons.Laser;
-using Player.Weapons.MachineGun;
+using _Project.Scripts.EnemyAI.StateMachine;
+using _Project.Scripts.EnemyAI.StateMachine.States;
+using _Project.Scripts.Player;
+using _Project.Scripts.Player.Weapons.Laser;
+using _Project.Scripts.Player.Weapons.MachineGun;
 using UnityEngine;
 
-namespace Entities.UFO
+namespace _Project.Scripts.Entities.UFO
 {
     public class UFO : PhysicalEntity, IDamageble
     {

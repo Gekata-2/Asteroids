@@ -1,9 +1,9 @@
-﻿using Entities.Asteroids;
-using Entities.Spawner;
+﻿using _Project.Scripts.Entities.Asteroids;
+using _Project.Scripts.Entities.Spawner;
 using UnityEngine;
 using Zenject;
 
-namespace _Installers
+namespace _Project.Scripts._Installers
 {
     public class AsteroidsInstaller : MonoInstaller
     {

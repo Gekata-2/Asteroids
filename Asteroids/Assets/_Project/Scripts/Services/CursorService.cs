@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Services
+namespace _Project.Scripts.Services
 {
     public class CursorService
     {

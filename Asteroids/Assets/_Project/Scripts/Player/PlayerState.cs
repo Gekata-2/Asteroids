@@ -1,7 +1,7 @@
-﻿using UI;
+﻿using _Project.Scripts.UI;
 using UnityEngine;
 
-namespace Player
+namespace _Project.Scripts.Player
 {
     public class PlayerState : PlayerModel
     {

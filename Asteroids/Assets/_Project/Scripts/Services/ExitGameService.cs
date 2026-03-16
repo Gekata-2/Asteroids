@@ -1,9 +1,4 @@
-﻿#if UNITY_EDITOR
-using UnityEngine;
-#endif
-
-
-namespace Services
+﻿namespace _Project.Scripts.Services
 {
     public class ExitGameService
     {

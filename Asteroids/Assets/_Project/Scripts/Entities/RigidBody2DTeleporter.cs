@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ModestTree;
 using UnityEngine;
 
-namespace Entities
+namespace _Project.Scripts.Entities
 {
     class RigidBody2DTeleporter
     {

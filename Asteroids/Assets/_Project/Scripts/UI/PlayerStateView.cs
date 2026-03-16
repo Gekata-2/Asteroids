@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UI
+namespace _Project.Scripts.UI
 {
     public abstract class PlayerStateView : MonoBehaviour
     {

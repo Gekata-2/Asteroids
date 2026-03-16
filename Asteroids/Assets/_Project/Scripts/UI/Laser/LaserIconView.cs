@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace UI.Laser
+namespace _Project.Scripts.UI.Laser
 {
     public class LaserIconView : LaserView
     {

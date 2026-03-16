@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using LevelBounds;
-using Services.EventBus;
+using _Project.Scripts.Services.EventBus;
 using UnityEngine;
 using Zenject;
 
-namespace Entities.UFO
+namespace _Project.Scripts.Entities.UFO
 {
     public class UfosController : MonoBehaviour
     {

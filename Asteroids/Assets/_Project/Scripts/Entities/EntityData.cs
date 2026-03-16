@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Entities
+namespace _Project.Scripts.Entities
 {
     public class EntityData : ScriptableObject
     {

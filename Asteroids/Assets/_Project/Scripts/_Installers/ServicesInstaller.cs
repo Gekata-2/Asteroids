@@ -1,9 +1,9 @@
-﻿using Services;
-using Services.Awards;
-using Services.EventBus;
+﻿using _Project.Scripts.Services;
+using _Project.Scripts.Services.Awards;
+using _Project.Scripts.Services.EventBus;
 using Zenject;
 
-namespace _Installers
+namespace _Project.Scripts._Installers
 {
     public class ServicesInstaller : MonoInstaller
     {

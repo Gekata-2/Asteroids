@@ -1,12 +1,12 @@
-﻿using Player;
-using Player.Weapons;
-using Player.Weapons.Laser;
-using UI;
-using UI.Laser;
+﻿using _Project.Scripts.Player;
+using _Project.Scripts.Player.Weapons;
+using _Project.Scripts.Player.Weapons.Laser;
+using _Project.Scripts.UI;
+using _Project.Scripts.UI.Laser;
 using UnityEngine;
 using Zenject;
 
-namespace _Installers
+namespace _Project.Scripts._Installers
 {
     public class PlayerInstaller : MonoInstaller
     {

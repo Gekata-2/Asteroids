@@ -1,7 +1,7 @@
-﻿using Entities.UFO;
+﻿using _Project.Scripts.Entities.UFO;
 using UnityEngine;
 
-namespace EnemyAI.StateMachine.States
+namespace _Project.Scripts.EnemyAI.StateMachine.States
 {
     public class ChaseState : BaseState
     {

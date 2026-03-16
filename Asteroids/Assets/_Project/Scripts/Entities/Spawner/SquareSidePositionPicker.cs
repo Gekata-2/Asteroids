@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Entities.Spawner
+namespace _Project.Scripts.Entities.Spawner
 {
     class SquareSidePositionPicker : ISpawnPositionPicker
     {

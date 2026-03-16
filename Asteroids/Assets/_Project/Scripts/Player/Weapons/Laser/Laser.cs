@@ -1,7 +1,7 @@
-using Entities;
+using _Project.Scripts.Entities;
 using UnityEngine;
 
-namespace Player.Weapons.Laser
+namespace _Project.Scripts.Player.Weapons.Laser
 {
     public class Laser : MonoBehaviour
     {

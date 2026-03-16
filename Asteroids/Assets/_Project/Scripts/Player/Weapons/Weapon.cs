@@ -1,7 +1,7 @@
-﻿using Services;
+﻿using _Project.Scripts.Services;
 using UnityEngine;
 
-namespace Player.Weapons
+namespace _Project.Scripts.Player.Weapons
 {
     public abstract class Weapon : MonoBehaviour, IPausable
     {

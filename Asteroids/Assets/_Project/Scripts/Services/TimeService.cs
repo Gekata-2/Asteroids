@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Zenject;
 
-namespace Services
+namespace _Project.Scripts.Services
 {
     public class TimeService : ITickable
     {

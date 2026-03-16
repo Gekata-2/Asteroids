@@ -1,6 +1,6 @@
-using Player;
+using _Project.Scripts.Player;
 
-namespace Services
+namespace _Project.Scripts.Services
 {
     public class UIManager
     {

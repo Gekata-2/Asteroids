@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Entities
+namespace _Project.Scripts.Entities
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public abstract class PhysicalEntity : Entity

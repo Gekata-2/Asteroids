@@ -1,4 +1,4 @@
-namespace Services.EventBus
+namespace _Project.Scripts.Services.EventBus
 {
     public class PlayerDeadEvent
     {

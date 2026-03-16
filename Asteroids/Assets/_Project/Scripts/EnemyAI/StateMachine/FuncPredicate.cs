@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EnemyAI.StateMachine
+namespace _Project.Scripts.EnemyAI.StateMachine
 {
     public class FuncPredicate : IPredicate
     {

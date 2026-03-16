@@ -1,9 +1,9 @@
 ﻿using System;
-using Player;
-using Services.EventBus;
+using _Project.Scripts.Player;
+using _Project.Scripts.Services.EventBus;
 using Zenject;
 
-namespace Services.Awards
+namespace _Project.Scripts.Services.Awards
 {
     public class AwardsController : IInitializable, IDisposable, ILateTickable
     {

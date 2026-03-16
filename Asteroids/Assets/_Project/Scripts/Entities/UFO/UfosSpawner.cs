@@ -1,11 +1,11 @@
 ﻿using System;
-using Entities.Spawner;
-using Services;
+using _Project.Scripts.Entities.Spawner;
+using _Project.Scripts.Services;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
-namespace Entities.UFO
+namespace _Project.Scripts.Entities.UFO
 {
     public class UfosSpawner : MonoBehaviour, IPausable
     {

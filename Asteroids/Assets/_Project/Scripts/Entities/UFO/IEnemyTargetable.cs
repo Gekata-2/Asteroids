@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Entities.UFO
+namespace _Project.Scripts.Entities.UFO
 {
     public interface IEnemyTargetable
     {

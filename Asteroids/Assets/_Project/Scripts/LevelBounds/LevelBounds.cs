@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Entities;
-using ModestTree;
+using _Project.Scripts.Entities;
 using UnityEngine;
 using Zenject;
 
-namespace LevelBounds
+namespace _Project.Scripts.LevelBounds
 {
     public class LevelBounds : MonoBehaviour
     {

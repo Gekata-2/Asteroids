@@ -1,11 +1,11 @@
-﻿using Entities;
-using Entities.Asteroids;
-using Entities.UFO;
-using Player;
+﻿using _Project.Scripts.Entities;
+using _Project.Scripts.Entities.Asteroids;
+using _Project.Scripts.Entities.UFO;
+using _Project.Scripts.Player;
 using UnityEngine;
 using Zenject;
 
-namespace Services
+namespace _Project.Scripts.Services
 {
     public class LevelBootstrap : MonoBehaviour
     {

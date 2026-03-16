@@ -1,9 +1,9 @@
-﻿using Entities.Spawner;
-using Entities.UFO;
+﻿using _Project.Scripts.Entities.Spawner;
+using _Project.Scripts.Entities.UFO;
 using UnityEngine;
 using Zenject;
 
-namespace _Installers
+namespace _Project.Scripts._Installers
 {
     public class UfosInstaller : MonoInstaller
     {

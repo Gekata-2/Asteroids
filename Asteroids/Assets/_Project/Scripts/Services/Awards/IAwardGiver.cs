@@ -1,4 +1,4 @@
-namespace Services.Awards
+namespace _Project.Scripts.Services.Awards
 {
     public interface IAwardGiver<T>
     {

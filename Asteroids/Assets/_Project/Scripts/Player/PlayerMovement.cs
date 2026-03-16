@@ -1,8 +1,8 @@
-using Entities;
+using _Project.Scripts.Entities;
 using UnityEngine;
 using Zenject;
 
-namespace Player
+namespace _Project.Scripts.Player
 {
     public interface IPlayerMovement
     {

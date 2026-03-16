@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.InputSystem;
 
-namespace Player
+namespace _Project.Scripts.Player
 {
     public interface IInput
     {

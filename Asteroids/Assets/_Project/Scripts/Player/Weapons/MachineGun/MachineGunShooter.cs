@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Extensions;
-using Services;
+using _Project.Scripts.Extensions;
+using _Project.Scripts.Services;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;
 
-namespace Player.Weapons.MachineGun
+namespace _Project.Scripts.Player.Weapons.MachineGun
 {
     public class MachineGunShooter : Weapon
     {

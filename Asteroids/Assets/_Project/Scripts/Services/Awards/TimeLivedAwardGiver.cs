@@ -1,6 +1,6 @@
-using Player;
+using _Project.Scripts.Player;
 
-namespace Services.Awards
+namespace _Project.Scripts.Services.Awards
 {
     public class TimeLivedAwardGiver : IAwardGiver<TimeLivedEvent>
     {

@@ -1,7 +1,6 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Entities.Spawner
+namespace _Project.Scripts.Entities.Spawner
 {
     interface ISpawnPositionPicker
     {

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Entities;
-using Services.EventBus;
+using _Project.Scripts.Entities;
+using _Project.Scripts.Services.EventBus;
 using Zenject;
 using Object = UnityEngine.Object;
 
-namespace LevelBounds
+namespace _Project.Scripts.LevelBounds
 {
     class EntityOutOfBoundsController : IInitializable, IDisposable
     {

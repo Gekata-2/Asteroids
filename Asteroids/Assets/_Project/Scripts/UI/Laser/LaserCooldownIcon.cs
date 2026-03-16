@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Laser
+namespace _Project.Scripts.UI.Laser
 {
     public class LaserCooldownIcon : MonoBehaviour
     {

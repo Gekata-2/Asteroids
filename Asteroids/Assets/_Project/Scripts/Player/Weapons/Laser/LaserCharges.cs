@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Player.Weapons.Laser
+namespace _Project.Scripts.Player.Weapons.Laser
 {
     public class LaserCharges
     {

@@ -1,10 +1,10 @@
-﻿using Player.Weapons.Laser;
-using Player.Weapons.MachineGun;
-using Services;
+﻿using _Project.Scripts.Player.Weapons.Laser;
+using _Project.Scripts.Player.Weapons.MachineGun;
+using _Project.Scripts.Services;
 using UnityEngine;
 using Zenject;
 
-namespace Player.Weapons
+namespace _Project.Scripts.Player.Weapons
 {
     public class WeaponsController : MonoBehaviour
     {

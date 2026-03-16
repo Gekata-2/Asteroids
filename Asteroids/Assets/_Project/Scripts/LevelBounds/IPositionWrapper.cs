@@ -1,6 +1,6 @@
-﻿using Entities;
+﻿using _Project.Scripts.Entities;
 
-namespace LevelBounds
+namespace _Project.Scripts.LevelBounds
 {
     interface IPositionWrapper
     {

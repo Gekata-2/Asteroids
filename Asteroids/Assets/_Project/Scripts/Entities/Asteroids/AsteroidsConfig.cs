@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Entities.Asteroids
+namespace _Project.Scripts.Entities.Asteroids
 {
     [CreateAssetMenu(menuName = "Create Asteroids Config", fileName = "Asteroids Config", order = 0)]
     public class AsteroidsConfig : ScriptableObject

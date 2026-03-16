@@ -1,12 +1,12 @@
-﻿using Player;
-using Services;
-using Services.EventBus;
+﻿using _Project.Scripts.Player;
+using _Project.Scripts.Services;
+using _Project.Scripts.Services.EventBus;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-namespace UI.Windows
+namespace _Project.Scripts.UI.Windows
 {
     public class GameOverWindow : MonoBehaviour
     {

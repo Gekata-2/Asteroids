@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UI.Laser
+namespace _Project.Scripts.UI.Laser
 {
     public abstract class LaserView : MonoBehaviour
     {

@@ -1,8 +1,8 @@
-using Entities;
-using LevelBounds;
+using _Project.Scripts.Entities;
+using _Project.Scripts.LevelBounds;
 using Zenject;
 
-namespace _Installers
+namespace _Project.Scripts._Installers
 {
     public class LevelInstaller : MonoInstaller
     {

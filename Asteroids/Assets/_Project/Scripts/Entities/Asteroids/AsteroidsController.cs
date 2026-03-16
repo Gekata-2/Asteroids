@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using LevelBounds;
+using _Project.Scripts.Services.EventBus;
 using ModestTree;
-using Services.EventBus;
 using UnityEngine;
 using Zenject;
 
-namespace Entities.Asteroids
+namespace _Project.Scripts.Entities.Asteroids
 {
     public class AsteroidsController : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Entities.Asteroids
+namespace _Project.Scripts.Entities.Asteroids
 {
     [Serializable]
     public class AsteroidsSplitData

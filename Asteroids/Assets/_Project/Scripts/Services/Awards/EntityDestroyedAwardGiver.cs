@@ -1,7 +1,7 @@
-using Player;
-using Services.EventBus;
+using _Project.Scripts.Player;
+using _Project.Scripts.Services.EventBus;
 
-namespace Services.Awards
+namespace _Project.Scripts.Services.Awards
 {
     public class EntityDestroyedAwardGiver : IAwardGiver<EntityDestroyedEvent>
     {

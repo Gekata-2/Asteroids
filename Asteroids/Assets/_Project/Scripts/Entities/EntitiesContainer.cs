@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Services;
+using _Project.Scripts.Services;
 
-namespace Entities
+namespace _Project.Scripts.Entities
 {
     public class EntitiesContainer : IPausable, IDisposable
     {

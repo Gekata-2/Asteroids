@@ -1,9 +1,9 @@
-﻿using Player;
-using Services;
+﻿using _Project.Scripts.Player;
+using _Project.Scripts.Services;
 using UnityEngine;
 using Zenject;
 
-namespace UI.Windows
+namespace _Project.Scripts.UI.Windows
 {
     public class PauseWindow : MonoBehaviour
     {

@@ -1,4 +1,4 @@
-﻿namespace Entities
+﻿namespace _Project.Scripts.Entities
 {
     interface IDamageble
     {

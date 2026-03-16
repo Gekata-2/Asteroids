@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Entities.Spawner;
-using Services;
+using _Project.Scripts.Entities.Spawner;
+using _Project.Scripts.Services;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
-namespace Entities.Asteroids
+namespace _Project.Scripts.Entities.Asteroids
 {
     public class AsteroidsSpawner : MonoBehaviour, IPausable
     {

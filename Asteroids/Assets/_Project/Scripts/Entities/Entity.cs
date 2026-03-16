@@ -1,8 +1,7 @@
-using Player;
-using Services;
+using _Project.Scripts.Services;
 using UnityEngine;
 
-namespace Entities
+namespace _Project.Scripts.Entities
 {
     public abstract class Entity : MonoBehaviour, IPausable
     {

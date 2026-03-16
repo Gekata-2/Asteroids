@@ -8,11 +8,11 @@ namespace Entities.Spawner
         [SerializeField] private float minInterval = 1f;
         [SerializeField] private float maxInterval = 3f;
         [SerializeField] private float startDelay = 2f;
-        [SerializeField] private float spawnPositionSideLenght;
+        [field: SerializeField] public Vector2 SpawnPositionSize { get; private set; }
+        [field: SerializeField] public Color GizmosColor { get; private set; }
 
         public float MinInterval => minInterval;
         public float MaxInterval => maxInterval;
         public float StartDelay => startDelay;
-        public float SpawnPositionSideLenght => spawnPositionSideLenght;
     }
 }

@@ -19,19 +19,21 @@ namespace Entities.UFO
 
         private float _timer;
         private bool _isActive;
-        private RandomOuterSquarePositionPicker _spawnPositionPicker;
+        private ISpawnPositionPicker _spawnPositionPicker;
 
         [Inject]
-        private void Construct(UfoData ufoData, SimpleSpawnerConfig spawnerConfig)
+        private void Construct(UfoData ufoData, SimpleSpawnerConfig spawnerConfig,
+            ISpawnPositionPicker spawnPositionPicker)
         {
             _ufoData = ufoData;
             _spawnerConfig = spawnerConfig;
+            _spawnPositionPicker = spawnPositionPicker;
         }
 
         private void Start()
         {
             _timer = float.MaxValue;
-            _spawnPositionPicker = new RandomOuterSquarePositionPicker(_spawnerConfig.SpawnPositionSideLenght);
+            //   _spawnPositionPicker = new RandomOuterSquarePositionPicker(_spawnerConfig.SpawnPositionSideLenght);
         }
 
         private void Update()
@@ -53,7 +55,7 @@ namespace Entities.UFO
             UFO ufo = Instantiate(_ufoData.Prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
             ufo.transform.parent = container;
             ufo.InitializeData(_ufoData);
-            
+
             UFOSpawned?.Invoke(ufo);
         }
 

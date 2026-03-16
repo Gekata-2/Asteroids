@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Entities.Spawner;
-using Entities.UFO;
 using Services;
 using UnityEngine;
 using Zenject;
@@ -15,10 +14,11 @@ namespace Entities.Asteroids
         public event Action<Asteroid> AsteroidSpawned;
 
         [SerializeField] private Transform asteroidsContainer;
+        [SerializeField] private bool drawGizmos;
 
         private AsteroidsConfig _asteroidsConfig;
         private SimpleSpawnerConfig _spawnerConfig;
-        private RandomOuterSquarePositionPicker _spawnPositionPicker;
+        private ISpawnPositionPicker _spawnPositionPicker;
         private LevelBounds.LevelBounds _levelBounds;
 
         private float _timer;
@@ -26,17 +26,17 @@ namespace Entities.Asteroids
 
         [Inject]
         private void Construct(AsteroidsConfig asteroidsConfig, SimpleSpawnerConfig spawnerConfig,
-            LevelBounds.LevelBounds levelBounds)
+            LevelBounds.LevelBounds levelBounds, ISpawnPositionPicker spawnPositionPicker)
         {
             _asteroidsConfig = asteroidsConfig;
             _spawnerConfig = spawnerConfig;
             _levelBounds = levelBounds;
+            _spawnPositionPicker = spawnPositionPicker;
         }
 
         private void Start()
         {
             _timer = float.MaxValue;
-            _spawnPositionPicker = new RandomOuterSquarePositionPicker(_spawnerConfig.SpawnPositionSideLenght);
         }
 
         private void Update()
@@ -125,6 +125,12 @@ namespace Entities.Asteroids
         {
             _isActive = true;
             _timer = _spawnerConfig.StartDelay;
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (drawGizmos) 
+                _spawnPositionPicker?.DrawGizmos();
         }
     }
 }

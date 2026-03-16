@@ -1,14 +1,23 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace Entities.Spawner
 {
-    class RandomOuterSquarePositionPicker
+    interface ISpawnPositionPicker
     {
-        private readonly float _sideSize;
-
-        public RandomOuterSquarePositionPicker(float sideSize)
+        Vector2 GetNextPosition();
+        void DrawGizmos();
+    }
+    
+    public class RectangleSideSpawnPositionPicker : ISpawnPositionPicker
+    {
+        private readonly Vector2 _size;
+        private readonly Color _gizmosColor;
+        
+        public RectangleSideSpawnPositionPicker(Vector2 size, Color gizmosColor)
         {
-            _sideSize = sideSize;
+            _size = size;
+            _gizmosColor = gizmosColor;
         }
 
         public Vector2 GetNextPosition()
@@ -25,14 +34,14 @@ namespace Entities.Spawner
             };
 
             pos -= Vector2.one / 2f;
-            pos *= _sideSize;
+            pos *= _size;
             return pos;
         }
 
         public void DrawGizmos()
         {
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawWireCube(Vector3.zero, _sideSize * Vector3.one);
+            Gizmos.color = _gizmosColor;
+            Gizmos.DrawWireCube(Vector3.zero, _size);
         }
     }
 }

@@ -13,15 +13,15 @@ namespace Entities.UFO
         public event Action<UFO> Died;
 
         private StateMachine _stateMachine;
-        
+
         private bool _isActive;
         private bool _initialized;
-        
+
         private IEnemyTargetable _target;
-       
+
         private bool _hasBeenHitByBullet;
         private bool _hasBeenSweepedByLaser;
-        
+
         public float Rotation { get; set; }
         public Rigidbody2D Rb => _rb;
 
@@ -57,18 +57,21 @@ namespace Entities.UFO
         {
             if (!_isActive)
                 return;
-            
+
             HandlePositionChanger();
             _stateMachine.FixedUpdate();
         }
 
-        public void SetTarget(IEnemyTargetable target) 
+        public void SetTarget(IEnemyTargetable target)
             => _target = target;
 
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.TryGetComponent(out PlayerHealth playerHealth))
-                playerHealth.TakeDamage(new Damage(this));
+            {
+                if (playerHealth.enabled) 
+                    playerHealth.TakeDamage(new Damage(this));
+            }
         }
 
         public void Die()

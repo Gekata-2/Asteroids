@@ -15,4 +15,5 @@ MonoBehaviour:
   minInterval: 5
   maxInterval: 15
   startDelay: 20
-  spawnPositionSideLenght: 11
+  <SpawnPositionSize>k__BackingField: {x: 18, y: 12}
+  <GizmosColor>k__BackingField: {r: 0, g: 0.890604, b: 1, a: 1}

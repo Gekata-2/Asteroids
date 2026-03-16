@@ -9,8 +9,8 @@ namespace _Project.Scripts.UI
 
         [SerializeField] private TMP_Text xCoordText;
         [SerializeField] private TMP_Text yCoordText;
-        [SerializeField] private TMP_Text angleCoordText;
-        [SerializeField] private TMP_Text speedCoordText;
+        [SerializeField] private TMP_Text angleText;
+        [SerializeField] private TMP_Text speedText;
 
         public override void SetX(float x) 
             => xCoordText.text = $"{x:0.#}";
@@ -25,9 +25,9 @@ namespace _Project.Scripts.UI
         }
 
         public override void SetAngle(float angle) 
-            => angleCoordText.text = $"{angle:0.#}{DEGREE_UNICOD}";
+            => angleText.text = $"{angle:0.#}{DEGREE_UNICOD}";
 
         public override void SetSpeed(float speed) 
-            => speedCoordText.text = $"{speed:0.#}";
+            => speedText.text = $"{speed:0.#}";
     }
 }

@@ -1,6 +1,7 @@
 using _Project.Scripts.Entities;
 using _Project.Scripts.LevelBounds;
 using _Project.Scripts.Services.Awards;
+using _Project.Scripts.UI.Windows;
 using UnityEngine;
 using Zenject;
 
@@ -9,6 +10,8 @@ namespace _Project.Scripts._Installers
     public class LevelInstaller : MonoInstaller
     {
         [SerializeField] private GameSettings gameSettings;
+        [SerializeField] private GameOverWindow gameOverWindowPrefab;
+        [SerializeField] private PauseWindow pauseWindowPrefab;
         
         public override void InstallBindings()
         {
@@ -18,6 +21,9 @@ namespace _Project.Scripts._Installers
             Container.Bind<LevelBounds.LevelBounds>().FromComponentInHierarchy().AsSingle();
             Container.BindInterfacesAndSelfTo<EntityOutOfBoundsController>().FromNew().AsSingle();
             Container.Bind<IPositionWrapper>().To<InvertedClampedEntityPositionWrapper>().FromNew().AsSingle();
+
+            Container.Bind<GameOverWindow>().FromComponentInNewPrefab(gameOverWindowPrefab).AsSingle().NonLazy();
+            Container.Bind<PauseWindow>().FromComponentInNewPrefab(pauseWindowPrefab).AsSingle().NonLazy();
         }
     }
 }

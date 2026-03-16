@@ -12,23 +12,28 @@ namespace _Project.Scripts._Installers
     {
         [SerializeField] private PlayerConfig playerConfig;
         [SerializeField] private PlayerWeaponsConfig weaponsConfig;
+        [Header("UI")] 
+        [SerializeField] private ScoreView scoreViewPrefab;
+        [SerializeField] private PlayerStateView playerStateViewPrefab;
+        [SerializeField] private LaserView laserViewPrefab;
 
         public override void InstallBindings()
         {
             Container.Bind<PlayerConfig>().FromScriptableObject(playerConfig).AsSingle();
             Container.Bind<PlayerWeaponsConfig>().FromScriptableObject(weaponsConfig).AsSingle();
-            
+
             Container.Bind<PlayerInputActionMap>().FromNew().AsSingle();
             Container.Bind<IInput>().To<InputHandler>().FromNew().AsSingle();
 
             Container.Bind<PlayerModel>().To<PlayerState>().FromNew().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerDataController>().FromNew().AsSingle();
-            Container.Bind<PlayerStateView>().To<TextPlayerStateView>().FromComponentsInHierarchy().AsSingle();
-            Container.Bind<ScoreView>().To<TextScoreView>().FromComponentsInHierarchy().AsSingle();
-            
+
             Container.Bind<LaserModel>().To<SimpleLaserModel>().FromNew().AsSingle();
-            Container.Bind<LaserView>().To<LaserIconView>().FromComponentsInHierarchy().AsSingle();
             Container.BindInterfacesAndSelfTo<LaserController>().FromNew().AsSingle();
+            
+            Container.Bind<ScoreView>().FromComponentInNewPrefab(scoreViewPrefab).AsSingle();
+            Container.Bind<PlayerStateView>().FromComponentInNewPrefab(playerStateViewPrefab).AsSingle();
+            Container.Bind<LaserView>().FromComponentInNewPrefab(laserViewPrefab).AsSingle();
         }
     }
 }

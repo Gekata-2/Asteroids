@@ -93,7 +93,7 @@ namespace _Project.Scripts.Entities.Asteroids
         }
 
         private float GetAsteroidSpeed(AsteroidData.AsteroidSpeedData speedData) =>
-            Random.Range(speedData.min, speedData.max);
+            Random.Range(speedData.Min, speedData.Max);
 
         private Vector2 GetAsteroidRandomDirection()
             => Random.insideUnitCircle.normalized;
@@ -108,7 +108,7 @@ namespace _Project.Scripts.Entities.Asteroids
         }
 
         private float GetAsteroidTorque(AsteroidData.AsteroidTorqueData torqueData)
-            => Random.Range(torqueData.min, torqueData.max);
+            => Random.Range(torqueData.Min, torqueData.Max);
 
 
         public void Pause()

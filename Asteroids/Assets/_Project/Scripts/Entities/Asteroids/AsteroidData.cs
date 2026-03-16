@@ -9,23 +9,19 @@ namespace _Project.Scripts.Entities.Asteroids
         [Serializable]
         public class AsteroidSpeedData
         {
-            public float min = 1f;
-            public float max = 1f;
+            [field: SerializeField] public float Min { get; private set; } = 0.75f;
+            [field: SerializeField] public float Max { get; private set; } = 1.25f;
         }
 
         [Serializable]
         public class AsteroidTorqueData
         {
-            public float min = 1f;
-            public float max = 1f;
+            [field: SerializeField] public float Min { get; private set; } = 3f;
+            [field: SerializeField] public float Max { get; private set; } = -3f;
         }
 
-        [SerializeField] private Asteroid prefab;
-        [SerializeField] private AsteroidSpeedData speedData;
-        [SerializeField] private AsteroidTorqueData torqueData;
-
-        public Asteroid Prefab => prefab;
-        public AsteroidSpeedData Speed => speedData;
-        public AsteroidTorqueData Torque => torqueData;
+        [field: SerializeField] public Asteroid Prefab { get; private set; }
+        [field: SerializeField] public AsteroidSpeedData Speed { get; private set; }
+        [field: SerializeField] public AsteroidTorqueData Torque { get; private set; }
     }
 }

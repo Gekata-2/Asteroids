@@ -9,17 +9,11 @@ namespace _Project.Scripts.Entities.UFO
         [Serializable]
         public class MovementData
         {
-            [SerializeField] private float steeringSpeed;
-            [SerializeField] private float speed;
-            public float SteeringSpeed=>steeringSpeed;
-            public float Speed => speed;
-
+            [field: SerializeField] public float SteeringSpeed { get; private set; } = 120f;
+            [field: SerializeField] public float Speed { get; private set; } = 2f;
         }
-        
-        [SerializeField] private UFO prefab;
-        [SerializeField] private MovementData movement;
-    
-        public UFO Prefab => prefab;
-        public MovementData Movement => movement;
+
+        [field: SerializeField] public UFO Prefab { get; private set; }
+        [field: SerializeField] public MovementData Movement { get; private set; }
     }
 }

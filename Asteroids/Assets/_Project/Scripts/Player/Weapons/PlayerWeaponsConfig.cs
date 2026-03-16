@@ -3,37 +3,30 @@ using UnityEngine;
 
 namespace _Project.Scripts.Player.Weapons
 {
-    [CreateAssetMenu(menuName = "Scriptable Objects/Create Player Weapons Config", fileName = "Player Weapons Config", order = 0)]
+    [CreateAssetMenu(menuName = "Scriptable Objects/Create Player Weapons Config", fileName = "Player Weapons Config",
+        order = 0)]
     public class PlayerWeaponsConfig : ScriptableObject
     {
         [Serializable]
         public class MachineGunConfig
         {
-            [SerializeField, Min(0.01f)] private float rateOfFire;
-            [SerializeField, Min(0f)] private float bulletSpeed;
-            [SerializeField, Min(0.01f)] private float bulletLifeTime;
+            [field: SerializeField, Min(0.01f)] public float RateOfFire { get; private set; } = 2f;
+            [field: SerializeField, Min(0f)] public float BulletSpeed { get; private set; } = 5f;
+            [field: SerializeField, Min(0.01f)] public float BulletLifeTime { get; private set; } = 8f;
 
-            public float RateOfFire => rateOfFire;
-            public float FireCooldown => Mathf.Approximately(rateOfFire, 0f) ? float.MaxValue : 1f / rateOfFire;
-
-            public float BulletSpeed => bulletSpeed;
-            public float BulletLifeTime => bulletLifeTime;
+            public float FireCooldown => Mathf.Approximately(RateOfFire, 0f) ? float.MaxValue : 1f / RateOfFire;
         }
 
         [Serializable]
         public class LaserConfig
         {
-            [SerializeField] private float cooldown = 15f;
-            [SerializeField] private float lenght = 4f;
-            [SerializeField] private float duration = 2f;
-            [SerializeField] private int charges = 1;
-            public float Cooldown => cooldown;
-            public float Lenght => lenght;
-            public float Duration => duration;
-            public int Charges => charges;
+            [field: SerializeField] public float Cooldown { get; private set; } = 15f;
+            [field: SerializeField] public float Lenght { get; private set; } = 4f;
+            [field: SerializeField] public float Duration { get; private set; } = 2f;
+            [field: SerializeField] public int Charges { get; private set; } = 1;
         }
 
-        public MachineGunConfig MachineGun;
-        public LaserConfig Laser;
+        [field: SerializeField] public MachineGunConfig MachineGun { get; private set; }
+        [field: SerializeField] public LaserConfig Laser { get; private set; }
     }
 }

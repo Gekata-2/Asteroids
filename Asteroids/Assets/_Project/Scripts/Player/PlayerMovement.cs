@@ -70,7 +70,7 @@ namespace _Project.Scripts.Player
 
         private void Rotate()
         {
-            float rotationDelta = -_input.PlayerRotation() * _rotationSpeed;
+            float rotationDelta = -_input.PlayerRotation() * _rotationSpeed * Time.fixedDeltaTime;
             _rotation = GetNewRotation(rotationDelta);
 
             _rb.SetRotation(Quaternion.Euler(0, 0, _rotation));

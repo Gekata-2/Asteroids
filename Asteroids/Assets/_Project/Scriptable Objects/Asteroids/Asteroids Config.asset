@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b21c5a295d9d49f69527db3bd2cd9c23, type: 3}
   m_Name: Asteroids Config
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.AsteroidsConfig
-  chain:
+  <Chain>k__BackingField:
   - data: {fileID: 11400000, guid: 600a43e0975668e4fa3d9727d5a69cc5, type: 2}
-    minCount: 0
-    maxCount: 0
+    minCount: 1
+    maxCount: 1
     size: 1
   - data: {fileID: 11400000, guid: 5070d509a9fa90f4da57df3f293fefa3, type: 2}
     minCount: 1

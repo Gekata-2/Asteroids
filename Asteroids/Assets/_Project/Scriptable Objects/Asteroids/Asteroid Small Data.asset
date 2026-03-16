@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Asteroid Small Data
   m_EditorClassIdentifier: Assembly-CSharp::Asteroids.AsteroidData
   score: 5
-  prefab: {fileID: 3958659243998892299, guid: 0854b320327c08d44b92ef4ebdf9d203, type: 3}
-  speedData:
-    min: 0.75
-    max: 1.25
-  torqueData:
-    min: -3
-    max: 3
+  <Prefab>k__BackingField: {fileID: 3958659243998892299, guid: 0854b320327c08d44b92ef4ebdf9d203, type: 3}
+  <Speed>k__BackingField:
+    <Min>k__BackingField: 2
+    <Max>k__BackingField: 3
+  <Torque>k__BackingField:
+    <Min>k__BackingField: 3
+    <Max>k__BackingField: -3

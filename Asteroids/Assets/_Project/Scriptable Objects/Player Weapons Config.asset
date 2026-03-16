@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e1839d69bdd4a9dac1bf1364d659fc5, type: 3}
   m_Name: Player Weapons Config
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerWeaponsConfig
-  MachineGun:
-    rateOfFire: 2
-    bulletSpeed: 3
-    bulletLifeTime: 5
-  Laser:
-    cooldown: 12
-    lenght: 8
-    duration: 1
-    charges: 3
+  <MachineGun>k__BackingField:
+    <RateOfFire>k__BackingField: 2
+    <BulletSpeed>k__BackingField: 5
+    <BulletLifeTime>k__BackingField: 8
+  <Laser>k__BackingField:
+    <Cooldown>k__BackingField: 15
+    <Lenght>k__BackingField: 9
+    <Duration>k__BackingField: 2
+    <Charges>k__BackingField: 3

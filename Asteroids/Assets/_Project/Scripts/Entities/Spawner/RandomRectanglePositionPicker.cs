@@ -2,12 +2,6 @@
 
 namespace _Project.Scripts.Entities.Spawner
 {
-    interface ISpawnPositionPicker
-    {
-        Vector2 GetNextPosition();
-        void DrawGizmos();
-    }
-    
     public class RectangleSideSpawnPositionPicker : ISpawnPositionPicker
     {
         private readonly Vector2 _size;

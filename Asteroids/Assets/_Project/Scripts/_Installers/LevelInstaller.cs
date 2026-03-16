@@ -12,12 +12,12 @@ namespace _Project.Scripts._Installers
         
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<EntitiesContainer>().FromNew().AsSingle().NonLazy();
-            Container.Bind<LevelBounds.LevelBounds>().FromComponentInHierarchy().AsSingle().NonLazy();
-            Container.Bind<IPositionWrapper>().To<InvertedClampedEntityPositionWrapper>().FromNew().AsSingle()
-                .NonLazy();
-            Container.BindInterfacesAndSelfTo<EntityOutOfBoundsController>().FromNew().AsSingle().NonLazy();
-            Container.Bind<GameSettings>().FromScriptableObject(gameSettings).AsSingle().NonLazy();
+            Container.Bind<GameSettings>().FromScriptableObject(gameSettings).AsSingle();
+            
+            Container.BindInterfacesAndSelfTo<EntitiesContainer>().FromNew().AsSingle();
+            Container.Bind<LevelBounds.LevelBounds>().FromComponentInHierarchy().AsSingle();
+            Container.BindInterfacesAndSelfTo<EntityOutOfBoundsController>().FromNew().AsSingle();
+            Container.Bind<IPositionWrapper>().To<InvertedClampedEntityPositionWrapper>().FromNew().AsSingle();
         }
     }
 }

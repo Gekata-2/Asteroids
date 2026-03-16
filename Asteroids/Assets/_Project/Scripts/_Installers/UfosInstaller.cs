@@ -12,16 +12,16 @@ namespace _Project.Scripts._Installers
 
         public override void InstallBindings()
         {
-            Container.Bind<UfosSpawner>().FromComponentsInHierarchy().AsSingle().NonLazy();
-            Container.Bind<UfosController>().FromComponentsInHierarchy().AsSingle().NonLazy();
-            Container.Bind<UfoData>().FromScriptableObject(ufoData).AsSingle().NonLazy();
-            Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig).WhenInjectedInto<UfosSpawner>()
-                .NonLazy();
+            Container.Bind<UfoData>().FromScriptableObject(ufoData).AsSingle();
+            Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig).WhenInjectedInto<UfosSpawner>();
+            
+            Container.Bind<UfosSpawner>().FromComponentsInHierarchy().AsSingle();
+            Container.Bind<UfosController>().FromComponentsInHierarchy().AsSingle();
 
             Container.Bind<ISpawnPositionPicker>()
                 .To<RectangleSideSpawnPositionPicker>()
                 .FromInstance(new RectangleSideSpawnPositionPicker(spawnerConfig.SpawnPositionSize, spawnerConfig.GizmosColor))
-                .WhenInjectedInto<UfosSpawner>().NonLazy();
+                .WhenInjectedInto<UfosSpawner>();
         }
     }
 }

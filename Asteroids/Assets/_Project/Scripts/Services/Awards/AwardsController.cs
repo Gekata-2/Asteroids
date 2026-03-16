@@ -13,7 +13,7 @@ namespace _Project.Scripts.Services.Awards
 
         private IAwardGiver<EntityDestroyedEvent> _entityDestroyedAwardGiver;
         private IAwardGiver<TimeLivedEvent> _timeLivedAwardGiver;
-        private GameSettings _gameSettings;
+        private readonly GameSettings _gameSettings;
 
         public AwardsController(EventBus.EventBus eventBus, PlayerModel playerModel, TimeService timeService,
             GameSettings gameSettings)

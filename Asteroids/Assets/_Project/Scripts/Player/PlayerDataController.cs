@@ -4,7 +4,7 @@ using Zenject;
 
 namespace _Project.Scripts.Player
 {
-    public class PlayerDataController : IFixedTickable, IInitializable
+    public class PlayerDataController : IInitializable, IFixedTickable
     {
         private readonly PlayerStateView _view;
         private readonly PlayerModel _model;

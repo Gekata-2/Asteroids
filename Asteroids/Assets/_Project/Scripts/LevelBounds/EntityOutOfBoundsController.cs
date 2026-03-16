@@ -53,7 +53,6 @@ namespace _Project.Scripts.LevelBounds
                 entity.MarkEnteredLevel();
         }
 
-
         public void Dispose()
         {
             _levelBounds.EntitiesOutOfBounds -= LevelBounds_OnEntitiesOutOfBounds;

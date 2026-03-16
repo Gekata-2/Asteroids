@@ -68,10 +68,7 @@ namespace _Project.Scripts.Entities.UFO
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.TryGetComponent(out PlayerHealth playerHealth))
-            {
-                if (playerHealth.enabled) 
-                    playerHealth.TakeDamage(new Damage(this));
-            }
+                playerHealth.TakeDamage(new Damage(this));
         }
 
         public void Die()

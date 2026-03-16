@@ -312,11 +312,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8707059178151170775}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9884e5a4b1f4cb7afb3a755147da7fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerHealth
+  isActive: 1
 --- !u!114 &7071195440467202193
 MonoBehaviour:
   m_ObjectHideFlags: 0

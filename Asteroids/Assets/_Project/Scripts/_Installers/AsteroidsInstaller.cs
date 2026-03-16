@@ -12,14 +12,14 @@ namespace _Project.Scripts._Installers
 
         public override void InstallBindings()
         {
-            Container.Bind<AsteroidsConfig>().FromScriptableObject(asteroidsConfig).AsSingle().NonLazy();
-            Container.Bind<AsteroidsSpawner>().FromComponentInHierarchy().AsSingle().NonLazy();
-            Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig).WhenInjectedInto<AsteroidsSpawner>().NonLazy();
+            Container.Bind<AsteroidsConfig>().FromScriptableObject(asteroidsConfig).AsSingle();
+            Container.Bind<AsteroidsSpawner>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig).WhenInjectedInto<AsteroidsSpawner>();
 
             Container.Bind<ISpawnPositionPicker>()
                 .To<RectangleSideSpawnPositionPicker>()
                 .FromInstance(new RectangleSideSpawnPositionPicker(spawnerConfig.SpawnPositionSize, spawnerConfig.GizmosColor))
-                .WhenInjectedInto<AsteroidsSpawner>().NonLazy();
+                .WhenInjectedInto<AsteroidsSpawner>();
         }
     }
 }

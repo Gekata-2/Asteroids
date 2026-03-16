@@ -33,11 +33,15 @@ namespace _Project.Scripts.LevelBounds
 
         private void Start()
         {
-            _bounds = GetBounds(size);
-            _outerBounds = GetBounds(outerBoundsSize);
+            UpdateBounds();
         }
 
         private void OnValidate()
+        {
+            UpdateBounds();
+        }
+
+        private void UpdateBounds()
         {
             _bounds = GetBounds(size);
             _outerBounds = GetBounds(outerBoundsSize);

@@ -9,12 +9,12 @@ namespace _Project.Scripts._Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<PauseService>().FromNew().AsSingle().NonLazy();
-            Container.Bind<EventBus>().FromNew().AsSingle().NonLazy();
-            Container.Bind<UIManager>().FromNew().AsSingle().NonLazy();
-            Container.Bind<ExitGameService>().FromNew().AsSingle().NonLazy();
-            Container.Bind<CursorService>().FromNew().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<TimeService>().FromNew().AsSingle().NonLazy();
+            Container.Bind<PauseService>().FromNew().AsSingle();
+            Container.Bind<EventBus>().FromNew().AsSingle();
+            Container.Bind<UIManager>().FromNew().AsSingle();
+            Container.Bind<CursorService>().FromNew().AsSingle();
+            Container.Bind<ExitGameService>().FromNew().AsSingle();
+            Container.BindInterfacesAndSelfTo<TimeService>().FromNew().AsSingle();
             Container.BindInterfacesAndSelfTo<AwardsController>().FromNew().AsSingle().NonLazy();
         }
     }

@@ -5,11 +5,11 @@ namespace _Project.Scripts.Player
 {
     public class PlayerState : PlayerModel
     {
+        private IPlayerMovement _player;
+
         public PlayerState(ScoreView scoreView) : base(scoreView)
         {
         }
-
-        private IPlayerMovement _player;
 
         public override int Score { get; protected set; }
         public override Vector2 Position => _player?.Position ?? default;

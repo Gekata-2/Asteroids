@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Player.Weapons
 {
-    [CreateAssetMenu(menuName = "Create Player Weapons Config", fileName = "Player Weapons Config", order = 0)]
+    [CreateAssetMenu(menuName = "Scriptable Objects/Create Player Weapons Config", fileName = "Player Weapons Config", order = 0)]
     public class PlayerWeaponsConfig : ScriptableObject
     {
         [Serializable]

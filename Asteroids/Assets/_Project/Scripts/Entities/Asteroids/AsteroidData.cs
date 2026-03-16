@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Entities.Asteroids
 {
-    [CreateAssetMenu(menuName = "Create Asteroid Data", fileName = "Asteroid Data", order = 0)]
+    [CreateAssetMenu(menuName = "Scriptable Objects/Create Asteroid Data", fileName = "Asteroid Data", order = 0)]
     public class AsteroidData : EntityData
     {
         [Serializable]

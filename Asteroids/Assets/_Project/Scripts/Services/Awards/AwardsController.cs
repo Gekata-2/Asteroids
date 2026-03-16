@@ -13,22 +13,25 @@ namespace _Project.Scripts.Services.Awards
 
         private IAwardGiver<EntityDestroyedEvent> _entityDestroyedAwardGiver;
         private IAwardGiver<TimeLivedEvent> _timeLivedAwardGiver;
+        private GameSettings _gameSettings;
 
-        public AwardsController(EventBus.EventBus eventBus, PlayerModel playerModel, TimeService timeService)
+        public AwardsController(EventBus.EventBus eventBus, PlayerModel playerModel, TimeService timeService,
+            GameSettings gameSettings)
         {
             _eventBus = eventBus;
             _playerModel = playerModel;
             _timeService = timeService;
+            _gameSettings = gameSettings;
         }
 
         public void Initialize()
         {
             _eventBus.Subscribe<EntityDestroyedEvent>(OnEntityDestroyed);
             _entityDestroyedAwardGiver = new EntityDestroyedAwardGiver(_playerModel);
-            _timeLivedAwardGiver = new TimeLivedAwardGiver(_playerModel);
+            _timeLivedAwardGiver = new TimeLivedAwardGiver(_playerModel, _gameSettings.AliveDurationScore);
         }
 
-        private void OnEntityDestroyed(EntityDestroyedEvent @event) 
+        private void OnEntityDestroyed(EntityDestroyedEvent @event)
             => _entityDestroyedAwardGiver.GiveAwardFor(@event);
 
         public void LateTick()

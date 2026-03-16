@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Entities.Asteroids
 {
-    [CreateAssetMenu(menuName = "Create Asteroids Config", fileName = "Asteroids Config", order = 0)]
+    [CreateAssetMenu(menuName = "Scriptable Objects/Create Asteroids Config", fileName = "Asteroids Config", order = 0)]
     public class AsteroidsConfig : ScriptableObject
     {
         [SerializeField] private List<AsteroidsSplitData> chain;

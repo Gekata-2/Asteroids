@@ -4,22 +4,21 @@ namespace _Project.Scripts.Services.Awards
 {
     public class TimeLivedAwardGiver : IAwardGiver<TimeLivedEvent>
     {
-        private const float SCORE_COOLDOWN = 1f;
-        private const int SCORE_AWARD = 1;
-
         private readonly PlayerModel _playerModel;
         private float _lastAwardGivenTimeStamp;
+        private readonly GameSettings.AliveDurationScoreConfig _config;
 
-        public TimeLivedAwardGiver(PlayerModel playerModel)
+        public TimeLivedAwardGiver(PlayerModel playerModel, GameSettings.AliveDurationScoreConfig config)
         {
             _playerModel = playerModel;
+            _config = config;
         }
 
         public void GiveAwardFor(TimeLivedEvent entityDestroyedEvent)
         {
-            if (entityDestroyedEvent.TotalTime - _lastAwardGivenTimeStamp >= SCORE_COOLDOWN)
+            if (entityDestroyedEvent.TotalTime - _lastAwardGivenTimeStamp >= _config.TimeInterval)
             {
-                _playerModel.AddScore(SCORE_AWARD);
+                _playerModel.AddScore(_config.ScoreValue);
                 _lastAwardGivenTimeStamp = entityDestroyedEvent.TotalTime;
             }
         }

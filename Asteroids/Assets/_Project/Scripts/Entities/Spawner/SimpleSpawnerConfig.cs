@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Entities.Spawner
 {
-    [CreateAssetMenu(menuName = "Create Asteroids Spawner Config", fileName = "Asteroids Spawner Config", order = 0)]
+    [CreateAssetMenu(menuName = "Scriptable Objects/Create Asteroids Spawner Config", fileName = "Asteroids Spawner Config", order = 0)]
     class SimpleSpawnerConfig : ScriptableObject
     {
         [SerializeField] private float minInterval = 1f;

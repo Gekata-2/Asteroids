@@ -6,7 +6,7 @@ namespace _Project.Scripts.EnemyAI.StateMachine.States
     public class ChaseState : BaseState
     {
         private readonly IEnemyTargetable _player;
-        private UfoData _data;
+        private UfoData.MovementData _data;
 
         public ChaseState(IEnemyTargetable player, UFO enemy) : base(enemy, "Chase")
         {
@@ -15,28 +15,22 @@ namespace _Project.Scripts.EnemyAI.StateMachine.States
 
         public override void OnEnter()
         {
-            _data = _enemy.Data as UfoData;
-            SetRotation(GetDesiredRotation());
+            _data = (_enemy.Data as UfoData)?.Movement;
+            _enemy.SetRotation(GetDesiredRotation());
         }
 
         public override void FixedUpdate()
         {
             float desiredRotation = GetDesiredRotation();
 
-            SetRotation(Mathf.MoveTowardsAngle(_enemy.Rotation, desiredRotation,
-                _data.Movement.SteeringSpeed * Time.fixedDeltaTime));
-            _enemy.Rb.linearVelocity = _enemy.transform.up * _data.Movement.Speed;
-        }
-
-        private void SetRotation(float rotation)
-        {
-            _enemy.Rotation = rotation;
-            _enemy.Rb.SetRotation(Quaternion.Euler(0, 0, _enemy.Rotation));
+            _enemy.SetRotation(Mathf.MoveTowardsAngle(_enemy.Rotation, desiredRotation,
+                _data.SteeringSpeed * Time.fixedDeltaTime));
+            _enemy.SetVelocity(_enemy.Up * _data.Speed);
         }
 
         private float GetDesiredRotation()
         {
-            Vector2 direction = (_player.Position - _enemy.Rb.position).normalized;
+            Vector2 direction = (_player.Position - _enemy.Position).normalized;
 
             float desiredRotation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             if (desiredRotation < 0f)

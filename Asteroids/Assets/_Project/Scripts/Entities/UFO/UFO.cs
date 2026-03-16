@@ -22,8 +22,9 @@ namespace _Project.Scripts.Entities.UFO
         private bool _hasBeenHitByBullet;
         private bool _hasBeenSweepedByLaser;
 
-        public float Rotation { get; set; }
-        public Rigidbody2D Rb => _rb;
+        public float Rotation { get; private set; }
+        public Vector2 Position => Rigidbody.position;
+        public Vector2 Up => transform.up;
 
         public override void InitializeData(EntityData entityData)
         {
@@ -65,6 +66,15 @@ namespace _Project.Scripts.Entities.UFO
         public void SetTarget(IEnemyTargetable target)
             => _target = target;
 
+        public void SetVelocity(Vector2 velocity)
+            => Rigidbody.linearVelocity = velocity;
+
+        public void SetRotation(float rotation)
+        {
+            Rotation = rotation;
+            Rigidbody.SetRotation(Quaternion.Euler(0, 0, Rotation));
+        }
+
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.TryGetComponent(out PlayerHealth playerHealth))
@@ -80,13 +90,13 @@ namespace _Project.Scripts.Entities.UFO
         public override void Pause()
         {
             _isActive = false;
-            _rb.simulated = false;
+            Rigidbody.simulated = false;
         }
 
         public override void Resume()
         {
             _isActive = true;
-            _rb.simulated = true;
+            Rigidbody.simulated = true;
         }
 
         public void TakeDamage(Damage damage)

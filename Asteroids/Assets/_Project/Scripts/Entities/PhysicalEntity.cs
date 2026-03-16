@@ -6,20 +6,19 @@ namespace _Project.Scripts.Entities
     public abstract class PhysicalEntity : Entity
     {
         private RigidBody2DTeleporter _teleporter;
-        protected Rigidbody2D _rb;
+        protected Rigidbody2D Rigidbody;
 
         private void Awake()
         {
-            _rb = GetComponent<Rigidbody2D>();
+            Rigidbody = GetComponent<Rigidbody2D>();
         }
-
         
         public override void SetPosition(Vector3 position)
         {
             if (_teleporter != null)
                 return;
 
-            _teleporter = new RigidBody2DTeleporter(position, _rb);
+            _teleporter = new RigidBody2DTeleporter(position, Rigidbody);
         }
 
         protected void HandlePositionChanger()

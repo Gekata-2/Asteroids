@@ -4,13 +4,6 @@ using Zenject;
 
 namespace _Project.Scripts.Player
 {
-    public interface IPlayerMovement
-    {
-        Vector2 Position { get; }
-        float Speed { get; }
-        float Rotation { get; }
-    }
-
     public class PlayerMovement : PhysicalEntity, IPlayerMovement
     {
         private IInput _input;
@@ -22,8 +15,8 @@ namespace _Project.Scripts.Player
         private bool _isMoveForward;
         private bool _isChangingPosition;
         
-        public Vector2 Position => _rb.position;
-        public float Speed => _rb.linearVelocity.magnitude;
+        public Vector2 Position => Rigidbody.position;
+        public float Speed => Rigidbody.linearVelocity.magnitude;
         public float Rotation => _rotation;
         
         [Inject]
@@ -49,7 +42,7 @@ namespace _Project.Scripts.Player
 
         private void FixedUpdate()
         {
-            if (!_rb.simulated)
+            if (!Rigidbody.simulated)
                 return;
 
             HandlePositionChanger();
@@ -73,7 +66,7 @@ namespace _Project.Scripts.Player
             float rotationDelta = -_input.PlayerRotation() * _rotationSpeed * Time.fixedDeltaTime;
             _rotation = GetNewRotation(rotationDelta);
 
-            _rb.SetRotation(Quaternion.Euler(0, 0, _rotation));
+            Rigidbody.SetRotation(Quaternion.Euler(0, 0, _rotation));
         }
 
         private float GetNewRotation(float rotationDelta)
@@ -90,13 +83,13 @@ namespace _Project.Scripts.Player
             if (!_isMoveForward)
                 return;
 
-            _rb.AddForce(transform.up * _speed, ForceMode2D.Force);
+            Rigidbody.AddForce(transform.up * _speed, ForceMode2D.Force);
         }
         
         public override void Pause() 
-            => _rb.simulated = false;
+            => Rigidbody.simulated = false;
 
         public override void Resume() 
-            => _rb.simulated = true;
+            => Rigidbody.simulated = true;
     }
 }

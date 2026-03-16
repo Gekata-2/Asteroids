@@ -39,7 +39,7 @@ namespace _Project.Scripts.Entities.Asteroids
 
         private void Move()
         {
-            _rb.linearVelocity = _velocity;
+            Rigidbody.linearVelocity = _velocity;
         }
 
         public void Die()
@@ -67,12 +67,12 @@ namespace _Project.Scripts.Entities.Asteroids
         }
 
         public void AddTorque(float value) 
-            => _rb.AddTorque(value);
+            => Rigidbody.AddTorque(value);
 
         public override void Pause() 
-            => _rb.simulated = false;
+            => Rigidbody.simulated = false;
 
         public override void Resume() 
-            => _rb.simulated = true;
+            => Rigidbody.simulated = true;
     }
 }

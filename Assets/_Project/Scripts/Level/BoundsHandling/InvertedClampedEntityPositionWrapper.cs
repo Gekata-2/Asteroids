@@ -1,7 +1,7 @@
 using _Project.Scripts.Entities;
 using UnityEngine;
 
-namespace _Project.Scripts.LevelBounds
+namespace _Project.Scripts.Level.BoundsHandling
 {
     class InvertedClampedEntityPositionWrapper : IPositionWrapper
     {

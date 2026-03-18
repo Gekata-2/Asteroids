@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Entities.Spawner;
+using _Project.Scripts.Level.BoundsHandling;
 using _Project.Scripts.Services;
 using UnityEngine;
 using Zenject;
@@ -19,14 +20,14 @@ namespace _Project.Scripts.Entities.Asteroids
         private AsteroidsConfig _asteroidsConfig;
         private SimpleSpawnerConfig _spawnerConfig;
         private ISpawnPositionPicker _spawnPositionPicker;
-        private LevelBounds.LevelBounds _levelBounds;
+        private LevelBounds _levelBounds;
 
         private float _timer;
         private bool _isActive;
 
         [Inject]
         private void Construct(AsteroidsConfig asteroidsConfig, SimpleSpawnerConfig spawnerConfig,
-            LevelBounds.LevelBounds levelBounds, ISpawnPositionPicker spawnPositionPicker)
+            LevelBounds levelBounds, ISpawnPositionPicker spawnPositionPicker)
         {
             _asteroidsConfig = asteroidsConfig;
             _spawnerConfig = spawnerConfig;

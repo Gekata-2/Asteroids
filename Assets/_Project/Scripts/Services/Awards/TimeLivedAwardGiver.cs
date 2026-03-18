@@ -1,14 +1,15 @@
-using _Project.Scripts.Player;
+using _Project.Scripts.Level.GameSession;
 
 namespace _Project.Scripts.Services.Awards
 {
     public class TimeLivedAwardGiver : IAwardGiver<TimeLivedEvent>
     {
-        private readonly PlayerModel _playerModel;
-        private float _lastAwardGivenTimeStamp;
+        private readonly GameSessionModel _playerModel;
         private readonly GameSettings.AliveDurationScoreConfig _config;
+        
+        private float _lastAwardGivenTimeStamp;
 
-        public TimeLivedAwardGiver(PlayerModel playerModel, GameSettings.AliveDurationScoreConfig config)
+        public TimeLivedAwardGiver(GameSessionModel playerModel, GameSettings.AliveDurationScoreConfig config)
         {
             _playerModel = playerModel;
             _config = config;

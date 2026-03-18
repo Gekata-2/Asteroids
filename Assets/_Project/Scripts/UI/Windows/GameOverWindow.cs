@@ -1,10 +1,10 @@
-﻿using _Project.Scripts.Player;
+﻿using _Project.Scripts.Level.GameSession;
+using _Project.Scripts.Player;
 using _Project.Scripts.Services;
 using _Project.Scripts.Services.EventBus;
 using _Project.Scripts.Services.SceneManagement;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace _Project.Scripts.UI.Windows
@@ -19,12 +19,12 @@ namespace _Project.Scripts.UI.Windows
         private EventBus _eventBus;
         private UIManager _uiManager;
         private ExitGameService _exitGameService;
-        private PlayerModel _playerModel;
+        private GameSessionModel _playerModel;
         private SceneLoader _sceneLoader;
 
         [Inject]
         private void Construct(IInput input, PauseService pauseService, EventBus eventBus, UIManager uiManager,
-            ExitGameService exitGameService, PlayerModel playerModel, SceneLoader sceneLoader)
+            ExitGameService exitGameService, GameSessionModel playerModel, SceneLoader sceneLoader)
         {
             _input = input;
             _pauseService = pauseService;

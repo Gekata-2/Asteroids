@@ -1,3 +1,4 @@
+using System;
 using _Project.Scripts.Entities;
 using UnityEngine;
 using Zenject;
@@ -14,6 +15,10 @@ namespace _Project.Scripts.Player
 
         private bool _isMoveForward;
         private bool _isChangingPosition;
+
+        public event Action PositionChanged;
+        public event Action SpeedChanged;
+        public event Action RotationChanged;
         
         public Vector2 Position => Rigidbody.position;
         public float Speed => Rigidbody.linearVelocity.magnitude;
@@ -26,7 +31,6 @@ namespace _Project.Scripts.Player
             _speed = config.Speed;
             _rotationSpeed = config.RotationSpeed;
         }
-
 
         private void Start()
         {
@@ -44,7 +48,10 @@ namespace _Project.Scripts.Player
         {
             if (!Rigidbody.simulated)
                 return;
-
+            
+            SpeedChanged?.Invoke();
+            PositionChanged?.Invoke();
+            
             HandlePositionChanger();
 
             if (_input == null)
@@ -52,8 +59,8 @@ namespace _Project.Scripts.Player
 
             Rotate();
             Move();
+          
         }
-
 
         private void OnPlayerPerformedMovingForward() 
             => _isMoveForward = true;
@@ -67,6 +74,7 @@ namespace _Project.Scripts.Player
             _rotation = GetNewRotation(rotationDelta);
 
             Rigidbody.SetRotation(Quaternion.Euler(0, 0, _rotation));
+            RotationChanged?.Invoke();
         }
 
         private float GetNewRotation(float rotationDelta)

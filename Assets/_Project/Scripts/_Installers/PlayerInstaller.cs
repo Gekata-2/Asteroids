@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Player;
+﻿using _Project.Scripts.Level.GameSession;
+using _Project.Scripts.Player;
 using _Project.Scripts.Player.Weapons;
 using _Project.Scripts.Player.Weapons.Laser;
 using _Project.Scripts.UI;
@@ -25,8 +26,8 @@ namespace _Project.Scripts._Installers
             Container.Bind<PlayerInputActionMap>().FromNew().AsSingle();
             Container.Bind<IInput>().To<InputHandler>().FromNew().AsSingle();
 
-            Container.Bind<PlayerModel>().To<PlayerState>().FromNew().AsSingle();
-            Container.BindInterfacesAndSelfTo<PlayerDataController>().FromNew().AsSingle();
+            Container.BindInterfacesAndSelfTo<PlayerStatePresenter>().FromNew().AsSingle();
+            Container.BindInterfacesAndSelfTo<PlayerScorePresenter>().FromNew().AsSingle();
 
             Container.Bind<LaserModel>().To<SimpleLaserModel>().FromNew().AsSingle();
             Container.BindInterfacesAndSelfTo<LaserController>().FromNew().AsSingle();

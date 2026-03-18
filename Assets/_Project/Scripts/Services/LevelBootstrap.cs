@@ -16,7 +16,7 @@ namespace _Project.Scripts.Services
         private DiContainer _di;
         private IInput _inputHandler;
         private EntitiesContainer _entitiesContainer;
-        private PlayerModel _playerModel;
+        private PlayerStatePresenter _playerStatePresenter;
         private PauseService _pauseService;
         private AsteroidsSpawner _asteroidsSpawner;
         private UfosSpawner _ufosSpawner;
@@ -26,7 +26,7 @@ namespace _Project.Scripts.Services
 
         [Inject]
         private void Construct(DiContainer diContainer, IInput inputHandler,
-            EntitiesContainer entitiesContainer, PlayerModel playerModel,
+            EntitiesContainer entitiesContainer, PlayerStatePresenter playerStatePresenter,
             AsteroidsSpawner asteroidsSpawner, CursorService cursorService,
             UfosSpawner ufosSpawner, UfosController ufosController,
             PauseService pauseService = null)
@@ -34,7 +34,7 @@ namespace _Project.Scripts.Services
             _di = diContainer;
             _inputHandler = inputHandler;
             _entitiesContainer = entitiesContainer;
-            _playerModel = playerModel;
+            _playerStatePresenter = playerStatePresenter;
             _asteroidsSpawner = asteroidsSpawner;
             _cursorService = cursorService;
             _pauseService = pauseService;
@@ -47,7 +47,7 @@ namespace _Project.Scripts.Services
             _player = _di.InstantiatePrefab(playerPrefab);
             _player.transform.position = playerSpawnPoint.position;
             IPlayerMovement playerMovement = _player.GetComponent<IPlayerMovement>();
-            _playerModel.SetPlayer(playerMovement);
+            _playerStatePresenter.SetPlayerModel(playerMovement);
 
             _entitiesContainer.AddEntity(_player.GetComponent<Entity>());
 

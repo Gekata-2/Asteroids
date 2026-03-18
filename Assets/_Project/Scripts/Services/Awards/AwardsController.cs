@@ -1,5 +1,5 @@
 ﻿using System;
-using _Project.Scripts.Player;
+using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Services.EventBus;
 using Zenject;
 
@@ -8,15 +8,15 @@ namespace _Project.Scripts.Services.Awards
     public class AwardsController : IInitializable, IDisposable, ILateTickable
     {
         private readonly EventBus.EventBus _eventBus;
-        private readonly PlayerModel _playerModel;
+        private readonly GameSessionModel _playerModel;
         private readonly TimeService _timeService;
 
         private IAwardGiver<EntityDestroyedEvent> _entityDestroyedAwardGiver;
         private IAwardGiver<TimeLivedEvent> _timeLivedAwardGiver;
         private readonly GameSettings _gameSettings;
 
-        public AwardsController(EventBus.EventBus eventBus, PlayerModel playerModel, TimeService timeService,
-            GameSettings gameSettings)
+        public AwardsController(EventBus.EventBus eventBus, GameSessionModel playerModel,
+            TimeService timeService, GameSettings gameSettings)
         {
             _eventBus = eventBus;
             _playerModel = playerModel;

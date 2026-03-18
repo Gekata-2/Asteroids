@@ -5,7 +5,7 @@ using _Project.Scripts.Entities;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.LevelBounds
+namespace _Project.Scripts.Level.BoundsHandling
 {
     public class LevelBounds : MonoBehaviour
     {
@@ -59,8 +59,8 @@ namespace _Project.Scripts.LevelBounds
             EntitiesOutOfBounds?.Invoke(entities);
         }
 
-        private Bounds GetBounds(Vector2 size)
-            => new(Vector3.zero, size);
+        private Bounds GetBounds(Vector2 boundsSize)
+            => new(Vector3.zero, boundsSize);
 
         private List<Entity> FindEntitiesOutOfBounds()
             => _entitiesContainer.Entities.Where(entity => entity.HasEnteredLevel && IsEntityOutOfBounds(entity))

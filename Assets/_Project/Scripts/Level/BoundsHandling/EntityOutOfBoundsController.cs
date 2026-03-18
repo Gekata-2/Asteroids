@@ -5,7 +5,7 @@ using _Project.Scripts.Services.EventBus;
 using Zenject;
 using Object = UnityEngine.Object;
 
-namespace _Project.Scripts.LevelBounds
+namespace _Project.Scripts.Level.BoundsHandling
 {
     class EntityOutOfBoundsController : IInitializable, IDisposable
     {

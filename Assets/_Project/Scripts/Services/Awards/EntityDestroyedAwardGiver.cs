@@ -1,13 +1,13 @@
-using _Project.Scripts.Player;
+using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Services.EventBus;
 
 namespace _Project.Scripts.Services.Awards
 {
     public class EntityDestroyedAwardGiver : IAwardGiver<EntityDestroyedEvent>
     {
-        private readonly PlayerModel _playerModel;
+        private readonly GameSessionModel _playerModel;
 
-        public EntityDestroyedAwardGiver(PlayerModel playerModel)
+        public EntityDestroyedAwardGiver(GameSessionModel playerModel)
         {
             _playerModel = playerModel;
         }

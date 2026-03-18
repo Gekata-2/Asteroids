@@ -31,18 +31,18 @@ namespace _Project.Scripts.Entities.UFO
 
         private void Start()
         {
-            _ufosSpawner.UFOSpawned += UfosSpawner_OnUFOSpawned;
+            _ufosSpawner.UFOSpawned += OnUFOSpawned;
             _eventBus.Subscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
             _ufosSpawner.StartSpawning();
         }
 
         private void OnDestroy()
         {
-            _ufosSpawner.UFOSpawned -= UfosSpawner_OnUFOSpawned;
+            _ufosSpawner.UFOSpawned -= OnUFOSpawned;
             _eventBus.Unsubscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
           
             foreach (UFO ufo in _ufos)
-                ufo.Died -= Ufo_OnDied;
+                ufo.Died -= OnUfoDied;
 
             _ufos.Clear();
         }
@@ -51,23 +51,23 @@ namespace _Project.Scripts.Entities.UFO
         {
             if (@event.Entity is UFO ufo)
             {
-                ufo.Died -= Ufo_OnDied;
+                ufo.Died -= OnUfoDied;
                 _ufos.Remove(ufo);
             }
         }
 
-        private void UfosSpawner_OnUFOSpawned(UFO ufo)
+        private void OnUFOSpawned(UFO ufo)
         {
             ufo.SetTarget(_ufosTarget);
-            ufo.Died += Ufo_OnDied;
+            ufo.Died += OnUfoDied;
 
             _ufos.Add(ufo);
             _entitiesContainer.AddEntity(ufo);
         }
 
-        private void Ufo_OnDied(UFO ufo)
+        private void OnUfoDied(UFO ufo)
         {
-            ufo.Died -= Ufo_OnDied;
+            ufo.Died -= OnUfoDied;
 
             _ufos.Remove(ufo);
             _entitiesContainer.RemoveEntity(ufo);

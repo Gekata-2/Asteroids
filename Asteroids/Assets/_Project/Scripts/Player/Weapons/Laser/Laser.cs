@@ -12,15 +12,15 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         private void Start()
         {
-            laserCollider.TriggerEnter += LaserCollider_OnTriggerEnter;
+            laserCollider.TriggerEntered += OnTriggerEntered;
         }
 
         private void OnDestroy()
         {
-            laserCollider.TriggerEnter -= LaserCollider_OnTriggerEnter;
+            laserCollider.TriggerEntered -= OnTriggerEntered;
         }
 
-        private void LaserCollider_OnTriggerEnter(Collider2D other)
+        private void OnTriggerEntered(Collider2D other)
         {
             if (other.gameObject.TryGetComponent(out IDamageble damageble))
                 damageble.TakeDamage(new Damage(this));

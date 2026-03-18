@@ -30,14 +30,14 @@ namespace _Project.Scripts.Player
 
         private void Start()
         {
-            _input.PlayerPerformedMovingForward += Input_OnPlayerPerformedMovingForward;
-            _input.PlayerCanceledMovingForward += Input_OnPlayerCanceledMovingForward;
+            _input.PlayerPerformedMovingForward += OnPlayerPerformedMovingForward;
+            _input.PlayerCanceledMovingForward += OnPlayerCanceledMovingForward;
         }
 
         private void OnDestroy()
         {
-            _input.PlayerPerformedMovingForward -= Input_OnPlayerPerformedMovingForward;
-            _input.PlayerCanceledMovingForward -= Input_OnPlayerCanceledMovingForward;
+            _input.PlayerPerformedMovingForward -= OnPlayerPerformedMovingForward;
+            _input.PlayerCanceledMovingForward -= OnPlayerCanceledMovingForward;
         }
 
         private void FixedUpdate()
@@ -55,10 +55,10 @@ namespace _Project.Scripts.Player
         }
 
 
-        private void Input_OnPlayerPerformedMovingForward() 
+        private void OnPlayerPerformedMovingForward() 
             => _isMoveForward = true;
 
-        private void Input_OnPlayerCanceledMovingForward() 
+        private void OnPlayerCanceledMovingForward() 
             => _isMoveForward = false;
 
         private void Rotate()

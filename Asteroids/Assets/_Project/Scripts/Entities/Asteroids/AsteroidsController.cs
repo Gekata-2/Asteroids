@@ -30,14 +30,14 @@ namespace _Project.Scripts.Entities.Asteroids
 
         private void Start()
         {
-            _asteroidsSpawner.AsteroidSpawned += AsteroidsSpawner_OnAsteroidSpawned;
+            _asteroidsSpawner.AsteroidSpawned += OnAsteroidSpawned;
             _eventBus.Subscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
             _asteroidsSpawner.StartSpawning();
         }
 
         private void OnDestroy()
         {
-            _asteroidsSpawner.AsteroidSpawned -= AsteroidsSpawner_OnAsteroidSpawned;
+            _asteroidsSpawner.AsteroidSpawned -= OnAsteroidSpawned;
             _eventBus.Unsubscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
             
             foreach (Asteroid asteroid in _asteroids)
@@ -55,7 +55,7 @@ namespace _Project.Scripts.Entities.Asteroids
             }
         }
 
-        private void AsteroidsSpawner_OnAsteroidSpawned(Asteroid asteroid)
+        private void OnAsteroidSpawned(Asteroid asteroid)
         {
             _asteroids.Add(asteroid);
             _entitiesContainer.AddEntity(asteroid);
@@ -64,17 +64,17 @@ namespace _Project.Scripts.Entities.Asteroids
 
         private void SubscribeToAsteroid(Asteroid asteroid)
         {
-            asteroid.CollidedWithBullet += Asteroid_OnCollidedWithBullet;
-            asteroid.SweepedByLaser += Asteroid_OnSweepedByLaser;
+            asteroid.CollidedWithBullet += OnAsteroidCollidedWithBullet;
+            asteroid.SweepedByLaser += OnAsteroidsSeepedByLaser;
         }
 
         private void UnsubscribeFromAsteroid(Asteroid asteroid)
         {
-            asteroid.CollidedWithBullet -= Asteroid_OnCollidedWithBullet;
-            asteroid.SweepedByLaser -= Asteroid_OnSweepedByLaser;
+            asteroid.CollidedWithBullet -= OnAsteroidCollidedWithBullet;
+            asteroid.SweepedByLaser -= OnAsteroidsSeepedByLaser;
         }
 
-        private void Asteroid_OnCollidedWithBullet(Asteroid asteroid)
+        private void OnAsteroidCollidedWithBullet(Asteroid asteroid)
         {
             UnsubscribeFromAsteroid(asteroid);
 
@@ -88,7 +88,7 @@ namespace _Project.Scripts.Entities.Asteroids
             chain.Dequeue();
         }
 
-        private void Asteroid_OnSweepedByLaser(Asteroid asteroid)
+        private void OnAsteroidsSeepedByLaser(Asteroid asteroid)
         {
             DestroyAsteroid(asteroid);
         }

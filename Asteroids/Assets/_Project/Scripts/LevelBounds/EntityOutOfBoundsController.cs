@@ -26,12 +26,12 @@ namespace _Project.Scripts.LevelBounds
 
         public void Initialize()
         {
-            _levelBounds.EntitiesOutOfBounds += LevelBounds_OnEntitiesOutOfBounds;
-            _levelBounds.EntitiesOutOfOuterBounds += LevelBounds_OnEntitiesOutOfOuterBounds;
-            _levelBounds.EntitiesFirstTimeEnteredLevel += LevelBounds_OnEntitiesFirstTimeEnteredLevel;
+            _levelBounds.EntitiesOutOfBounds += OnEntitiesOutOfBounds;
+            _levelBounds.EntitiesOutOfOuterBounds += OnEntitiesOutOfOuterBounds;
+            _levelBounds.EntitiesFirstTimeEnteredLevel += OnEntitiesFirstTimeEnteredLevel;
         }
 
-        private void LevelBounds_OnEntitiesOutOfOuterBounds(List<Entity> entities)
+        private void OnEntitiesOutOfOuterBounds(List<Entity> entities)
         {
             foreach (Entity entity in entities)
             {
@@ -41,13 +41,13 @@ namespace _Project.Scripts.LevelBounds
             }
         }
 
-        private void LevelBounds_OnEntitiesOutOfBounds(List<Entity> entities)
+        private void OnEntitiesOutOfBounds(List<Entity> entities)
         {
             foreach (Entity entity in entities)
                 _positionWrapper.WrapEntityPosition(entity, _levelBounds);
         }
 
-        private void LevelBounds_OnEntitiesFirstTimeEnteredLevel(List<Entity> entities)
+        private void OnEntitiesFirstTimeEnteredLevel(List<Entity> entities)
         {
             foreach (Entity entity in entities)
                 entity.MarkEnteredLevel();
@@ -55,9 +55,9 @@ namespace _Project.Scripts.LevelBounds
 
         public void Dispose()
         {
-            _levelBounds.EntitiesOutOfBounds -= LevelBounds_OnEntitiesOutOfBounds;
-            _levelBounds.EntitiesOutOfOuterBounds -= LevelBounds_OnEntitiesOutOfOuterBounds;
-            _levelBounds.EntitiesFirstTimeEnteredLevel -= LevelBounds_OnEntitiesFirstTimeEnteredLevel;
+            _levelBounds.EntitiesOutOfBounds -= OnEntitiesOutOfBounds;
+            _levelBounds.EntitiesOutOfOuterBounds -= OnEntitiesOutOfOuterBounds;
+            _levelBounds.EntitiesFirstTimeEnteredLevel -= OnEntitiesFirstTimeEnteredLevel;
         }
     }
 }

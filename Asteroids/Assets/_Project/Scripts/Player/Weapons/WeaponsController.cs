@@ -33,18 +33,18 @@ namespace _Project.Scripts.Player.Weapons
 
         private void Start()
         {
-            _input.ShootMachineGunPerformed += Input_OnShootMachineGunPerformed;
-            _input.ShootMachineGunCanceled += Input_OnShootMachineGunCanceled;
-            _input.ShootLaserPerformed += Input_OnShootLaserPerformed;
+            _input.ShootMachineGunPerformed += OnShootMachineGunPerformed;
+            _input.ShootMachineGunCanceled += OnShootMachineGunCanceled;
+            _input.ShootLaserPerformed += OnShootLaserPerformed;
             
             machineGunShooter.Enable();
         }
 
         private void OnDestroy()
         {
-            _input.ShootMachineGunPerformed -= Input_OnShootMachineGunPerformed;
-            _input.ShootMachineGunCanceled -= Input_OnShootMachineGunCanceled;
-            _input.ShootLaserPerformed -= Input_OnShootLaserPerformed;
+            _input.ShootMachineGunPerformed -= OnShootMachineGunPerformed;
+            _input.ShootMachineGunCanceled -= OnShootMachineGunCanceled;
+            _input.ShootLaserPerformed -= OnShootLaserPerformed;
         }
 
         private void Update()
@@ -53,13 +53,13 @@ namespace _Project.Scripts.Player.Weapons
                 machineGunShooter.TryShoot();
         }
 
-        private void Input_OnShootLaserPerformed()
+        private void OnShootLaserPerformed()
             => laserShooter.TryShoot();
 
-        private void Input_OnShootMachineGunCanceled()
+        private void OnShootMachineGunCanceled()
             => _isMachineGunShootPressed = false;
 
-        private void Input_OnShootMachineGunPerformed()
+        private void OnShootMachineGunPerformed()
             => _isMachineGunShootPressed = true;
     }
 }

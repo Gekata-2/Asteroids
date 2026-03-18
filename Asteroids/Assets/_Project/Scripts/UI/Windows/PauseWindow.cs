@@ -23,17 +23,17 @@ namespace _Project.Scripts.UI.Windows
 
         private void Start()
         {
-            _input.PausePerformed += Input_OnPausePerformed;
-            _input.UICancel += Input_OnUICancel;
+            _input.PausePerformed += OnPausePerformed;
+            _input.UICancelPerformed += OnUICancelPerformed;
         }
 
         private void OnDestroy()
         {
-            _input.PausePerformed -= Input_OnPausePerformed;
-            _input.UICancel -= Input_OnUICancel;
+            _input.PausePerformed -= OnPausePerformed;
+            _input.UICancelPerformed -= OnUICancelPerformed;
         }
 
-        private void Input_OnUICancel()
+        private void OnUICancelPerformed()
         {
             if (_uiManager.CurrentState != UIState.Pause)
                 return;
@@ -43,7 +43,7 @@ namespace _Project.Scripts.UI.Windows
             _uiManager.SetState(UIState.None);
         }
 
-        private void Input_OnPausePerformed()
+        private void OnPausePerformed()
         {
             if (_pauseService.IsGamePaused || !_uiManager.CanOpenPause())
                 return;

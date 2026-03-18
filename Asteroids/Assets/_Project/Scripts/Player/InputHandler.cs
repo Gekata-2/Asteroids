@@ -11,8 +11,8 @@ namespace _Project.Scripts.Player
         event Action ShootMachineGunCanceled;
         event Action ShootLaserPerformed;
         event Action PausePerformed;
-        event Action UISubmit;
-        event Action UICancel;
+        event Action UISubmitPerformed;
+        event Action UICancelPerformed;
 
 
         float PlayerRotation();
@@ -33,8 +33,8 @@ namespace _Project.Scripts.Player
         public event Action ShootMachineGunCanceled;
         public event Action ShootLaserPerformed;
         public event Action PausePerformed;
-        public event Action UISubmit;
-        public event Action UICancel;
+        public event Action UISubmitPerformed;
+        public event Action UICancelPerformed;
 
         private readonly PlayerInputActionMap _playerInput;
 
@@ -47,17 +47,18 @@ namespace _Project.Scripts.Player
         {
             _playerInput.Player.Enable();
 
-            _playerInput.Player.MoveForward.performed += MoveForward_OnStarted;
-            _playerInput.Player.MoveForward.canceled += MoveForward_OnCanceled;
+            _playerInput.Player.MoveForward.performed += OnMoveForwardPerformed;
+            _playerInput.Player.MoveForward.canceled += OnMoveForwardCanceled;
 
-            _playerInput.Player.ShootLaser.performed += ShootLaser_OnPerformed;
-            _playerInput.Player.ShootMachineGun.performed += ShootMachineGun_OnPerformed;
-            _playerInput.Player.ShootMachineGun.canceled += ShootMachineGun_OnCanceled;
+            _playerInput.Player.ShootLaser.performed += OnShootLaserPerformed;
+            
+            _playerInput.Player.ShootMachineGun.performed += OnShootMachineGunPerformed;
+            _playerInput.Player.ShootMachineGun.canceled += OnShootMachineGunCanceled;
 
-            _playerInput.Player.Pause.performed += Pause_OnPerformed;
+            _playerInput.Player.Pause.performed += OnPausePerformed;
 
-            _playerInput.UI.Submit.performed += Submit_OnPerformed;
-            _playerInput.UI.Cancel.performed += Cancel_OnPerformed;
+            _playerInput.UI.Submit.performed += OnUISubmitPerformed;
+            _playerInput.UI.Cancel.performed += OnUICancelPerformed;
         }
 
         public void Disable()
@@ -65,17 +66,17 @@ namespace _Project.Scripts.Player
             _playerInput.Player.Disable();
             _playerInput.UI.Disable();
             
-            _playerInput.Player.MoveForward.performed -= MoveForward_OnStarted;
-            _playerInput.Player.MoveForward.canceled -= MoveForward_OnCanceled;
+            _playerInput.Player.MoveForward.performed -= OnMoveForwardPerformed;
+            _playerInput.Player.MoveForward.canceled -= OnMoveForwardCanceled;
 
-            _playerInput.Player.ShootLaser.performed -= ShootLaser_OnPerformed;
-            _playerInput.Player.ShootMachineGun.performed -= ShootMachineGun_OnPerformed;
-            _playerInput.Player.ShootMachineGun.canceled -= ShootMachineGun_OnCanceled;
+            _playerInput.Player.ShootLaser.performed -= OnShootLaserPerformed;
+            _playerInput.Player.ShootMachineGun.performed -= OnShootMachineGunPerformed;
+            _playerInput.Player.ShootMachineGun.canceled -= OnShootMachineGunCanceled;
 
-            _playerInput.Player.Pause.performed -= Pause_OnPerformed;
+            _playerInput.Player.Pause.performed -= OnPausePerformed;
 
-            _playerInput.UI.Submit.performed -= Submit_OnPerformed;
-            _playerInput.UI.Cancel.performed -= Cancel_OnPerformed;
+            _playerInput.UI.Submit.performed -= OnUISubmitPerformed;
+            _playerInput.UI.Cancel.performed -= OnUICancelPerformed;
         }
 
         public void SetPlayerActionsEnabled(bool isEnabled)
@@ -94,29 +95,29 @@ namespace _Project.Scripts.Player
                 _playerInput.UI.Disable();
         }
 
-        private void Pause_OnPerformed(InputAction.CallbackContext context)
+        private void OnPausePerformed(InputAction.CallbackContext context)
             => PausePerformed?.Invoke();
 
-        private void ShootLaser_OnPerformed(InputAction.CallbackContext context)
+        private void OnShootLaserPerformed(InputAction.CallbackContext context)
             => ShootLaserPerformed?.Invoke();
 
-        private void ShootMachineGun_OnPerformed(InputAction.CallbackContext context)
+        private void OnShootMachineGunPerformed(InputAction.CallbackContext context)
             => ShootMachineGunPerformed?.Invoke();
 
-        private void ShootMachineGun_OnCanceled(InputAction.CallbackContext context)
+        private void OnShootMachineGunCanceled(InputAction.CallbackContext context)
             => ShootMachineGunCanceled?.Invoke();
 
-        private void MoveForward_OnStarted(InputAction.CallbackContext context)
+        private void OnMoveForwardPerformed(InputAction.CallbackContext context)
             => PlayerPerformedMovingForward?.Invoke();
 
-        private void MoveForward_OnCanceled(InputAction.CallbackContext context)
+        private void OnMoveForwardCanceled(InputAction.CallbackContext context)
             => PlayerCanceledMovingForward?.Invoke();
 
-        private void Submit_OnPerformed(InputAction.CallbackContext context)
-            => UISubmit?.Invoke();
+        private void OnUISubmitPerformed(InputAction.CallbackContext context)
+            => UISubmitPerformed?.Invoke();
 
-        private void Cancel_OnPerformed(InputAction.CallbackContext context)
-            => UICancel?.Invoke();
+        private void OnUICancelPerformed(InputAction.CallbackContext context)
+            => UICancelPerformed?.Invoke();
 
         public float PlayerRotation()
             => _playerInput.Player.Rotate.ReadValue<float>();

@@ -38,23 +38,23 @@ namespace _Project.Scripts.UI.Windows
         private void Start()
         {
             _eventBus.Subscribe<PlayerDeadEvent>(OnPlayerDead);
-            _input.UICancel += Input_OnUICancel;
-            _input.UISubmit += Input_OnUISubmit;
+            _input.UICancelPerformed += OnUICancelPerformed;
+            _input.UISubmitPerformed += OnUISubmitPerformed;
         }
 
         private void OnDestroy()
         {
             _eventBus.Unsubscribe<PlayerDeadEvent>(OnPlayerDead);
-            _input.UICancel -= Input_OnUICancel;
-            _input.UISubmit -= Input_OnUISubmit;
+            _input.UICancelPerformed -= OnUICancelPerformed;
+            _input.UISubmitPerformed -= OnUISubmitPerformed;
         }
 
-        private void Input_OnUISubmit()
+        private void OnUISubmitPerformed()
         {
             _sceneLoader.ReloadCurrentScene();
         }
 
-        private void Input_OnUICancel()
+        private void OnUICancelPerformed()
         {
             if (_uiManager.CurrentState != UIState.GameOver)
                 return;

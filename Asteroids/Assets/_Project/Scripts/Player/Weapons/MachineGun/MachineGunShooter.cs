@@ -14,8 +14,9 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
         [SerializeField] private Transform bulletsOrigin;
         [SerializeField] private Bullet bulletPrefab;
 
-        [Header("Bullets Pool")] 
-        [SerializeField, Min(1)] private int maxSize = 10;
+        [Header("Bullets Pool")] [SerializeField, Min(1)]
+        private int maxSize = 10;
+
         [SerializeField, Min(1)] private int defaultCapacity = 20;
 
         private PlayerWeaponsConfig.MachineGunConfig _config;
@@ -53,12 +54,23 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
         {
             _bulletsPool.PreWarm(defaultCapacity);
         }
-        
+
+        private void OnDestroy()
+        {
+            _bulletsPool.Clear();
+            _activeBullets.Clear();
+        }
+
         private void Update()
         {
             if (_isPaused)
                 return;
 
+            ReleaseOutlivedBullets();
+        }
+
+        private void ReleaseOutlivedBullets()
+        {
             List<Bullet> bulletsToRelease = _activeBullets.Where(bullet => bullet.TimeToLive <= 0f).ToList();
             foreach (Bullet bullet in bulletsToRelease)
                 _bulletsPool.Release(bullet);
@@ -66,13 +78,14 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
 
         private void OnDestroyBullet(Bullet bullet)
         {
+            bullet.Collided -= OnBulletCollided;
             _pauseService?.RemoveItem(bullet);
             Destroy(bullet.gameObject);
         }
 
         private void OnReturnBulletToPool(Bullet bullet)
         {
-            bullet.Collided -= Bullet_OnCollided;
+            bullet.Collided -= OnBulletCollided;
             bullet.gameObject.SetActive(false);
             if (_activeBullets.Contains(bullet))
                 _activeBullets.Remove(bullet);
@@ -80,7 +93,7 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
 
         private void OnTakeBulletFromPool(Bullet bullet)
         {
-            bullet.Collided += Bullet_OnCollided;
+            bullet.Collided += OnBulletCollided;
             bullet.gameObject.SetActive(true);
             if (!_activeBullets.Contains(bullet))
                 _activeBullets.Add(bullet);
@@ -93,7 +106,7 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
             return bullet;
         }
 
-        private void Bullet_OnCollided(Bullet bullet)
+        private void OnBulletCollided(Bullet bullet)
         {
             _bulletsPool.Release(bullet);
         }
@@ -114,7 +127,7 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
 
             _cooldownRoutine = StartCoroutine(CooldownRoutine(_config.FireCooldown));
         }
-        
+
 
         private IEnumerator CooldownRoutine(float cooldown)
         {
@@ -132,7 +145,7 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
         }
 
         public void Enable() => _canShoot = true;
-        
+
         public override void Pause() => _isPaused = true;
 
         public override void Resume() => _isPaused = false;

@@ -1,0 +1,11 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+namespace _Project.Scripts.Entities.Asteroids
+{
+    [CreateAssetMenu(menuName = "Scriptable Objects/Create Asteroids Config", fileName = "Asteroids Config", order = 0)]
+    public class AsteroidsConfig : ScriptableObject
+    {
+        [field: SerializeField] public List<AsteroidsSplitData> Chain { get; private set; }
+    }
+}

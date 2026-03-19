@@ -3,7 +3,7 @@ using _Project.Scripts.Entities.UFO;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts._Installers
+namespace _Project.Scripts.Installers
 {
     public class UfosInstaller : MonoInstaller
     {

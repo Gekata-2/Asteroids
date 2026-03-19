@@ -30,11 +30,9 @@ namespace _Project.Scripts.Player
             _playerModel.RotationChanged += OnRotationChanged;
             _playerModel.SpeedChanged += OnSpeedChanged;
 
-            _view.SetPosition(_playerModel.Position);
-            _view.SetAngle(_playerModel.Rotation);
-            _view.SetSpeed(_playerModel.Speed);
+            _view.Initialize(_playerModel.Position, _playerModel.Rotation, _playerModel.Speed);
         }
-        
+
         private void OnPositionChanged()
             => _view.SetPosition(_playerModel.Position);
 

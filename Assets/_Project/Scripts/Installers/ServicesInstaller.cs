@@ -3,7 +3,7 @@ using _Project.Scripts.Services.Awards;
 using _Project.Scripts.Services.EventBus;
 using Zenject;
 
-namespace _Project.Scripts._Installers
+namespace _Project.Scripts.Installers
 {
     public class ServicesInstaller : MonoInstaller
     {

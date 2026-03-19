@@ -2,11 +2,30 @@
 
 namespace _Project.Scripts.Level.GameSession
 {
-    public abstract class GameSessionModel
+    public class GameSessionModel
     {
-        public abstract event Action ScoreChanged;
-        public abstract int Score { get; protected set; }
-        public abstract void AddScore(int value);
-        public abstract void SetScore(int value);
+        public event Action ScoreChanged;
+        public int Score { get; private set; }
+
+        public void AddScore(int value)
+        {
+            if (value == 0)
+                return;
+
+            Score += value;
+            if (Score <= 0)
+                Score = 0;
+
+            ScoreChanged?.Invoke();
+        }
+
+        public void SetScore(int value)
+        {
+            if (value < 0)
+                return;
+
+            Score = value;
+            ScoreChanged?.Invoke();
+        }
     }
 }

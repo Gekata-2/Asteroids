@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts._Installers
+namespace _Project.Scripts.Installers
 {
     public class GlobalInstaller : MonoInstaller
     {

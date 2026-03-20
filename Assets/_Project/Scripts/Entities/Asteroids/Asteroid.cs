@@ -4,16 +4,20 @@ using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Player;
 using _Project.Scripts.Player.Weapons.Laser;
 using _Project.Scripts.Player.Weapons.MachineGun;
+using ModestTree;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Entities.Asteroids
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class Asteroid : PhysicalEntity, IDamageble
     {
-        public event Action<Asteroid> CollidedWithBullet;
+        public event Action<Asteroid> Destroyed;
+        public event Action<List<Asteroid>> CreatedDebris;
+
         public event Action<Asteroid> SweepedByLaser;
-        
+
         public Queue<AsteroidsSplitConfig> SplitChain { get; private set; }
 
         public void Initialize(AsteroidsInitializationData initializationData)
@@ -29,23 +33,72 @@ namespace _Project.Scripts.Entities.Asteroids
             HandlePositionChanger();
         }
 
-        public void Die()
-        {
-            Destroy(gameObject);
-        }
 
         public void TakeDamage(Damage damage)
         {
             switch (damage.Source)
             {
                 case Bullet:
-                    CollidedWithBullet?.Invoke(this);
+                    HandleBullet();
                     break;
                 case Laser:
+                    HandleSweepedByLaser();
                     SweepedByLaser?.Invoke(this);
                     break;
             }
         }
+
+        private void HandleSweepedByLaser()
+        {
+            Destroy(gameObject);
+            Destroyed?.Invoke(this);
+        }
+
+        private void HandleBullet()
+        {
+            Destroy(gameObject);
+
+            if (!SplitChain.IsEmpty())
+                SpawnAsteroidsFromSplitAtPosition(SplitChain, Rigidbody.position);
+
+            Destroyed?.Invoke(this);
+        }
+
+        private void SpawnAsteroidsFromSplitAtPosition(Queue<AsteroidsSplitConfig> asteroidsChainRemainder,
+            Vector3 position)
+        {
+            AsteroidsSplitConfig split = asteroidsChainRemainder.Dequeue();
+            AsteroidConfig asteroidConfig = split.Config;
+
+            int newAsteroidsCount = Random.Range(split.MinNewAsteroids, split.MaxNewAsteroids + 1);
+
+            List<Asteroid> newAsteroids = new List<Asteroid>(newAsteroidsCount);
+
+            for (int i = 0; i < newAsteroidsCount; i++)
+            {
+                Asteroid asteroid = Instantiate(asteroidConfig.Prefab, position, Quaternion.identity);
+                asteroid.Initialize(
+                    new AsteroidsInitializationData(
+                        GetAsteroidSpeed(asteroidConfig.Speed),
+                        GetAsteroidRandomDirection(),
+                        GetAsteroidTorque(asteroidConfig.Torque),
+                        asteroidsChainRemainder,
+                        asteroidConfig));
+                asteroid.transform.localScale = Vector3.one * split.Size;
+                newAsteroids.Add(asteroid);
+            }
+
+            CreatedDebris?.Invoke(newAsteroids);
+        }
+
+        private float GetAsteroidSpeed(AsteroidSpeedConfig speedConfig) =>
+            Random.Range(speedConfig.Min, speedConfig.Max);
+
+        private Vector2 GetAsteroidRandomDirection()
+            => Random.insideUnitCircle.normalized;
+
+        private float GetAsteroidTorque(AsteroidTorqueConfig torqueConfig)
+            => Random.Range(torqueConfig.Min, torqueConfig.Max);
 
         private void OnCollisionEnter2D(Collision2D other)
         {

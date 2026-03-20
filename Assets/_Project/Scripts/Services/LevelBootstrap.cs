@@ -19,7 +19,7 @@ namespace _Project.Scripts.Services
         private EntitiesContainer _entitiesContainer;
         private PlayerStatePresenter _playerStatePresenter;
         private PauseService _pauseService;
-        private AsteroidsSpawner _asteroidsSpawner;
+        private AsteroidsController _asteroidsController;
         private UfosSpawner _ufosSpawner;
         private CursorService _cursorService;
         private UfosController _ufosController;
@@ -29,7 +29,7 @@ namespace _Project.Scripts.Services
         [Inject]
         private void Construct(DiContainer diContainer, IInput inputHandler,
             EntitiesContainer entitiesContainer, PlayerStatePresenter playerStatePresenter,
-            AsteroidsSpawner asteroidsSpawner, CursorService cursorService,
+            AsteroidsController asteroidsController, CursorService cursorService,
             UfosSpawner ufosSpawner, UfosController ufosController, GameSessionModel gameSessionModel,
             PauseService pauseService = null)
         {
@@ -37,7 +37,7 @@ namespace _Project.Scripts.Services
             _inputHandler = inputHandler;
             _entitiesContainer = entitiesContainer;
             _playerStatePresenter = playerStatePresenter;
-            _asteroidsSpawner = asteroidsSpawner;
+            _asteroidsController = asteroidsController;
             _cursorService = cursorService;
             _pauseService = pauseService;
             _ufosSpawner = ufosSpawner;
@@ -55,7 +55,7 @@ namespace _Project.Scripts.Services
             _entitiesContainer.AddEntity(player.GetComponent<Entity>());
 
             _pauseService?.AddItem(_entitiesContainer);
-            _pauseService?.AddItem(_asteroidsSpawner);
+            _pauseService?.AddItem(_asteroidsController);
             _pauseService?.AddItem(_ufosSpawner);
 
             _ufosController.SetTarget(player.GetComponent<IEnemyTargetable>());

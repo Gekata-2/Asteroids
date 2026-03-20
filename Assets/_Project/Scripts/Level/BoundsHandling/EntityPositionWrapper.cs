@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Level.BoundsHandling
 {
-    class InvertedClampedEntityPositionWrapper : IPositionWrapper
+    class EntityPositionWrapper
     {
         public void WrapEntityPosition(Entity entity, LevelBounds levelBounds)
         {

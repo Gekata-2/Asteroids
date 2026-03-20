@@ -7,23 +7,21 @@ namespace _Project.Scripts.Level.BoundsHandling
     [RequireComponent(typeof(Entity))]
     public class LevelBoundsHandler : MonoBehaviour
     {
-        public event Action<Entity> CrossedBounds;
-        public event Action<Entity> CrossedOuterBounds;
+        public event Action<Entity> Destroyed;
 
         private Entity _entity;
         private LevelBounds _levelBounds;
-        private bool _hasEnteredLevel = false;
-        private IPositionWrapper _positionWrapper;
+        private bool _hasEnteredLevel;
+        private readonly EntityPositionWrapper _positionWrapper = new();
 
         private void Awake()
         {
             _entity = GetComponent<Entity>();
         }
 
-        public void Initialize(LevelBounds levelBounds, IPositionWrapper positionWrapper)
+        public void Initialize(LevelBounds levelBounds)
         {
             _levelBounds = levelBounds;
-            _positionWrapper = positionWrapper;
         }
 
         private void FixedUpdate()
@@ -37,14 +35,26 @@ namespace _Project.Scripts.Level.BoundsHandling
 
             if (_levelBounds.IsOutsideOfOuterBounds(position))
             {
-                CrossedOuterBounds?.Invoke(_entity);
+                HandleOutOfBounds();
+
                 return;
             }
 
             if (_levelBounds.IsOutsideOfBounds(position))
             {
-                CrossedBounds?.Invoke(_entity);
+                HandleOutOfOuterBounds();
             }
+        }
+
+        private void HandleOutOfBounds()
+        {
+            _positionWrapper.WrapEntityPosition(_entity, _levelBounds);
+        }
+
+        private void HandleOutOfOuterBounds()
+        {
+            Destroy(_entity.gameObject);
+            Destroyed?.Invoke(_entity);
         }
     }
 }

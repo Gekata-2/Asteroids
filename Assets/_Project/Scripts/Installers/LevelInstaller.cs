@@ -22,7 +22,6 @@ namespace _Project.Scripts.Installers
             Container.BindInterfacesAndSelfTo<EntitiesContainer>().FromNew().AsSingle();
             Container.Bind<LevelBounds>().FromComponentInHierarchy().AsSingle();
             Container.BindInterfacesAndSelfTo<EntityOutOfBoundsController>().FromNew().AsSingle();
-            Container.Bind<IPositionWrapper>().To<InvertedClampedEntityPositionWrapper>().FromNew().AsSingle();
 
             Container.BindInterfacesAndSelfTo<PauseInputHandler>().AsSingle();
             Container.BindInterfacesAndSelfTo<PausePresenter>().AsSingle();

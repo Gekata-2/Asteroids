@@ -27,7 +27,7 @@ namespace _Project.Scripts.UI
         private void OnGameOver()
         {
             _view.Show(_model.Score);
-            _uiManager.SetState(UIState.Pause);
+            _uiManager.SetState(UIState.GameOver);
         }
 
         public void Dispose()

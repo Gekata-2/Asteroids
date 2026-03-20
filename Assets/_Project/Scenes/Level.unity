@@ -298,28 +298,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 401577737}
-  - component: {fileID: 401577736}
   m_Layer: 0
   m_Name: AsteroidsSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &401577736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401577735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0157cc131e81bad4aa00a813fd3be00c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  asteroidsContainer: {fileID: 401577737}
-  drawGizmos: 1
+  m_IsActive: 0
 --- !u!4 &401577737
 Transform:
   m_ObjectHideFlags: 0
@@ -662,7 +647,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &993495623
 Transform:
   m_ObjectHideFlags: 0
@@ -831,7 +816,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 843cc66438e441988219b72c762f717a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.PlayerInstaller
-  playerPrefab: {fileID: 8707059178151170775, guid: fb56c36f9305e3249ae8af24b421703c, type: 3}
   playerConfig: {fileID: 11400000, guid: 59bb1d3877dbd1c4294d6b737e9a4b1d, type: 2}
   weaponsConfig: {fileID: 11400000, guid: a536a75de87d3f54ab599035666a5f5b, type: 2}
   scoreViewPrefab: {fileID: 5449726620632011077, guid: eaf4e2ec6750cdd4f83ca924ff85ff80, type: 3}
@@ -971,6 +955,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0507d64a736145e4ba1631b6951960bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  asteroidsContainer: {fileID: 1529152371}
+  drawGizmos: 1
 --- !u!4 &1529152371
 Transform:
   m_ObjectHideFlags: 0

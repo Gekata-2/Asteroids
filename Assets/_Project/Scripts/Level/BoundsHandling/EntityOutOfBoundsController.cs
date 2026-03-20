@@ -12,13 +12,12 @@ namespace _Project.Scripts.Level.BoundsHandling
 
         private readonly LevelBounds _levelBounds;
         private readonly EntitiesContainer _entitiesContainer;
-        private readonly IPositionWrapper _positionWrapper;
-
-
-        public EntityOutOfBoundsController(IPositionWrapper positionWrapper, LevelBounds levelBounds,
+        private readonly EntityPositionWrapper _positionWrapper = new();
+     
+        
+        public EntityOutOfBoundsController(LevelBounds levelBounds,
             EntitiesContainer entitiesContainer)
         {
-            _positionWrapper = positionWrapper;
             _levelBounds = levelBounds;
             _entitiesContainer = entitiesContainer;
         }
@@ -29,7 +28,7 @@ namespace _Project.Scripts.Level.BoundsHandling
             _levelBounds.EntitiesOutOfOuterBounds += OnEntitiesOutOfOuterBounds;
             _levelBounds.EntitiesFirstTimeEnteredLevel += OnEntitiesFirstTimeEnteredLevel;
         }
-
+        
         private void OnEntitiesOutOfOuterBounds(List<Entity> entities)
         {
             foreach (Entity entity in entities)

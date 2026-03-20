@@ -70,16 +70,18 @@ namespace _Project.Scripts.Level.GameSession
         }
 
         private PlayerHealth _player;
+        private UIManager _uiManager;
 
         public GameSessionModel(IInput input,
             PauseService pauseService,
             SceneLoader sceneLoader,
-            ExitGameService exitGameService)
+            ExitGameService exitGameService, UIManager uiManager)
         {
             _pauseService = pauseService;
             _sceneLoader = sceneLoader;
             _input = input;
             _exitGameService = exitGameService;
+            _uiManager = uiManager;
         }
 
         public void Initialize()
@@ -103,14 +105,20 @@ namespace _Project.Scripts.Level.GameSession
 
         private void OnUISubmitPerformed()
         {
-            _sceneLoader.ReloadCurrentScene();
+            if (_uiManager.CurrentState == UIState.GameOver)
+            {
+                _sceneLoader.ReloadCurrentScene();
+            }
         }
 
         private void OnUICancelPerformed()
         {
-            _exitGameService.PerformExit();
+            if (_uiManager.CurrentState == UIState.GameOver)
+            {
+                _exitGameService.PerformExit();
+            }
         }
-        
+
         public void Dispose()
         {
             _input.UICancelPerformed -= OnUICancelPerformed;

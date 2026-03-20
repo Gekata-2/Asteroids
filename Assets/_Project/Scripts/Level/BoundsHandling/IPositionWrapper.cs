@@ -2,7 +2,7 @@
 
 namespace _Project.Scripts.Level.BoundsHandling
 {
-    interface IPositionWrapper
+   public interface IPositionWrapper
     {
         void WrapEntityPosition(Entity entity, LevelBounds bounds);
     }

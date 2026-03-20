@@ -59,7 +59,6 @@ namespace _Project.Scripts.Player
 
             Rotate();
             Move();
-          
         }
 
         private void OnPlayerPerformedMovingForward() 

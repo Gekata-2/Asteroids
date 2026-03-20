@@ -24,13 +24,13 @@ namespace _Project.Scripts.Installers
             Container.BindInterfacesAndSelfTo<EntityOutOfBoundsController>().FromNew().AsSingle();
             Container.Bind<IPositionWrapper>().To<InvertedClampedEntityPositionWrapper>().FromNew().AsSingle();
 
-            Container.BindInterfacesAndSelfTo<PauseInputHandler>().FromNew().AsSingle();
-            Container.BindInterfacesAndSelfTo<PausePresenter>().FromNew().AsSingle();
+            Container.BindInterfacesAndSelfTo<PauseInputHandler>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PausePresenter>().AsSingle();
             Container.Bind<PauseWindow>().FromComponentInNewPrefab(pauseWindowPrefab).AsSingle().NonLazy();
             Container.Bind<GameOverWindow>().FromComponentInNewPrefab(gameOverWindowPrefab).AsSingle().NonLazy();
 
-            Container.BindInterfacesAndSelfTo<GameSessionModel>().FromNew().AsSingle();
-            Container.BindInterfacesAndSelfTo<GameOverPresenter>().FromNew().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameSessionModel>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameOverPresenter>().AsSingle();
         }
     }
 }

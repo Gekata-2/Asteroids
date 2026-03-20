@@ -1,26 +1,25 @@
 using System;
 using System.Collections.Generic;
 using _Project.Scripts.Entities;
-using _Project.Scripts.Services.EventBus;
 using Zenject;
 using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Level.BoundsHandling
 {
-    class EntityOutOfBoundsController : IInitializable, IDisposable
+    public class EntityOutOfBoundsController : IInitializable, IDisposable
     {
+        public event Action<Entity> EntityOutOfOuterBoundsDestroyed;
+
         private readonly LevelBounds _levelBounds;
         private readonly EntitiesContainer _entitiesContainer;
         private readonly IPositionWrapper _positionWrapper;
 
-        private readonly EventBus _eventBus;
 
-        public EntityOutOfBoundsController(IPositionWrapper positionWrapper, LevelBounds levelBounds, EventBus eventBus,
+        public EntityOutOfBoundsController(IPositionWrapper positionWrapper, LevelBounds levelBounds,
             EntitiesContainer entitiesContainer)
         {
             _positionWrapper = positionWrapper;
             _levelBounds = levelBounds;
-            _eventBus = eventBus;
             _entitiesContainer = entitiesContainer;
         }
 
@@ -37,7 +36,7 @@ namespace _Project.Scripts.Level.BoundsHandling
             {
                 Object.Destroy(entity.gameObject);
                 _entitiesContainer.RemoveEntity(entity);
-                _eventBus.Invoke(new EntityOutOfOuterBoundsDestroyedEvent(entity));
+                EntityOutOfOuterBoundsDestroyed?.Invoke(entity);
             }
         }
 

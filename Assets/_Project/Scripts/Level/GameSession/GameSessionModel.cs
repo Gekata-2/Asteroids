@@ -1,7 +1,7 @@
 ﻿using System;
+using _Project.Scripts.Entities;
 using _Project.Scripts.Player;
 using _Project.Scripts.Services;
-using _Project.Scripts.Services.EventBus;
 using _Project.Scripts.Services.SceneManagement;
 using Zenject;
 
@@ -40,7 +40,7 @@ namespace _Project.Scripts.Level.GameSession
 
         private readonly IInput _input;
 
-        private readonly EventBus _eventBus;
+
         private readonly PauseService _pauseService;
         private readonly SceneLoader _sceneLoader;
         private readonly ExitGameService _exitGameService;
@@ -69,10 +69,13 @@ namespace _Project.Scripts.Level.GameSession
             ScoreChanged?.Invoke();
         }
 
+        private PlayerHealth _player;
+
         public GameSessionModel(IInput input,
-            EventBus eventBus, PauseService pauseService, SceneLoader sceneLoader, ExitGameService exitGameService)
+            PauseService pauseService,
+            SceneLoader sceneLoader,
+            ExitGameService exitGameService)
         {
-            _eventBus = eventBus;
             _pauseService = pauseService;
             _sceneLoader = sceneLoader;
             _input = input;
@@ -81,9 +84,21 @@ namespace _Project.Scripts.Level.GameSession
 
         public void Initialize()
         {
-            _eventBus.Subscribe<PlayerDeadEvent>(OnPlayerDead);
             _input.UICancelPerformed += OnUICancelPerformed;
             _input.UISubmitPerformed += OnUISubmitPerformed;
+            _player.PlayerDead += OnPlayerDead;
+        }
+
+        public void SetPlayer(PlayerHealth playerHealth)
+        {
+            _player = playerHealth;
+            _player.PlayerDead += OnPlayerDead;
+        }
+
+        private void OnPlayerDead(Damage damage)
+        {
+            _pauseService.PerformPause();
+            GameOver?.Invoke();
         }
 
         private void OnUISubmitPerformed()
@@ -95,18 +110,12 @@ namespace _Project.Scripts.Level.GameSession
         {
             _exitGameService.PerformExit();
         }
-
-        private void OnPlayerDead(PlayerDeadEvent @event)
-        {
-            _pauseService.PerformPause();
-            GameOver?.Invoke();
-        }
-
+        
         public void Dispose()
         {
-            _eventBus.Unsubscribe<PlayerDeadEvent>(OnPlayerDead);
             _input.UICancelPerformed -= OnUICancelPerformed;
             _input.UISubmitPerformed -= OnUISubmitPerformed;
+            _player.PlayerDead -= OnPlayerDead;
         }
     }
 }

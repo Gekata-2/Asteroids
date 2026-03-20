@@ -1,11 +1,9 @@
 ﻿using System;
 using _Project.Scripts.UI;
-using UnityEngine;
-using Zenject;
 
 namespace _Project.Scripts.Player
 {
-    public class PlayerStatePresenter : IInitializable, IDisposable
+    public class PlayerStatePresenter :  IDisposable
     {
         private readonly PlayerStateView _view;
         private IPlayerMovement _playerModel;
@@ -13,13 +11,6 @@ namespace _Project.Scripts.Player
         public PlayerStatePresenter(PlayerStateView view)
         {
             _view = view;
-        }
-
-        public void Initialize()
-        {
-            _view.SetAngle(0);
-            _view.SetPosition(Vector2.zero);
-            _view.SetSpeed(0);
         }
 
         public void SetPlayerModel(IPlayerMovement playerMovement)

@@ -1,9 +1,9 @@
+using _Project.Scripts.Entities;
 using _Project.Scripts.Level.GameSession;
-using _Project.Scripts.Services.EventBus;
 
 namespace _Project.Scripts.Services.Awards
 {
-    public class EntityDestroyedAwardGiver : IAwardGiver<EntityDestroyedEvent>
+    public class EntityDestroyedAwardGiver : IAwardGiver<Entity>
     {
         private readonly GameSessionModel _playerModel;
 
@@ -12,7 +12,7 @@ namespace _Project.Scripts.Services.Awards
             _playerModel = playerModel;
         }
 
-        public void GiveAwardFor(EntityDestroyedEvent entityDestroyedEvent) 
-            => _playerModel.AddScore(entityDestroyedEvent.Entity.Data.Score);
+        public void GiveAwardFor(Entity entity) 
+            => _playerModel.AddScore(entity.Data.Score);
     }
 }

@@ -15,6 +15,7 @@ namespace _Project.Scripts.Installers
         {
             Container.Bind<AsteroidsConfig>().FromScriptableObject(asteroidsConfig).AsSingle();
             Container.Bind<AsteroidsSpawner>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<AsteroidsController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig).WhenInjectedInto<AsteroidsSpawner>();
 
             Container.Bind<ISpawnPositionPicker>()

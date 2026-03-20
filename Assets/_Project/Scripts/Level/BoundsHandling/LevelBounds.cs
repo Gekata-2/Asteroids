@@ -59,6 +59,13 @@ namespace _Project.Scripts.Level.BoundsHandling
             EntitiesOutOfBounds?.Invoke(entities);
         }
 
+        public bool IsOutsideOfBounds(Vector2 position) 
+            => !_bounds.Contains(position);
+        public bool IsOutsideOfOuterBounds(Vector2 position) 
+            => !_outerBounds.Contains(position);
+        public bool IsInsideLevel(Vector2 position)
+            => _bounds.Contains(position);
+
         private Bounds GetBounds(Vector2 boundsSize)
             => new(Vector3.zero, boundsSize);
 

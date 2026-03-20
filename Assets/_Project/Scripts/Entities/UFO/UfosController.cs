@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using _Project.Scripts.Services.EventBus;
+﻿using System;
+using System.Collections.Generic;
+using _Project.Scripts.Level.BoundsHandling;
 using UnityEngine;
 using Zenject;
 
@@ -7,19 +8,23 @@ namespace _Project.Scripts.Entities.UFO
 {
     public class UfosController : MonoBehaviour
     {
+        public event Action<UFO> UfoDestroyed;
+
         private UfosSpawner _ufosSpawner;
         private EntitiesContainer _entitiesContainer;
-        private EventBus _eventBus;
+
         private IEnemyTargetable _ufosTarget;
-        
+
         private readonly List<UFO> _ufos = new();
+        private EntityOutOfBoundsController _entityOutOfBoundsController;
 
         [Inject]
-        public void Construct(UfosSpawner ufosSpawner, EntitiesContainer entitiesContainer, EventBus eventBus)
+        public void Construct(UfosSpawner ufosSpawner, EntitiesContainer entitiesContainer,
+            EntityOutOfBoundsController entityOutOfBoundsController)
         {
             _ufosSpawner = ufosSpawner;
             _entitiesContainer = entitiesContainer;
-            _eventBus = eventBus;
+            _entityOutOfBoundsController = entityOutOfBoundsController;
         }
 
         public void SetTarget(IEnemyTargetable target)
@@ -29,14 +34,14 @@ namespace _Project.Scripts.Entities.UFO
         private void Start()
         {
             _ufosSpawner.UFOSpawned += OnUFOSpawned;
-            _eventBus.Subscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
+            _entityOutOfBoundsController.EntityOutOfOuterBoundsDestroyed += OnEntityOutOfOuterBoundsDestroyed;
             _ufosSpawner.StartSpawning();
         }
 
         private void OnDestroy()
         {
             _ufosSpawner.UFOSpawned -= OnUFOSpawned;
-            _eventBus.Unsubscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
+            _entityOutOfBoundsController.EntityOutOfOuterBoundsDestroyed -= OnEntityOutOfOuterBoundsDestroyed;
 
             foreach (UFO ufo in _ufos)
                 ufo.Died -= OnUfoDied;
@@ -44,9 +49,9 @@ namespace _Project.Scripts.Entities.UFO
             _ufos.Clear();
         }
 
-        private void OnEntityOutOfOuterBoundsDestroyed(EntityOutOfOuterBoundsDestroyedEvent @event)
+        private void OnEntityOutOfOuterBoundsDestroyed(Entity entity)
         {
-            if (@event.Entity is UFO ufo)
+            if (entity is UFO ufo)
             {
                 ufo.Died -= OnUfoDied;
                 _ufos.Remove(ufo);
@@ -69,7 +74,7 @@ namespace _Project.Scripts.Entities.UFO
             _ufos.Remove(ufo);
             _entitiesContainer.RemoveEntity(ufo);
 
-            _eventBus.Invoke(new EntityDestroyedEvent(ufo));
+            UfoDestroyed?.Invoke(ufo);
         }
     }
 }

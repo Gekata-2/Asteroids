@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73014f7654044360b9a882498cf06bdf, type: 3}
   m_Name: Asteroid Small Data
   m_EditorClassIdentifier: Assembly-CSharp::Asteroids.AsteroidData
-  score: 5
+  <Score>k__BackingField: 3
   <Prefab>k__BackingField: {fileID: 3958659243998892299, guid: 0854b320327c08d44b92ef4ebdf9d203, type: 3}
   <Speed>k__BackingField:
     <Min>k__BackingField: 2

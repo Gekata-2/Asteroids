@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
 using _Project.Scripts.Entities.Asteroids.Configs;
-using _Project.Scripts.Services.EventBus;
+using _Project.Scripts.Level.BoundsHandling;
 using ModestTree;
 using UnityEngine;
 using Zenject;
@@ -9,32 +10,34 @@ namespace _Project.Scripts.Entities.Asteroids
 {
     public class AsteroidsController : MonoBehaviour
     {
+        public event Action<Asteroid> AsteroidDestroyed;
+
         private AsteroidsSpawner _asteroidsSpawner;
         private EntitiesContainer _entitiesContainer;
-        private EventBus _eventBus;
 
         private readonly List<Asteroid> _asteroids = new();
 
+        private EntityOutOfBoundsController _entityOutOfBoundsController;
+
         [Inject]
         private void Construct(AsteroidsSpawner asteroidsSpawner, EntitiesContainer entitiesContainer,
-            EventBus eventBus)
+            EntityOutOfBoundsController entityOutOfBoundsController)
         {
             _asteroidsSpawner = asteroidsSpawner;
             _entitiesContainer = entitiesContainer;
-            _eventBus = eventBus;
+            _entityOutOfBoundsController = entityOutOfBoundsController;
         }
 
         private void Start()
         {
             _asteroidsSpawner.AsteroidSpawned += OnAsteroidSpawned;
-            _eventBus.Subscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
             _asteroidsSpawner.StartSpawning();
+            _entityOutOfBoundsController.EntityOutOfOuterBoundsDestroyed += OnEntityOutOfOuterBoundsDestroyed;
         }
 
         private void OnDestroy()
         {
             _asteroidsSpawner.AsteroidSpawned -= OnAsteroidSpawned;
-            _eventBus.Unsubscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
 
             foreach (Asteroid asteroid in _asteroids)
                 UnsubscribeFromAsteroid(asteroid);
@@ -42,9 +45,9 @@ namespace _Project.Scripts.Entities.Asteroids
             _asteroids.Clear();
         }
 
-        private void OnEntityOutOfOuterBoundsDestroyed(EntityOutOfOuterBoundsDestroyedEvent @event)
+        private void OnEntityOutOfOuterBoundsDestroyed(Entity entity)
         {
-            if (@event.Entity is Asteroid asteroid)
+            if (entity is Asteroid asteroid)
             {
                 UnsubscribeFromAsteroid(asteroid);
                 _asteroids.Remove(asteroid);
@@ -95,7 +98,7 @@ namespace _Project.Scripts.Entities.Asteroids
 
             _asteroids.Remove(asteroid);
             _entitiesContainer.RemoveEntity(asteroid);
-            _eventBus.Invoke(new EntityDestroyedEvent(asteroid));
+            AsteroidDestroyed?.Invoke(asteroid);
         }
     }
 }

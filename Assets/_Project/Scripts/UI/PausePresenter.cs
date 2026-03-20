@@ -7,21 +7,21 @@ namespace _Project.Scripts.UI
 {
     public class PausePresenter : IInitializable, IDisposable
     {
-        private readonly PauseService _pauseService;
+        private readonly PauseInputHandler _pauseInput;
         private readonly PauseWindow _view;
         private readonly UIManager _uiManager;
 
-        public PausePresenter(PauseService pauseService, PauseWindow view, UIManager uiManager)
+        public PausePresenter(PauseWindow view, UIManager uiManager, PauseInputHandler pauseInput)
         {
-            _pauseService = pauseService;
             _view = view;
             _uiManager = uiManager;
+            _pauseInput = pauseInput;
         }
 
         public void Initialize()
         {
-            _pauseService.GamePaused += OnGamePaused;
-            _pauseService.GameResumed += OnGameResumed;
+            _pauseInput.GamePaused += OnGamePaused;
+            _pauseInput.GameResumed += OnGameResumed;
         }
 
         private void OnGamePaused()
@@ -41,8 +41,8 @@ namespace _Project.Scripts.UI
 
         public void Dispose()
         {
-            _pauseService.GamePaused -= OnGamePaused;
-            _pauseService.GameResumed -= OnGameResumed;
+            _pauseInput.GamePaused -= OnGamePaused;
+            _pauseInput.GameResumed -= OnGameResumed;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using _Project.Scripts.Entities.Spawner;
+using _Project.Scripts.Entities.UFO.Configs;
 using _Project.Scripts.Services;
 using UnityEngine;
 using Zenject;
@@ -14,7 +15,7 @@ namespace _Project.Scripts.Entities.UFO
         [SerializeField] private Transform container;
         [SerializeField] private bool drawGizmos;
 
-        private UfoData _ufoData;
+        private UfoConfig _ufoConfig;
         private SimpleSpawnerConfig _spawnerConfig;
 
         private float _timer;
@@ -22,10 +23,10 @@ namespace _Project.Scripts.Entities.UFO
         private ISpawnPositionPicker _spawnPositionPicker;
 
         [Inject]
-        private void Construct(UfoData ufoData, SimpleSpawnerConfig spawnerConfig,
+        private void Construct(UfoConfig ufoConfig, SimpleSpawnerConfig spawnerConfig,
             ISpawnPositionPicker spawnPositionPicker)
         {
-            _ufoData = ufoData;
+            _ufoConfig = ufoConfig;
             _spawnerConfig = spawnerConfig;
             _spawnPositionPicker = spawnPositionPicker;
         }
@@ -33,7 +34,6 @@ namespace _Project.Scripts.Entities.UFO
         private void Start()
         {
             _timer = float.MaxValue;
-            //   _spawnPositionPicker = new RandomOuterSquarePositionPicker(_spawnerConfig.SpawnPositionSideLenght);
         }
 
         private void Update()
@@ -52,16 +52,15 @@ namespace _Project.Scripts.Entities.UFO
 
         private void SpawnUFO()
         {
-            UFO ufo = Instantiate(_ufoData.Prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
+            UFO ufo = Instantiate(_ufoConfig.Prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
             ufo.transform.parent = container;
-            ufo.InitializeData(_ufoData);
-
+            ufo.Initialize(_ufoConfig);
+            
             UFOSpawned?.Invoke(ufo);
         }
 
         private float GetNextTimer()
             => Random.Range(_spawnerConfig.MinInterval, _spawnerConfig.MaxInterval);
-
 
         public void Pause()
         {

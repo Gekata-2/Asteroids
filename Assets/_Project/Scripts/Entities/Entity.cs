@@ -5,10 +5,10 @@ namespace _Project.Scripts.Entities
 {
     public abstract class Entity : MonoBehaviour, IPausable
     {
-        public EntityData Data { get; private set; }
+        public EntityConfig Data { get; private set; }
         public bool HasEnteredLevel { get; private set; } = false;
 
-        public virtual void InitializeData(EntityData entityData)
+        public void InitializeData(EntityConfig entityData)
         {
             if (Data == null) 
                 Data = entityData;

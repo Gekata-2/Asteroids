@@ -23,8 +23,8 @@ namespace _Project.Scripts.Installers
             Container.Bind<PlayerConfig>().FromScriptableObject(playerConfig).AsSingle();
             Container.Bind<PlayerWeaponsConfig>().FromScriptableObject(weaponsConfig).AsSingle();
 
-            Container.Bind<PlayerInputActionMap>().FromNew().AsSingle();
-            Container.Bind<IInput>().To<InputHandler>().FromNew().AsSingle();
+            Container.Bind<PlayerInputActionMap>().AsSingle();
+            Container.Bind<IInput>().To<InputHandler>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<PlayerStatePresenter>().FromNew().AsSingle();
             Container.BindInterfacesAndSelfTo<PlayerScorePresenter>().FromNew().AsSingle();

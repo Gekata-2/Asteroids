@@ -1,6 +1,7 @@
 ﻿using System;
 using _Project.Scripts.EnemyAI.StateMachine;
 using _Project.Scripts.EnemyAI.StateMachine.States;
+using _Project.Scripts.Entities.UFO.Configs;
 using _Project.Scripts.Player;
 using _Project.Scripts.Player.Weapons.Laser;
 using _Project.Scripts.Player.Weapons.MachineGun;
@@ -22,13 +23,19 @@ namespace _Project.Scripts.Entities.UFO
         private bool _hasBeenHitByBullet;
         private bool _hasBeenSweepedByLaser;
 
+        public float Speed { get; private set; }
+        public float SteeringSpeed { get; private set; }
+
         public float Rotation { get; private set; }
         public Vector2 Position => Rigidbody.position;
         public Vector2 Up => transform.up;
 
-        public override void InitializeData(EntityData entityData)
+
+        public void Initialize(UfoConfig ufoConfig)
         {
-            base.InitializeData(entityData);
+            InitializeData(ufoConfig);
+            Speed = ufoConfig.Movement.Speed;
+            SteeringSpeed = ufoConfig.Movement.SteeringSpeed;
             _initialized = true;
         }
 

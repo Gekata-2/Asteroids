@@ -7,6 +7,9 @@ namespace _Project.Scripts.UI
 {
     public class PauseInputHandler : IInitializable, IDisposable
     {
+        public event Action GamePaused;
+        public event Action GameResumed;
+
         private readonly IInput _input;
         private readonly PauseService _pauseService;
 
@@ -26,8 +29,9 @@ namespace _Project.Scripts.UI
         {
             if (_pauseService.IsGamePaused)
                 return;
-            
+
             _pauseService.PerformPause();
+            GamePaused?.Invoke();
         }
 
         private void OnUICancelPerformed()
@@ -36,6 +40,7 @@ namespace _Project.Scripts.UI
                 return;
 
             _pauseService.PerformResume();
+            GameResumed?.Invoke();
         }
 
         public void Dispose()

@@ -29,7 +29,8 @@ namespace _Project.Scripts.Installers
             Container.Bind<PauseWindow>().FromComponentInNewPrefab(pauseWindowPrefab).AsSingle().NonLazy();
             Container.Bind<GameOverWindow>().FromComponentInNewPrefab(gameOverWindowPrefab).AsSingle().NonLazy();
 
-            Container.Bind<GameSessionModel>().FromNew().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameSessionModel>().FromNew().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameOverPresenter>().FromNew().AsSingle();
         }
     }
 }

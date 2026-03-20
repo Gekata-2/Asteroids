@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Entities.Spawner;
 using _Project.Scripts.Level.BoundsHandling;
 using _Project.Scripts.Services;
@@ -19,8 +20,8 @@ namespace _Project.Scripts.Entities.Asteroids
 
         private AsteroidsConfig _asteroidsConfig;
         private SimpleSpawnerConfig _spawnerConfig;
-        private ISpawnPositionPicker _spawnPositionPicker;
         private LevelBounds _levelBounds;
+        private ISpawnPositionPicker _spawnPositionPicker;
 
         private float _timer;
         private bool _isActive;
@@ -56,45 +57,52 @@ namespace _Project.Scripts.Entities.Asteroids
 
         private void SpawnAsteroid()
         {
-            AsteroidData asteroidData = _asteroidsConfig.Chain.First().Data;
+            AsteroidConfig asteroidConfig = _asteroidsConfig.Chain.First().Config;
             Vector2 spawnPosition = _spawnPositionPicker.GetNextPosition();
-            Asteroid asteroid = Instantiate(asteroidData.Prefab, spawnPosition, Quaternion.identity);
+            Asteroid asteroid = Instantiate(asteroidConfig.Prefab, spawnPosition, Quaternion.identity);
 
-            Queue<AsteroidsSplitData> splitChain = new(_asteroidsConfig.Chain);
+            Queue<AsteroidsSplitConfig> splitChain = new(_asteroidsConfig.Chain);
             splitChain.Dequeue();
 
             asteroid.transform.parent = asteroidsContainer;
-            asteroid.InitializeData(asteroidData);
-            asteroid.InitializeBehaviour(GetAsteroidSpeed(asteroidData.Speed), GetAsteroidInitialDirection(spawnPosition),
-                splitChain);
-            asteroid.AddTorque(GetAsteroidTorque(asteroidData.Torque));
+            asteroid.Initialize(
+                new AsteroidsInitializationData(
+                    GetAsteroidSpeed(asteroidConfig.Speed),
+                    GetAsteroidInitialDirection(spawnPosition),
+                    GetAsteroidTorque(asteroidConfig.Torque),
+                    splitChain,
+                    asteroidConfig));
+            
             AsteroidSpawned?.Invoke(asteroid);
         }
 
         private float GetNextTimer()
             => Random.Range(_spawnerConfig.MinInterval, _spawnerConfig.MaxInterval);
 
-        public void SpawnAsteroidsFromPosition(Queue<AsteroidsSplitData> asteroidsChainRemainder, Vector3 position)
+        public void SpawnAsteroidsFromPosition(Queue<AsteroidsSplitConfig> asteroidsChainRemainder, Vector3 position)
         {
-            AsteroidsSplitData split = asteroidsChainRemainder.Peek();
-            AsteroidData asteroidData = split.Data;
-           
+            AsteroidsSplitConfig split = asteroidsChainRemainder.Peek();
+            AsteroidConfig asteroidConfig = split.Config;
+
             int newAsteroidsCount = Random.Range(split.MinNewAsteroids, split.MaxNewAsteroids + 1);
-            
+
             for (int i = 0; i < newAsteroidsCount; i++)
             {
-                Asteroid asteroid = Instantiate(asteroidData.Prefab, position, Quaternion.identity);
-                asteroid.InitializeData(asteroidData);
-                asteroid.InitializeBehaviour(GetAsteroidSpeed(asteroidData.Speed), GetAsteroidRandomDirection(),
-                    asteroidsChainRemainder);
+                Asteroid asteroid = Instantiate(asteroidConfig.Prefab, position, Quaternion.identity);
+                asteroid.Initialize(
+                    new AsteroidsInitializationData(
+                        GetAsteroidSpeed(asteroidConfig.Speed),
+                        GetAsteroidRandomDirection(),
+                        GetAsteroidTorque(asteroidConfig.Torque),
+                        asteroidsChainRemainder,
+                        asteroidConfig));
                 asteroid.transform.localScale = Vector3.one * split.Size;
-                asteroid.AddTorque(GetAsteroidTorque(asteroidData.Torque));
                 AsteroidSpawned?.Invoke(asteroid);
             }
         }
 
-        private float GetAsteroidSpeed(AsteroidData.AsteroidSpeedData speedData) =>
-            Random.Range(speedData.Min, speedData.Max);
+        private float GetAsteroidSpeed(AsteroidSpeedConfig speedConfig) =>
+            Random.Range(speedConfig.Min, speedConfig.Max);
 
         private Vector2 GetAsteroidRandomDirection()
             => Random.insideUnitCircle.normalized;
@@ -108,8 +116,8 @@ namespace _Project.Scripts.Entities.Asteroids
             return (positionInsideLevelBounds - spawnPosition).normalized;
         }
 
-        private float GetAsteroidTorque(AsteroidData.AsteroidTorqueData torqueData)
-            => Random.Range(torqueData.Min, torqueData.Max);
+        private float GetAsteroidTorque(AsteroidTorqueConfig torqueConfig)
+            => Random.Range(torqueConfig.Min, torqueConfig.Max);
 
 
         public void Pause()
@@ -130,7 +138,7 @@ namespace _Project.Scripts.Entities.Asteroids
 
         private void OnDrawGizmos()
         {
-            if (drawGizmos) 
+            if (drawGizmos)
                 _spawnPositionPicker?.DrawGizmos();
         }
     }

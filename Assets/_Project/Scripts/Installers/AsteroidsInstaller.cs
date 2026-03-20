@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Entities.Asteroids;
+using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Entities.Spawner;
 using UnityEngine;
 using Zenject;

@@ -8,10 +8,11 @@ namespace _Project.Scripts.Entities.UFO
     public class UfosController : MonoBehaviour
     {
         private UfosSpawner _ufosSpawner;
-        private List<UFO> _ufos;
         private EntitiesContainer _entitiesContainer;
         private EventBus _eventBus;
         private IEnemyTargetable _ufosTarget;
+        
+        private readonly List<UFO> _ufos = new();
 
         [Inject]
         public void Construct(UfosSpawner ufosSpawner, EntitiesContainer entitiesContainer, EventBus eventBus)
@@ -24,10 +25,6 @@ namespace _Project.Scripts.Entities.UFO
         public void SetTarget(IEnemyTargetable target)
             => _ufosTarget = target;
 
-        private void Awake()
-        {
-            _ufos = new List<UFO>();
-        }
 
         private void Start()
         {
@@ -40,7 +37,7 @@ namespace _Project.Scripts.Entities.UFO
         {
             _ufosSpawner.UFOSpawned -= OnUFOSpawned;
             _eventBus.Unsubscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
-          
+
             foreach (UFO ufo in _ufos)
                 ufo.Died -= OnUfoDied;
 

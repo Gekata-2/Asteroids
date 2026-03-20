@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Services.EventBus;
 using ModestTree;
 using UnityEngine;
@@ -11,8 +12,8 @@ namespace _Project.Scripts.Entities.Asteroids
         private AsteroidsSpawner _asteroidsSpawner;
         private EntitiesContainer _entitiesContainer;
         private EventBus _eventBus;
-        
-        private List<Asteroid> _asteroids;
+
+        private readonly List<Asteroid> _asteroids = new();
 
         [Inject]
         private void Construct(AsteroidsSpawner asteroidsSpawner, EntitiesContainer entitiesContainer,
@@ -21,11 +22,6 @@ namespace _Project.Scripts.Entities.Asteroids
             _asteroidsSpawner = asteroidsSpawner;
             _entitiesContainer = entitiesContainer;
             _eventBus = eventBus;
-        }
-
-        private void Awake()
-        {
-            _asteroids = new List<Asteroid>();
         }
 
         private void Start()
@@ -39,7 +35,7 @@ namespace _Project.Scripts.Entities.Asteroids
         {
             _asteroidsSpawner.AsteroidSpawned -= OnAsteroidSpawned;
             _eventBus.Unsubscribe<EntityOutOfOuterBoundsDestroyedEvent>(OnEntityOutOfOuterBoundsDestroyed);
-            
+
             foreach (Asteroid asteroid in _asteroids)
                 UnsubscribeFromAsteroid(asteroid);
 
@@ -78,12 +74,12 @@ namespace _Project.Scripts.Entities.Asteroids
         {
             UnsubscribeFromAsteroid(asteroid);
 
-            Queue<AsteroidsSplitData> chain = asteroid.SplitChain;
+            Queue<AsteroidsSplitConfig> chain = asteroid.SplitChain;
             DestroyAsteroid(asteroid);
 
             if (chain.IsEmpty())
                 return;
-            
+
             _asteroidsSpawner.SpawnAsteroidsFromPosition(chain, asteroid.transform.position);
             chain.Dequeue();
         }
@@ -96,7 +92,7 @@ namespace _Project.Scripts.Entities.Asteroids
         private void DestroyAsteroid(Asteroid asteroid)
         {
             asteroid.Die();
-            
+
             _asteroids.Remove(asteroid);
             _entitiesContainer.RemoveEntity(asteroid);
             _eventBus.Invoke(new EntityDestroyedEvent(asteroid));

@@ -13,10 +13,8 @@ namespace _Project.Scripts.EnemyAI.StateMachine
         public void Update()
         {
             ITransition transition = GetTransition();
-            if (transition != null) 
+            if (transition != null)
                 ChangeState(transition.To);
-
-            _current.State?.Update();
         }
 
         public void FixedUpdate()
@@ -39,7 +37,6 @@ namespace _Project.Scripts.EnemyAI.StateMachine
             IState previousState = _current.State;
             IState nextState = _nodes[state.GetType()].State;
 
-            previousState?.OnExit();
             nextState.OnEnter();
             Debug.Log(
                 $"Changed State: [<color=red>{previousState?.GetName()}</color>] => [<color=green>{nextState.GetName()}</color>]");

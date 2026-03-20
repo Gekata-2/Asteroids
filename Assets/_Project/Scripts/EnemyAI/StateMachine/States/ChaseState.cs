@@ -6,7 +6,7 @@ namespace _Project.Scripts.EnemyAI.StateMachine.States
     public class ChaseState : BaseState
     {
         private readonly IEnemyTargetable _player;
-        private UfoData.MovementData _data;
+
 
         public ChaseState(IEnemyTargetable player, UFO enemy) : base(enemy, "Chase")
         {
@@ -15,7 +15,6 @@ namespace _Project.Scripts.EnemyAI.StateMachine.States
 
         public override void OnEnter()
         {
-            _data = (_enemy.Data as UfoData)?.Movement;
             _enemy.SetRotation(GetDesiredRotation());
         }
 
@@ -24,8 +23,8 @@ namespace _Project.Scripts.EnemyAI.StateMachine.States
             float desiredRotation = GetDesiredRotation();
 
             _enemy.SetRotation(Mathf.MoveTowardsAngle(_enemy.Rotation, desiredRotation,
-                _data.SteeringSpeed * Time.fixedDeltaTime));
-            _enemy.SetVelocity(_enemy.Up * _data.Speed);
+                _enemy.SteeringSpeed * Time.fixedDeltaTime));
+            _enemy.SetVelocity(_enemy.Up * _enemy.Speed);
         }
 
         private float GetDesiredRotation()

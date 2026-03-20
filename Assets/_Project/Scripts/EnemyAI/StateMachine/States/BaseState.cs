@@ -12,23 +12,12 @@ namespace _Project.Scripts.EnemyAI.StateMachine.States
             _enemy = enemy;
             Name = name;
         }
-
-        public string GetName()
-            => Name;
-
-        public virtual void Update()
-        {
-        }
-
+        
         public virtual void FixedUpdate()
         {
         }
 
         public virtual void OnEnter()
-        {
-        }
-
-        public virtual void OnExit()
         {
         }
     }

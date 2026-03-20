@@ -469,7 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d89d8c0c6b441ea0318cc8e6c40c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.UFOsInstaller
-  ufoData: {fileID: 11400000, guid: 064801225bef42d458a30b479c78588b, type: 2}
+  ufoConfig: {fileID: 11400000, guid: 064801225bef42d458a30b479c78588b, type: 2}
   spawnerConfig: {fileID: 11400000, guid: bffdeb19e9b23a34dbccc6e75e436849, type: 2}
 --- !u!1 &667685350
 GameObject:

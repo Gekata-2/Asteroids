@@ -1,19 +1,12 @@
-﻿using _Project.Scripts.Entities.UFO;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Project.Scripts.Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class EnemyTarget : MonoBehaviour, IEnemyTargetable
+    public class EnemyTarget : MonoBehaviour
     {
-        private Rigidbody2D _rb;
-
-        private void Awake()
-        {
-            _rb = GetComponent<Rigidbody2D>();
-        }
-
+        // TODO
         public Vector2 Position
-            => _rb.position;
+            => transform.position;
     }
 }

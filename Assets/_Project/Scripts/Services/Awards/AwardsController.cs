@@ -12,19 +12,20 @@ namespace _Project.Scripts.Services.Awards
         private readonly GameSessionModel _playerModel;
         private readonly TimeService _timeService;
 
+        // TODO
         private IAwardGiver<Entity> _entityDestroyedAwardGiver;
         private IAwardGiver<TimeLivedEvent> _timeLivedAwardGiver;
-        private readonly GameSettings _gameSettings;
+        private readonly ScoreConfig _scoreConfig;
         private readonly UfosController _ufosController;
         private readonly AsteroidsController _asteroidsController;
 
         public AwardsController(GameSessionModel playerModel,
-            TimeService timeService, GameSettings gameSettings
+            TimeService timeService, ScoreConfig scoreConfig
             , UfosController ufosController, AsteroidsController asteroidsController)
         {
             _playerModel = playerModel;
             _timeService = timeService;
-            _gameSettings = gameSettings;
+            _scoreConfig = scoreConfig;
             _ufosController = ufosController;
             _asteroidsController = asteroidsController;
         }
@@ -32,7 +33,7 @@ namespace _Project.Scripts.Services.Awards
         public void Initialize()
         {
             _entityDestroyedAwardGiver = new EntityDestroyedAwardGiver(_playerModel);
-            _timeLivedAwardGiver = new TimeLivedAwardGiver(_playerModel, _gameSettings.AliveDurationScore);
+            _timeLivedAwardGiver = new TimeLivedAwardGiver(_playerModel, _scoreConfig.AliveDurationScore);
 
             _ufosController.UfoDestroyed += OnUfoDestroyed;
             _asteroidsController.AsteroidDestroyed += OnAsteroidDestroyed;

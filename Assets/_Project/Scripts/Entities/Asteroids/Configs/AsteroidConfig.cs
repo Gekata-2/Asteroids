@@ -2,7 +2,7 @@
 
 namespace _Project.Scripts.Entities.Asteroids.Configs
 {
-    [CreateAssetMenu(menuName = "Scriptable Objects/Create Asteroid Data", fileName = "Asteroid Data", order = 0)]
+    [CreateAssetMenu(menuName = "Scriptable Objects/Create Asteroid Config", fileName = "Asteroid Config", order = 0)]
     public class AsteroidConfig : EntityConfig
     {
         [field: SerializeField] public Asteroid Prefab { get; private set; }

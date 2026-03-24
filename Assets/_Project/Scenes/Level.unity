@@ -662,7 +662,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &993495623
 Transform:
   m_ObjectHideFlags: 0
@@ -1135,7 +1135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43e9489a9b4b2354c9c6d5a1e2baa39b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  gameSettings: {fileID: 11400000, guid: 4f8b00a7ba3772b419bcf9f83bafa472, type: 2}
+  scoreConfig: {fileID: 11400000, guid: 4f8b00a7ba3772b419bcf9f83bafa472, type: 2}
   gameOverWindowPrefab: {fileID: 2279743988569126690, guid: 358510561d51bff4888ca6f2c6893943, type: 3}
   pauseWindowPrefab: {fileID: 5592300926124235036, guid: 233698637be01a745b2fe4a4081a3e0d, type: 3}
 --- !u!4 &1815354542

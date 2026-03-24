@@ -28,10 +28,13 @@ namespace _Project.Scripts.Services
 
         [Inject]
         private void Construct(DiContainer diContainer, IInput inputHandler,
-            EntitiesContainer entitiesContainer, PlayerStatePresenter playerStatePresenter,
+            EntitiesContainer entitiesContainer,
+            PlayerStatePresenter playerStatePresenter,
             AsteroidsSpawner asteroidsSpawner,
-           CursorService cursorService,
-            UfosSpawner ufosSpawner, UfosController ufosController, GameSessionModel gameSessionModel,
+            CursorService cursorService,
+            UfosSpawner ufosSpawner,
+            UfosController ufosController,
+            GameSessionModel gameSessionModel,
             PauseService pauseService = null)
         {
             _di = diContainer;
@@ -59,7 +62,7 @@ namespace _Project.Scripts.Services
             _pauseService?.AddItem(_asteroidsSpawner);
             _pauseService?.AddItem(_ufosSpawner);
 
-            _ufosController.SetTarget(player.GetComponent<IEnemyTargetable>());
+            _ufosController.SetTarget(player.GetComponent<EnemyTarget>());
             _gameSessionModel.SetPlayer(player.GetComponent<PlayerHealth>());
         }
 

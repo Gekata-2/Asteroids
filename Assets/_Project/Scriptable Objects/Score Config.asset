@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e44e0c47ce64044897addb508115818, type: 3}
-  m_Name: Game Settings
+  m_Name: Score Config
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Services.Awards.GameSettings
   <AliveDurationScore>k__BackingField:
     <TimeInterval>k__BackingField: 1

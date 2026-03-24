@@ -21,6 +21,7 @@ namespace _Project.Scripts.Installers
                 .WhenInjectedInto<AsteroidsSpawner>();
 
 
+            // TODO
             Container.Bind<ISpawnPositionPicker>()
                 .To<RectangleSideSpawnPositionPicker>()
                 .FromInstance(new RectangleSideSpawnPositionPicker(spawnerConfig.SpawnPositionSize,

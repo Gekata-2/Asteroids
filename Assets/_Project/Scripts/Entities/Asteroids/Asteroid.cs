@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 namespace _Project.Scripts.Entities.Asteroids
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Asteroid : PhysicalEntity, IDamageble
+    public class Asteroid : Entity, IDamageble
     {
         public event Action<Asteroid> Destroyed;
         public event Action<List<Asteroid>> CreatedDebris;

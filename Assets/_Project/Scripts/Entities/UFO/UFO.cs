@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Entities.UFO
 {
-    public class UFO : PhysicalEntity, IDamageble
+    public class UFO : Entity, IDamageble
     {
         public event Action<UFO> Died;
 
@@ -17,12 +17,12 @@ namespace _Project.Scripts.Entities.UFO
 
         private bool _isActive;
         private bool _initialized;
-
-        private IEnemyTargetable _target;
-
+        
         private bool _hasBeenHitByBullet;
         private bool _hasBeenSweepedByLaser;
 
+        private EnemyTarget _target;
+        
         public float Speed { get; private set; }
         public float SteeringSpeed { get; private set; }
 
@@ -31,7 +31,7 @@ namespace _Project.Scripts.Entities.UFO
         public Vector2 Up => transform.up;
 
 
-        public void Initialize(UfoConfig ufoConfig, IEnemyTargetable target)
+        public void Initialize(UfoConfig ufoConfig, EnemyTarget target)
         {
             InitializeData(ufoConfig);
             Speed = ufoConfig.Movement.Speed;
@@ -43,14 +43,12 @@ namespace _Project.Scripts.Entities.UFO
         private void Start()
         {
             _stateMachine = new StateMachine();
-            IdleState idleState = new IdleState(this);
-            ChaseState chaseState = new ChaseState(_target, this);
-            DieState dieState = new DieState(this);
-            DestroyState destroyState = new DestroyState(this);
+            IdleState idleState = new(this);
+            ChaseState chaseState = new(_target, this);
+            DieState dieState = new(this);
 
             _stateMachine.AddTransition(idleState, chaseState, new FuncPredicate(() => _initialized));
-            _stateMachine.AddAnyTransition(dieState, new FuncPredicate(() => _hasBeenHitByBullet));
-            _stateMachine.AddAnyTransition(destroyState, new FuncPredicate(() => _hasBeenSweepedByLaser));
+            _stateMachine.AddAnyTransition(dieState, new FuncPredicate(() => _hasBeenHitByBullet || _hasBeenSweepedByLaser));
             _stateMachine.SetState(idleState);
 
             _isActive = true;

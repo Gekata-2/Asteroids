@@ -11,13 +11,13 @@ namespace _Project.Scripts.Installers
 {
     public class LevelInstaller : MonoInstaller
     {
-        [SerializeField] private GameSettings gameSettings;
+        [SerializeField] private ScoreConfig scoreConfig;
         [SerializeField] private GameOverWindow gameOverWindowPrefab;
         [SerializeField] private PauseWindow pauseWindowPrefab;
 
         public override void InstallBindings()
         {
-            Container.Bind<GameSettings>().FromScriptableObject(gameSettings).AsSingle();
+            Container.Bind<ScoreConfig>().FromScriptableObject(scoreConfig).AsSingle();
 
             Container.BindInterfacesAndSelfTo<EntitiesContainer>().FromNew().AsSingle();
             Container.Bind<LevelBounds>().FromComponentInHierarchy().AsSingle();

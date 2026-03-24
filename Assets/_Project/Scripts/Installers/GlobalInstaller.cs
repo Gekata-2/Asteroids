@@ -10,6 +10,7 @@ namespace _Project.Scripts.Installers
         
         public override void InstallBindings()
         {
+            // TODO
             Container.Bind<ScenesData>().FromScriptableObject(scenesData).AsSingle();
             Container.Bind<SceneLoader>().FromNew().AsSingle();
         }

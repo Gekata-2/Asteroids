@@ -3,23 +3,44 @@ using UnityEngine;
 
 namespace _Project.Scripts.Entities
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public abstract class Entity : MonoBehaviour, IPausable
     {
+        // TODO
         public EntityConfig Data { get; private set; }
-        public bool HasEnteredLevel { get; private set; } = false;
+        private RigidBody2DTeleporter _teleporter;
+        protected Rigidbody2D Rigidbody;
+
+        private void Awake()
+        {
+            Rigidbody = GetComponent<Rigidbody2D>();
+        }
+
+        public  void SetPosition(Vector3 position)
+        {
+            if (_teleporter != null)
+                return;
+
+            _teleporter = new RigidBody2DTeleporter(position, Rigidbody);
+        }
+
+        protected void HandlePositionChanger()
+        {
+            if (_teleporter == null)
+                return;
+
+            _teleporter.PerformNext();
+            if (_teleporter.IsFinished)
+                _teleporter = null;
+        }
 
         public void InitializeData(EntityConfig entityData)
         {
-            if (Data == null) 
+            if (Data == null)
                 Data = entityData;
         }
         
-        public abstract void SetPosition(Vector3 position);
-        
         public abstract void Pause();
         public abstract void Resume();
-        
-        public void MarkEnteredLevel() 
-            => HasEnteredLevel = true;
     }
 }

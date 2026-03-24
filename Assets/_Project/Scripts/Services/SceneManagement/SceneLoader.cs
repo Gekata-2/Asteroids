@@ -1,28 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace _Project.Scripts.Services.SceneManagement
 {
-    public class SceneLoader 
+    public class SceneLoader
     {
-        private readonly ScenesData _scenesData;
-
-        public SceneLoader(ScenesData scenesData)
-        {
-            _scenesData = scenesData;
-        }
+        private readonly Dictionary<Scenes, string> _scenesNames = new() { { Scenes.Level, "Level" } };
         
-        public void LoadScene(Scenes scene)
+        private void LoadScene(Scenes scene)
         {
-            string sceneName = _scenesData.GetScene(scene);
+            string sceneName = GetScene(scene);
             if (sceneName != null)
                 SceneManager.LoadScene(sceneName);
             else
                 Debug.LogException(new ArgumentException($"No scene by key \"{scene}\" exists"));
         }
 
-        public void ReloadCurrentScene()
-            => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        private string GetScene(Scenes scene) =>
+            _scenesNames.TryGetValue(scene, out string sceneName) ? sceneName : null;
+
+        public void LoadLevelScene()
+            => LoadScene(Scenes.Level);
     }
 }

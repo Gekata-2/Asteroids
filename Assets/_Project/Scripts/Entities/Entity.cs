@@ -6,17 +6,22 @@ namespace _Project.Scripts.Entities
     [RequireComponent(typeof(Rigidbody2D))]
     public abstract class Entity : MonoBehaviour, IPausable
     {
-        // TODO
-        public EntityConfig Data { get; private set; }
         private RigidBody2DTeleporter _teleporter;
         protected Rigidbody2D Rigidbody;
+
+        public int Score { get; private set; }
 
         private void Awake()
         {
             Rigidbody = GetComponent<Rigidbody2D>();
         }
 
-        public  void SetPosition(Vector3 position)
+        public void InitializeData(EntityConfig entityData)
+        {
+            Score = entityData.Score;
+        }
+
+        public void SetPosition(Vector3 position)
         {
             if (_teleporter != null)
                 return;
@@ -34,12 +39,6 @@ namespace _Project.Scripts.Entities
                 _teleporter = null;
         }
 
-        public void InitializeData(EntityConfig entityData)
-        {
-            if (Data == null)
-                Data = entityData;
-        }
-        
         public abstract void Pause();
         public abstract void Resume();
     }

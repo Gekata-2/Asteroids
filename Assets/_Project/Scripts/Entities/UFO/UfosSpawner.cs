@@ -10,22 +10,25 @@ namespace _Project.Scripts.Entities.UFO
 {
     public class UfosSpawner : MonoBehaviour, IPausable
     {
+        private const string CONTAINER_NAME = "UFO container";
+
         public event Action<UFO> UFOSpawned;
 
-        [SerializeField] private Transform container;
+
         [SerializeField] private bool drawGizmos;
 
         private UfoConfig _ufoConfig;
         private SimpleSpawnerConfig _spawnerConfig;
         private UFO _prefab;
+        private RectangleSideSpawnPositionPicker _spawnPositionPicker;
 
         private float _timer;
         private bool _isActive;
-        private ISpawnPositionPicker _spawnPositionPicker;
+        private GameObject _container;
 
         [Inject]
         private void Construct(UfoConfig ufoConfig, SimpleSpawnerConfig spawnerConfig,
-            ISpawnPositionPicker spawnPositionPicker)
+            RectangleSideSpawnPositionPicker spawnPositionPicker)
         {
             _prefab = ufoConfig.Prefab;
             _spawnerConfig = spawnerConfig;
@@ -35,6 +38,7 @@ namespace _Project.Scripts.Entities.UFO
         private void Start()
         {
             _timer = float.MaxValue;
+            _container = new GameObject(CONTAINER_NAME);
         }
 
         private void Update()
@@ -54,7 +58,7 @@ namespace _Project.Scripts.Entities.UFO
         private void SpawnUFO()
         {
             UFO ufo = Instantiate(_prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
-            ufo.transform.parent = container;
+            ufo.transform.parent = _container.transform;
 
             UFOSpawned?.Invoke(ufo);
         }

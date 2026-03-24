@@ -107,7 +107,7 @@ namespace _Project.Scripts.Level.GameSession
         {
             if (_uiManager.CurrentState == UIState.GameOver)
             {
-                _sceneLoader.ReloadCurrentScene();
+                _sceneLoader.LoadLevelScene();
             }
         }
 

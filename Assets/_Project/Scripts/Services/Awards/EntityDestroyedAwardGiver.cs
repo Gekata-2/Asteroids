@@ -12,7 +12,7 @@ namespace _Project.Scripts.Services.Awards
             _playerModel = playerModel;
         }
 
-        public void GiveAwardFor(Entity entity) 
-            => _playerModel.AddScore(entity.Data.Score);
+        public void GiveAwardFor(Entity entity)
+            => _playerModel.AddScore(entity.Score);
     }
 }

@@ -11,22 +11,22 @@ namespace _Project.Scripts.Entities.Asteroids
 {
     public class AsteroidsSpawner : MonoBehaviour, IPausable
     {
+        private const string CONTAINER_NAME = "Asteroids Container";
+
         public event Action<Asteroid> AsteroidSpawned;
-
-        [SerializeField] private Transform asteroidsContainer;
+  
         [SerializeField] private bool drawGizmos;
-
-
+        
         private SimpleSpawnerConfig _spawnerConfig;
-        private ISpawnPositionPicker _spawnPositionPicker;
+        private RectangleSideSpawnPositionPicker _spawnPositionPicker;
         private Asteroid _prefab;
-
+        private GameObject _container;
         private float _timer;
         private bool _isActive;
 
         [Inject]
         private void Construct(AsteroidsConfig asteroidsConfig, SimpleSpawnerConfig spawnerConfig,
-            ISpawnPositionPicker spawnPositionPicker)
+            RectangleSideSpawnPositionPicker spawnPositionPicker)
         {
             _spawnerConfig = spawnerConfig;
             _spawnPositionPicker = spawnPositionPicker;
@@ -36,6 +36,7 @@ namespace _Project.Scripts.Entities.Asteroids
         private void Start()
         {
             _timer = float.MaxValue;
+            _container = new GameObject(CONTAINER_NAME);
         }
 
         private void Update()
@@ -55,7 +56,7 @@ namespace _Project.Scripts.Entities.Asteroids
         private void SpawnAsteroid()
         {
             Asteroid asteroid = Instantiate(_prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
-            asteroid.transform.parent = asteroidsContainer;
+            asteroid.transform.parent = _container.transform;
 
             AsteroidSpawned?.Invoke(asteroid);
         }

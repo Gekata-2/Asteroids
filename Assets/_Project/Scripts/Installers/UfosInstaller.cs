@@ -15,13 +15,12 @@ namespace _Project.Scripts.Installers
         {
             Container.Bind<UfoConfig>().FromScriptableObject(ufoConfig).AsSingle();
             Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig).WhenInjectedInto<UfosSpawner>();
-            
+
             Container.Bind<UfosSpawner>().FromComponentsInHierarchy().AsSingle();
             Container.Bind<UfosController>().FromComponentsInHierarchy().AsSingle();
 
-            Container.Bind<ISpawnPositionPicker>()
-                .To<RectangleSideSpawnPositionPicker>()
-                .FromInstance(new RectangleSideSpawnPositionPicker(spawnerConfig.SpawnPositionSize, spawnerConfig.GizmosColor))
+            Container.Bind<RectangleSideSpawnPositionPicker>()
+                .WithArguments(spawnerConfig.SpawnPositionSize, spawnerConfig.GizmosColor)
                 .WhenInjectedInto<UfosSpawner>();
         }
     }

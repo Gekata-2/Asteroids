@@ -298,13 +298,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 401577737}
+  - component: {fileID: 401577738}
   m_Layer: 0
   m_Name: AsteroidsSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &401577737
 Transform:
   m_ObjectHideFlags: 0
@@ -320,6 +321,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 151814266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &401577738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401577735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0157cc131e81bad4aa00a813fd3be00c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Entities.Asteroids.AsteroidsSpawner
+  asteroidsContainer: {fileID: 401577737}
+  drawGizmos: 1
 --- !u!1 &449118774
 GameObject:
   m_ObjectHideFlags: 0
@@ -955,8 +970,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0507d64a736145e4ba1631b6951960bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  asteroidsContainer: {fileID: 1529152371}
-  drawGizmos: 1
 --- !u!4 &1529152371
 Transform:
   m_ObjectHideFlags: 0

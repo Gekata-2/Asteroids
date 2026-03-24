@@ -1,36 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using _Project.Scripts.Entities;
 using UnityEngine;
-using Zenject;
 
 namespace _Project.Scripts.Level.BoundsHandling
 {
     public class LevelBounds : MonoBehaviour
     {
-        public event Action<List<Entity>> EntitiesOutOfBounds;
-        public event Action<List<Entity>> EntitiesOutOfOuterBounds;
-        public event Action<List<Entity>> EntitiesFirstTimeEnteredLevel;
-
         [SerializeField] private Vector2 size;
         [SerializeField] private Vector2 outerBoundsSize;
         [SerializeField] private float skinWidth = 0.15f;
         [SerializeField] private bool drawGizmos;
 
-        private EntitiesContainer _entitiesContainer;
         private Bounds _bounds;
         private Bounds _outerBounds;
 
         public Bounds Bounds => _bounds;
         public float SkinWidth => skinWidth;
-
-        [Inject]
-        private void Construct(EntitiesContainer entitiesContainer)
-        {
-            _entitiesContainer = entitiesContainer;
-        }
-
+        
         private void Start()
         {
             UpdateBounds();
@@ -47,44 +31,18 @@ namespace _Project.Scripts.Level.BoundsHandling
             _outerBounds = GetBounds(outerBoundsSize);
         }
 
-        private void FixedUpdate()
-        {
-            List<Entity> entitiesOutOfOuterBounds = FindEntitiesOutOfOuterBounds();
-            EntitiesOutOfOuterBounds?.Invoke(entitiesOutOfOuterBounds);
-
-            List<Entity> entitiesFirstEnteredLevel = FindEntitiesFirstEnteredLevel();
-            EntitiesFirstTimeEnteredLevel?.Invoke(entitiesFirstEnteredLevel);
-
-            List<Entity> entities = FindEntitiesOutOfBounds();
-            EntitiesOutOfBounds?.Invoke(entities);
-        }
-
-        public bool IsOutsideOfBounds(Vector2 position) 
-            => !_bounds.Contains(position);
-        public bool IsOutsideOfOuterBounds(Vector2 position) 
-            => !_outerBounds.Contains(position);
-        public bool IsInsideLevel(Vector2 position)
-            => _bounds.Contains(position);
-
         private Bounds GetBounds(Vector2 boundsSize)
             => new(Vector3.zero, boundsSize);
 
-        private List<Entity> FindEntitiesOutOfBounds()
-            => _entitiesContainer.Entities.Where(entity => entity.HasEnteredLevel && IsEntityOutOfBounds(entity))
-                .ToList();
+        public bool IsOutsideOfBounds(Vector2 position)
+            => !_bounds.Contains(position);
 
-        private List<Entity> FindEntitiesOutOfOuterBounds()
-            => _entitiesContainer.Entities.Where(IsEntityOutOfOuterBounds).ToList();
+        public bool IsOutsideOfOuterBounds(Vector2 position)
+            => !_outerBounds.Contains(position);
 
-        private List<Entity> FindEntitiesFirstEnteredLevel() =>
-            _entitiesContainer.Entities.Where(entity => !entity.HasEnteredLevel && !IsEntityOutOfBounds(entity))
-                .ToList();
+        public bool IsInsideLevel(Vector2 position)
+            => _bounds.Contains(position);
 
-        private bool IsEntityOutOfBounds(Entity entity)
-            => !_bounds.Contains(entity.transform.position);
-
-        private bool IsEntityOutOfOuterBounds(Entity entity)
-            => !_outerBounds.Contains(entity.transform.position);
 
         private void OnDrawGizmos()
         {

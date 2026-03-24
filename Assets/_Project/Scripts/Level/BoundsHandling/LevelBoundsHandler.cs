@@ -30,20 +30,18 @@ namespace _Project.Scripts.Level.BoundsHandling
 
             if (!_hasEnteredLevel && _levelBounds.IsInsideLevel(position))
                 _hasEnteredLevel = true;
-            else
+
+            if (!_hasEnteredLevel)
                 return;
 
             if (_levelBounds.IsOutsideOfOuterBounds(position))
             {
-                HandleOutOfBounds();
-
+                HandleOutOfOuterBounds();
                 return;
             }
 
-            if (_levelBounds.IsOutsideOfBounds(position))
-            {
-                HandleOutOfOuterBounds();
-            }
+            if (_levelBounds.IsOutsideOfBounds(position)) 
+                HandleOutOfBounds();
         }
 
         private void HandleOutOfBounds()

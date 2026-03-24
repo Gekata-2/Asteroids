@@ -17,6 +17,7 @@ namespace _Project.Scripts.Entities.UFO
 
         private UfoConfig _ufoConfig;
         private SimpleSpawnerConfig _spawnerConfig;
+        private UFO _prefab;
 
         private float _timer;
         private bool _isActive;
@@ -26,7 +27,7 @@ namespace _Project.Scripts.Entities.UFO
         private void Construct(UfoConfig ufoConfig, SimpleSpawnerConfig spawnerConfig,
             ISpawnPositionPicker spawnPositionPicker)
         {
-            _ufoConfig = ufoConfig;
+            _prefab = ufoConfig.Prefab;
             _spawnerConfig = spawnerConfig;
             _spawnPositionPicker = spawnPositionPicker;
         }
@@ -52,10 +53,9 @@ namespace _Project.Scripts.Entities.UFO
 
         private void SpawnUFO()
         {
-            UFO ufo = Instantiate(_ufoConfig.Prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
+            UFO ufo = Instantiate(_prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
             ufo.transform.parent = container;
-            ufo.Initialize(_ufoConfig);
-            
+
             UFOSpawned?.Invoke(ufo);
         }
 

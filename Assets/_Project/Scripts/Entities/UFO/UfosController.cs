@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using _Project.Scripts.Level.BoundsHandling;
+using _Project.Scripts.Entities.UFO.Configs;
 using UnityEngine;
 using Zenject;
 
@@ -12,19 +12,18 @@ namespace _Project.Scripts.Entities.UFO
 
         private UfosSpawner _ufosSpawner;
         private EntitiesContainer _entitiesContainer;
+        private UfoConfig _ufoConfig;
 
         private IEnemyTargetable _ufosTarget;
 
         private readonly List<UFO> _ufos = new();
-        private EntityOutOfBoundsController _entityOutOfBoundsController;
 
         [Inject]
-        public void Construct(UfosSpawner ufosSpawner, EntitiesContainer entitiesContainer,
-            EntityOutOfBoundsController entityOutOfBoundsController)
+        public void Construct(UfosSpawner ufosSpawner, EntitiesContainer entitiesContainer, UfoConfig ufoConfig)
         {
             _ufosSpawner = ufosSpawner;
             _entitiesContainer = entitiesContainer;
-            _entityOutOfBoundsController = entityOutOfBoundsController;
+            _ufoConfig = ufoConfig;
         }
 
         public void SetTarget(IEnemyTargetable target)
@@ -34,33 +33,23 @@ namespace _Project.Scripts.Entities.UFO
         private void Start()
         {
             _ufosSpawner.UFOSpawned += OnUFOSpawned;
-            _entityOutOfBoundsController.EntityOutOfOuterBoundsDestroyed += OnEntityOutOfOuterBoundsDestroyed;
             _ufosSpawner.StartSpawning();
         }
 
         private void OnDestroy()
         {
             _ufosSpawner.UFOSpawned -= OnUFOSpawned;
-            _entityOutOfBoundsController.EntityOutOfOuterBoundsDestroyed -= OnEntityOutOfOuterBoundsDestroyed;
-
+            
             foreach (UFO ufo in _ufos)
                 ufo.Died -= OnUfoDied;
 
             _ufos.Clear();
         }
 
-        private void OnEntityOutOfOuterBoundsDestroyed(Entity entity)
-        {
-            if (entity is UFO ufo)
-            {
-                ufo.Died -= OnUfoDied;
-                _ufos.Remove(ufo);
-            }
-        }
-
         private void OnUFOSpawned(UFO ufo)
         {
-            ufo.SetTarget(_ufosTarget);
+            ufo.Initialize(_ufoConfig, _ufosTarget);
+
             ufo.Died += OnUfoDied;
 
             _ufos.Add(ufo);

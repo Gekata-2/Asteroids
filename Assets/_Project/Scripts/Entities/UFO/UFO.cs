@@ -31,11 +31,12 @@ namespace _Project.Scripts.Entities.UFO
         public Vector2 Up => transform.up;
 
 
-        public void Initialize(UfoConfig ufoConfig)
+        public void Initialize(UfoConfig ufoConfig, IEnemyTargetable target)
         {
             InitializeData(ufoConfig);
             Speed = ufoConfig.Movement.Speed;
             SteeringSpeed = ufoConfig.Movement.SteeringSpeed;
+            _target = target;
             _initialized = true;
         }
 
@@ -69,9 +70,6 @@ namespace _Project.Scripts.Entities.UFO
             HandlePositionChanger();
             _stateMachine.FixedUpdate();
         }
-
-        public void SetTarget(IEnemyTargetable target)
-            => _target = target;
 
         public void SetVelocity(Vector2 velocity)
             => Rigidbody.linearVelocity = velocity;

@@ -20,4 +20,4 @@ MonoBehaviour:
   - <Config>k__BackingField: {fileID: 11400000, guid: 5070d509a9fa90f4da57df3f293fefa3, type: 2}
     <MinNewAsteroids>k__BackingField: 1
     <MaxNewAsteroids>k__BackingField: 3
-    <Size>k__BackingField: 1
+    <Size>k__BackingField: 3

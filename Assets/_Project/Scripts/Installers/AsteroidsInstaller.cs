@@ -15,14 +15,17 @@ namespace _Project.Scripts.Installers
         {
             Container.Bind<AsteroidsConfig>().FromScriptableObject(asteroidsConfig).AsSingle();
             Container.Bind<AsteroidsController>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<AsteroidsSpawner>().FromComponentInHierarchy().AsSingle();
+
             Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig)
-                .WhenInjectedInto<AsteroidsController>();
+                .WhenInjectedInto<AsteroidsSpawner>();
+
 
             Container.Bind<ISpawnPositionPicker>()
                 .To<RectangleSideSpawnPositionPicker>()
                 .FromInstance(new RectangleSideSpawnPositionPicker(spawnerConfig.SpawnPositionSize,
                     spawnerConfig.GizmosColor))
-                .WhenInjectedInto<AsteroidsController>();
+                .WhenInjectedInto<AsteroidsSpawner>();
         }
     }
 }

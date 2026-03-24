@@ -12,7 +12,7 @@ namespace _Project.Scripts.Entities
         {
             Rigidbody = GetComponent<Rigidbody2D>();
         }
-        
+
         public override void SetPosition(Vector3 position)
         {
             if (_teleporter != null)

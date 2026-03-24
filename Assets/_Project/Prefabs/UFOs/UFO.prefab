@@ -101,6 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8782274720693974511}
   - component: {fileID: 5075061622665474813}
+  - component: {fileID: 4392355328013351552}
   - component: {fileID: 5687385352754747111}
   - component: {fileID: 6052877777673982627}
   m_Layer: 8
@@ -138,6 +139,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19dae4dfe25a4c7ebc3d778e96773df1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI.StateMachine.Enemy
+--- !u!114 &4392355328013351552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7591709767083417334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9887bb3d6ae4009aef55a5340fc32c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Level.BoundsHandling.LevelBoundsHandler
 --- !u!50 &5687385352754747111
 Rigidbody2D:
   serializedVersion: 5

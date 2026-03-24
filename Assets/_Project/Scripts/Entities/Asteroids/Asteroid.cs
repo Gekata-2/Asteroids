@@ -16,7 +16,6 @@ namespace _Project.Scripts.Entities.Asteroids
         public event Action<Asteroid> Destroyed;
         public event Action<List<Asteroid>> CreatedDebris;
 
-        public event Action<Asteroid> SweepedByLaser;
 
         public Queue<AsteroidsSplitConfig> SplitChain { get; private set; }
 
@@ -43,7 +42,6 @@ namespace _Project.Scripts.Entities.Asteroids
                     break;
                 case Laser:
                     HandleSweepedByLaser();
-                    SweepedByLaser?.Invoke(this);
                     break;
             }
         }

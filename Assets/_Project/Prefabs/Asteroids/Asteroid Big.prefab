@@ -101,6 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 196011001606209851}
   - component: {fileID: 7270455880547072814}
+  - component: {fileID: 6610034404862766612}
   - component: {fileID: 1416338490194285644}
   - component: {fileID: 529588471077573414}
   m_Layer: 6
@@ -138,6 +139,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9e02373a3785d2438eb7132221ff159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Asteroid
+--- !u!114 &6610034404862766612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8297785902056973420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9887bb3d6ae4009aef55a5340fc32c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Level.BoundsHandling.LevelBoundsHandler
 --- !u!50 &1416338490194285644
 Rigidbody2D:
   serializedVersion: 5

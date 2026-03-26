@@ -22,12 +22,14 @@ namespace _Project.Scripts.Installers
             Container.BindInterfacesAndSelfTo<EntitiesContainer>().FromNew().AsSingle();
             Container.Bind<LevelBounds>().FromComponentInHierarchy().AsSingle();
 
-            Container.BindInterfacesAndSelfTo<PauseInputHandler>().AsSingle();
             Container.BindInterfacesAndSelfTo<PausePresenter>().AsSingle();
             Container.Bind<PauseWindow>().FromComponentInNewPrefab(pauseWindowPrefab).AsSingle().NonLazy();
             Container.Bind<GameOverWindow>().FromComponentInNewPrefab(gameOverWindowPrefab).AsSingle().NonLazy();
 
-            Container.BindInterfacesAndSelfTo<GameSessionModel>().AsSingle();
+            Container.BindInterfacesAndSelfTo<WindowsInputHandler>().AsSingle();
+            Container.Bind<GamePausedModel>().AsSingle();
+            Container.Bind<GameSessionData>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameOverModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameOverPresenter>().AsSingle();
         }
     }

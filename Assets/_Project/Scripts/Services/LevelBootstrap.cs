@@ -22,7 +22,7 @@ namespace _Project.Scripts.Services
         private UfosSpawner _ufosSpawner;
         private CursorService _cursorService;
         private UfosController _ufosController;
-        private GameSessionModel _gameSessionModel;
+        private GameOverModel _gameOverModel;
         private AsteroidsSpawner _asteroidsSpawner;
 
 
@@ -34,7 +34,7 @@ namespace _Project.Scripts.Services
             CursorService cursorService,
             UfosSpawner ufosSpawner,
             UfosController ufosController,
-            GameSessionModel gameSessionModel,
+            GameOverModel gameOverModel,
             PauseService pauseService = null)
         {
             _di = diContainer;
@@ -46,7 +46,7 @@ namespace _Project.Scripts.Services
             _pauseService = pauseService;
             _ufosSpawner = ufosSpawner;
             _ufosController = ufosController;
-            _gameSessionModel = gameSessionModel;
+            _gameOverModel = gameOverModel;
         }
 
         private void Awake()
@@ -63,7 +63,7 @@ namespace _Project.Scripts.Services
             _pauseService?.AddItem(_ufosSpawner);
 
             _ufosController.SetTarget(player.GetComponent<EnemyTarget>());
-            _gameSessionModel.SetPlayer(player.GetComponent<PlayerHealth>());
+            _gameOverModel.SetPlayer(player.GetComponent<PlayerHealth>());
         }
 
         private void Start()

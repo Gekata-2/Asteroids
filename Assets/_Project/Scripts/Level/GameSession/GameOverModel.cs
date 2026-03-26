@@ -3,85 +3,40 @@ using _Project.Scripts.Entities;
 using _Project.Scripts.Player;
 using _Project.Scripts.Services;
 using _Project.Scripts.Services.SceneManagement;
+using _Project.Scripts.UI;
 using Zenject;
 
 namespace _Project.Scripts.Level.GameSession
 {
-    public class GameSessionData
-    {
-        public event Action ScoreChanged;
-        public int Score { get; private set; }
-
-        public void AddScore(int value)
-        {
-            if (value == 0)
-                return;
-
-            Score += value;
-            if (Score <= 0)
-                Score = 0;
-
-            ScoreChanged?.Invoke();
-        }
-
-        public void SetScore(int value)
-        {
-            if (value < 0)
-                return;
-
-            Score = value;
-            ScoreChanged?.Invoke();
-        }
-    }
-
-    public class GameSessionModel : IInitializable, IDisposable
+    public class GameOverModel : IInitializable, IDisposable
     {
         public event Action GameOver;
 
         private readonly IInput _input;
 
-
         private readonly PauseService _pauseService;
         private readonly SceneLoader _sceneLoader;
         private readonly ExitGameService _exitGameService;
-
-        public event Action ScoreChanged;
-        public int Score { get; private set; }
-
-        public void AddScore(int value)
-        {
-            if (value == 0)
-                return;
-
-            Score += value;
-            if (Score <= 0)
-                Score = 0;
-
-            ScoreChanged?.Invoke();
-        }
-
-        public void SetScore(int value)
-        {
-            if (value < 0)
-                return;
-
-            Score = value;
-            ScoreChanged?.Invoke();
-        }
+        private readonly GameSessionData _gameSessionData;
 
         private PlayerHealth _player;
-        private UIManager _uiManager;
+        private readonly UIManager _uiManager;
 
-        public GameSessionModel(IInput input,
+        public int Score => _gameSessionData.Score;
+
+        public GameOverModel(IInput input,
             PauseService pauseService,
             SceneLoader sceneLoader,
-            ExitGameService exitGameService, UIManager uiManager)
+            ExitGameService exitGameService,
+            UIManager uiManager, 
+            GameSessionData gameSessionData)
         {
             _pauseService = pauseService;
             _sceneLoader = sceneLoader;
             _input = input;
             _exitGameService = exitGameService;
             _uiManager = uiManager;
+            _gameSessionData = gameSessionData;
         }
 
         public void Initialize()
@@ -100,23 +55,20 @@ namespace _Project.Scripts.Level.GameSession
         private void OnPlayerDead(Damage damage)
         {
             _pauseService.PerformPause();
+            _uiManager.SetState(UIState.GameOver);
             GameOver?.Invoke();
         }
 
         private void OnUISubmitPerformed()
         {
             if (_uiManager.CurrentState == UIState.GameOver)
-            {
                 _sceneLoader.LoadLevelScene();
-            }
         }
 
         private void OnUICancelPerformed()
         {
             if (_uiManager.CurrentState == UIState.GameOver)
-            {
                 _exitGameService.PerformExit();
-            }
         }
 
         public void Dispose()

@@ -7,11 +7,11 @@ namespace _Project.Scripts.Level.GameSession
 {
     public class PlayerScorePresenter : IInitializable, IDisposable
     {
-        private readonly GameSessionModel _model;
+        private readonly GameSessionData _model;
         private readonly ScoreView _view;
         private readonly ScoreConfig _scoreConfig;
 
-        public PlayerScorePresenter(GameSessionModel model, ScoreView view, ScoreConfig scoreConfig)
+        public PlayerScorePresenter(GameSessionData model, ScoreView view, ScoreConfig scoreConfig)
         {
             _model = model;
             _view = view;

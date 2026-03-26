@@ -1,16 +1,20 @@
-using _Project.Scripts.Player;
+﻿using _Project.Scripts.Player;
+using _Project.Scripts.Services;
 
-namespace _Project.Scripts.Services
+namespace _Project.Scripts.UI
 {
     public class UIManager
     {
+        private readonly PausePresenter _pausePresenter;
+
         private UIState _current = UIState.None;
         public UIState CurrentState => _current;
 
         private readonly IInput _input;
 
-        public UIManager(IInput input)
+        public UIManager(PausePresenter pausePresenter, IInput input)
         {
+            _pausePresenter = pausePresenter;
             _input = input;
         }
 
@@ -38,8 +42,23 @@ namespace _Project.Scripts.Services
             _input.SetPlayerActionsEnabled(false);
             _input.SetUIActionsEnabled(true);
         }
-        
-        public bool CanOpenPause()
-            => _current == UIState.None;
+
+        public void OpenPause()
+        {
+            if (_current == UIState.None)
+            {
+                _pausePresenter.OnShowPause();
+                SetState(UIState.Pause);
+            }
+        }
+
+        public void PerformCancel()
+        {
+            if (CurrentState == UIState.Pause)
+            {
+                _pausePresenter.OnHidePause();
+                SetState(UIState.None);
+            }
+        }
     }
 }

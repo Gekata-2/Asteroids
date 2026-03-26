@@ -1,48 +1,30 @@
-﻿using System;
-using _Project.Scripts.Services;
-using _Project.Scripts.UI.Windows;
-using Zenject;
+﻿using _Project.Scripts.UI.Windows;
 
 namespace _Project.Scripts.UI
 {
-    public class PausePresenter : IInitializable, IDisposable
+    public class PausePresenter
     {
-        private readonly PauseInputHandler _pauseInput;
         private readonly PauseWindow _view;
-        private readonly UIManager _uiManager;
+        private readonly GamePausedModel _model;
 
-        public PausePresenter(PauseWindow view, UIManager uiManager, PauseInputHandler pauseInput)
+        public PausePresenter(PauseWindow view,
+            GamePausedModel model)
         {
             _view = view;
-            _uiManager = uiManager;
-            _pauseInput = pauseInput;
+            _model = model;
         }
 
-        public void Initialize()
+
+        public void OnShowPause()
         {
-            _pauseInput.GamePaused += OnGamePaused;
-            _pauseInput.GameResumed += OnGameResumed;
+            _model.Pause();
+            _view.Show();
         }
 
-        private void OnGamePaused()
+        public void OnHidePause()
         {
-            if (_uiManager.CanOpenPause())
-            {
-                _view.Show();
-                _uiManager.SetState(UIState.Pause);
-            }
-        }
-
-        private void OnGameResumed()
-        {
+            _model.Resume();
             _view.Hide();
-            _uiManager.SetState(UIState.None);
-        }
-
-        public void Dispose()
-        {
-            _pauseInput.GamePaused -= OnGamePaused;
-            _pauseInput.GameResumed -= OnGameResumed;
         }
     }
 }

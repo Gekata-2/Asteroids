@@ -1,5 +1,6 @@
 ﻿using _Project.Scripts.Services;
 using _Project.Scripts.Services.Awards;
+using _Project.Scripts.UI;
 using Zenject;
 
 namespace _Project.Scripts.Installers

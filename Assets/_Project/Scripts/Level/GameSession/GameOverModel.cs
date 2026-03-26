@@ -5,7 +5,6 @@ using _Project.Scripts.Services;
 using _Project.Scripts.Services.Pause;
 using _Project.Scripts.Services.SceneManagement;
 using _Project.Scripts.Services.UI;
-using _Project.Scripts.UI;
 using Zenject;
 
 namespace _Project.Scripts.Level.GameSession
@@ -45,7 +44,6 @@ namespace _Project.Scripts.Level.GameSession
         {
             _input.UICancelPerformed += OnUICancelPerformed;
             _input.UISubmitPerformed += OnUISubmitPerformed;
-            _player.PlayerDead += OnPlayerDead;
         }
 
         public void SetPlayer(PlayerHealth playerHealth)
@@ -57,7 +55,6 @@ namespace _Project.Scripts.Level.GameSession
         private void OnPlayerDead(Damage damage)
         {
             _pauseService.PerformPause();
-            _uiManager.SetState(UIState.GameOver);
             GameOver?.Invoke();
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using _Project.Scripts.Level.GameSession;
+using _Project.Scripts.Services.UI;
 using _Project.Scripts.UI.Windows;
 using Zenject;
 
@@ -9,6 +10,7 @@ namespace _Project.Scripts.UI
     {
         private readonly GameOverWindow _view;
         private readonly GameOverModel _model;
+        private readonly UIManager _uiManager;
 
         public GameOverPresenter(GameOverWindow view, GameOverModel model)
         {
@@ -24,6 +26,7 @@ namespace _Project.Scripts.UI
         private void OnGameOver()
         {
             _view.Show(_model.Score);
+            _uiManager.SetState(UIState.GameOver);
         }
 
         public void Dispose()

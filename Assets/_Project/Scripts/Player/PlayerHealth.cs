@@ -9,7 +9,6 @@ namespace _Project.Scripts.Player
         public event Action<Damage> PlayerDead;
 
         [SerializeField] private bool isActive = true;
-        
 
         public void TakeDamage(Damage damage)
         {

@@ -6,14 +6,10 @@ namespace _Project.Scripts.UI.Windows
     {
         [SerializeField] private GameObject content;
 
-        public void Show()
-        {
-            content.SetActive(true);
-        }
+        public void Show() 
+            => content.SetActive(true);
 
-        public void Hide()
-        {
-            content.SetActive(false);
-        }
+        public void Hide() 
+            => content.SetActive(false);
     }
 }

@@ -11,8 +11,8 @@ namespace _Project.Scripts.Player
         event Action ShootMachineGunCanceled;
         event Action ShootLaserPerformed;
         event Action PausePerformed;
-        event Action UISubmitPerformed;
-        event Action UICancelPerformed;
+        event Action SubmitPerformed;
+        event Action CancelPerformed;
 
 
         float PlayerRotation();
@@ -33,8 +33,8 @@ namespace _Project.Scripts.Player
         public event Action ShootMachineGunCanceled;
         public event Action ShootLaserPerformed;
         public event Action PausePerformed;
-        public event Action UISubmitPerformed;
-        public event Action UICancelPerformed;
+        public event Action SubmitPerformed;
+        public event Action CancelPerformed;
 
         private readonly PlayerInputActionMap _playerInput;
 
@@ -57,8 +57,8 @@ namespace _Project.Scripts.Player
 
             _playerInput.Player.Pause.performed += OnPausePerformed;
 
-            _playerInput.UI.Submit.performed += OnUISubmitPerformed;
-            _playerInput.UI.Cancel.performed += OnUICancelPerformed;
+            _playerInput.UI.Submit.performed += OnSubmitPerformed;
+            _playerInput.UI.Cancel.performed += OnCancelPerformed;
         }
 
         public void Disable()
@@ -75,8 +75,8 @@ namespace _Project.Scripts.Player
 
             _playerInput.Player.Pause.performed -= OnPausePerformed;
 
-            _playerInput.UI.Submit.performed -= OnUISubmitPerformed;
-            _playerInput.UI.Cancel.performed -= OnUICancelPerformed;
+            _playerInput.UI.Submit.performed -= OnSubmitPerformed;
+            _playerInput.UI.Cancel.performed -= OnCancelPerformed;
         }
 
         public void SetPlayerActionsEnabled(bool isEnabled)
@@ -113,11 +113,11 @@ namespace _Project.Scripts.Player
         private void OnMoveForwardCanceled(InputAction.CallbackContext context)
             => PlayerCanceledMovingForward?.Invoke();
 
-        private void OnUISubmitPerformed(InputAction.CallbackContext context)
-            => UISubmitPerformed?.Invoke();
+        private void OnSubmitPerformed(InputAction.CallbackContext context)
+            => SubmitPerformed?.Invoke();
 
-        private void OnUICancelPerformed(InputAction.CallbackContext context)
-            => UICancelPerformed?.Invoke();
+        private void OnCancelPerformed(InputAction.CallbackContext context)
+            => CancelPerformed?.Invoke();
 
         public float PlayerRotation()
             => _playerInput.Player.Rotate.ReadValue<float>();

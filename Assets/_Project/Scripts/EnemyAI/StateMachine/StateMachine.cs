@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Project.Scripts.EnemyAI.StateMachine.States;
 using UnityEngine;
 
 namespace _Project.Scripts.EnemyAI.StateMachine

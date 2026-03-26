@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Extensions;
-using _Project.Scripts.Services;
 using _Project.Scripts.Services.Pause;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -10,17 +9,16 @@ using Zenject;
 
 namespace _Project.Scripts.Player.Weapons.MachineGun
 {
-    public class MachineGunShooter : Weapon
+    public class MachineGunShooter : MonoBehaviour, IPausable
     {
         [SerializeField] private Transform bulletsOrigin;
         [SerializeField] private Bullet bulletPrefab;
 
-        [Header("Bullets Pool")] [SerializeField, Min(1)]
-        private int maxSize = 10;
-
+        [Header("Bullets Pool")] 
+        [SerializeField, Min(1)] private int maxSize = 10;
         [SerializeField, Min(1)] private int defaultCapacity = 20;
 
-        private PlayerWeaponsConfig.MachineGunConfig _config;
+        private MachineGunConfig _config;
         private bool _canShoot;
         private bool _isPaused;
 
@@ -112,7 +110,7 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
             _bulletsPool.Release(bullet);
         }
 
-        public override void TryShoot()
+        public virtual void TryShoot()
         {
             if (!_canShoot || _isPaused)
                 return;
@@ -145,10 +143,13 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
             _canShoot = true;
         }
 
-        public void Enable() => _canShoot = true;
+        public void Enable()
+            => _canShoot = true;
 
-        public override void Pause() => _isPaused = true;
+        public void Pause()
+            => _isPaused = true;
 
-        public override void Resume() => _isPaused = false;
+        public void Resume()
+            => _isPaused = false;
     }
 }

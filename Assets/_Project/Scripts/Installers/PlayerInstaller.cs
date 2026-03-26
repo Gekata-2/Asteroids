@@ -30,8 +30,8 @@ namespace _Project.Scripts.Installers
             Container.BindInterfacesAndSelfTo<PlayerStatePresenter>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PlayerScorePresenter>().AsSingle();
 
-            Container.Bind<LaserModel>().To<SimpleLaserModel>().AsSingle();
-            Container.BindInterfacesAndSelfTo<LaserController>().AsSingle();
+            Container.Bind<LaserModel>().AsSingle();
+            Container.BindInterfacesAndSelfTo<LaserPresenter>().AsSingle();
 
             Container.Bind<ScoreView>().FromComponentInNewPrefab(scoreViewPrefab).AsSingle();
             Container.Bind<PlayerStateView>().FromComponentInNewPrefab(playerStateViewPrefab).AsSingle();

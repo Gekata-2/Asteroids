@@ -55,8 +55,8 @@ namespace _Project.Scripts.Entities.UFO
         private void OnUFOSpawned(UFO ufo)
         {
             ufo.Initialize(_ufoConfig, _ufosTarget);
-            
-            if (ufo.TryGetComponent(out LevelBoundsHandler boundsHandler)) 
+
+            if (ufo.TryGetComponent(out LevelBoundsHandler boundsHandler))
                 boundsHandler.Initialize(_levelBounds);
 
             ufo.Died += OnUfoDied;
@@ -64,13 +64,8 @@ namespace _Project.Scripts.Entities.UFO
             _ufos.Add(ufo);
             _entitiesContainer.AddEntity(ufo);
         }
-        
-        private void OnUfoDied(UFO ufo)
-        {
-            HandleUfoDestroyed(ufo);
-        }
 
-        private void HandleUfoDestroyed(UFO ufo)
+        private void OnUfoDied(UFO ufo)
         {
             UnsubscribeFromUfo(ufo);
 

@@ -1,29 +1,29 @@
-﻿using _Project.Scripts.UI.Windows;
+﻿using _Project.Scripts.Services.Pause;
+using _Project.Scripts.UI.Windows;
 
 namespace _Project.Scripts.UI
 {
     public class PausePresenter
     {
         private readonly PauseWindow _view;
-        private readonly GamePausedModel _model;
+        private readonly PauseService _model;
 
         public PausePresenter(PauseWindow view,
-            GamePausedModel model)
+            PauseService model)
         {
             _view = view;
             _model = model;
         }
-
-
+        
         public void OnShowPause()
         {
-            _model.Pause();
+            _model.PerformPause();
             _view.Show();
         }
 
         public void OnHidePause()
         {
-            _model.Resume();
+            _model.PerformResume();
             _view.Hide();
         }
     }

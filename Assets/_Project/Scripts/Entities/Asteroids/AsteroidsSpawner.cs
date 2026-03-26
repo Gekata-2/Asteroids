@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Entities.Spawner;
-using _Project.Scripts.Services;
 using _Project.Scripts.Services.Pause;
 using UnityEngine;
 using Zenject;
@@ -21,7 +20,9 @@ namespace _Project.Scripts.Entities.Asteroids
         private SimpleSpawnerConfig _spawnerConfig;
         private RectangleSideSpawnPositionPicker _spawnPositionPicker;
         private Asteroid _prefab;
+        
         private GameObject _container;
+        
         private float _timer;
         private bool _isActive;
 
@@ -64,8 +65,7 @@ namespace _Project.Scripts.Entities.Asteroids
 
         private float GetNextTimer()
             => Random.Range(_spawnerConfig.MinInterval, _spawnerConfig.MaxInterval);
-
-
+        
         public void Pause()
             => _isActive = false;
 

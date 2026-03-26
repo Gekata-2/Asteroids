@@ -1,6 +1,5 @@
 ﻿using System;
 using _Project.Scripts.Entities;
-using _Project.Scripts.Entities.Asteroids;
 using UnityEngine;
 
 namespace _Project.Scripts.Player

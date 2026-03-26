@@ -1,10 +1,11 @@
 ﻿using System.Collections;
+using _Project.Scripts.Services.Pause;
 using UnityEngine;
 using Zenject;
 
 namespace _Project.Scripts.Player.Weapons.Laser
 {
-    public class LaserShooter : Weapon
+    public class LaserShooter : MonoBehaviour, IPausable
     {
         [SerializeField] private Laser laser;
 
@@ -12,7 +13,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         private Coroutine _cooldownRoutine;
         private Coroutine _laserActiveRoutine;
-        
+
         private bool _isPaused;
 
         [Inject]
@@ -27,7 +28,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
             laser.Disable();
         }
 
-        public override void TryShoot()
+        public virtual void TryShoot()
         {
             if (_model.IsNoChargesLeft || _isPaused)
                 return;
@@ -37,8 +38,6 @@ namespace _Project.Scripts.Player.Weapons.Laser
             ShowLaser();
             StartCooldown();
         }
-
-      
 
         private void StartCooldown()
         {
@@ -102,8 +101,10 @@ namespace _Project.Scripts.Player.Weapons.Laser
             laser.Disable();
         }
 
-        public override void Pause() => _isPaused = true;
+        public void Pause()
+            => _isPaused = true;
 
-        public override void Resume() => _isPaused = false;
+        public void Resume()
+            => _isPaused = false;
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Level.BoundsHandling
 {
-    class EntityPositionWrapper
+    public class EntityPositionWrapper
     {
         public void WrapEntityPosition(Entity entity, LevelBounds levelBounds)
         {
@@ -25,7 +25,7 @@ namespace _Project.Scripts.Level.BoundsHandling
                 newPosition.y = Mathf.Clamp(invertedPosition.y,
                     -bounds.extents.y + skinWidth, bounds.extents.y - skinWidth);
             }
-            
+
             entity.SetPosition(newPosition);
         }
     }

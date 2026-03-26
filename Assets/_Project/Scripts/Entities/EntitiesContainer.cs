@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using _Project.Scripts.Services;
 using _Project.Scripts.Services.Pause;
 
 namespace _Project.Scripts.Entities
@@ -8,9 +7,6 @@ namespace _Project.Scripts.Entities
     public class EntitiesContainer : IPausable, IDisposable
     {
         private readonly List<Entity> _entities;
-
-        public List<Entity> Entities
-            => _entities;
 
         public EntitiesContainer(List<Entity> entities = null)
         {
@@ -28,10 +24,7 @@ namespace _Project.Scripts.Entities
             if (_entities.Contains(entity))
                 _entities.Remove(entity);
         }
-
-        public void Clear()
-            => _entities.Clear();
-
+        
         public void Pause()
         {
             foreach (Entity entity in _entities)
@@ -46,7 +39,7 @@ namespace _Project.Scripts.Entities
 
         public void Dispose()
         {
-            Clear();
+            _entities.Clear();
         }
     }
 }

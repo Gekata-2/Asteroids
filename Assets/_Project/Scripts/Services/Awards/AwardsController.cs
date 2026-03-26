@@ -34,15 +34,11 @@ namespace _Project.Scripts.Services.Awards
             _asteroidsController.AsteroidDestroyed += OnAsteroidDestroyed;
         }
 
-        private void OnAsteroidDestroyed(Asteroid asteroid)
-        {
-            AddScoreForDestroyingEntity(asteroid);
-        }
+        private void OnAsteroidDestroyed(Asteroid asteroid) 
+            => AddScoreForDestroyingEntity(asteroid);
 
-        private void OnUfoDestroyed(UFO ufo)
-        {
-            AddScoreForDestroyingEntity(ufo);
-        }
+        private void OnUfoDestroyed(UFO ufo) 
+            => AddScoreForDestroyingEntity(ufo);
 
         private void AddScoreForDestroyingEntity(EnemyEntity entity) 
             => _sessionData.AddScore(entity.Score);

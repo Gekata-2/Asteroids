@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Entities.Asteroids
+﻿namespace _Project.Scripts.Entities
 {
     interface IDamageVisitable
     {

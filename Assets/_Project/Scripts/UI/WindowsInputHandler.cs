@@ -19,10 +19,10 @@ namespace _Project.Scripts.UI
         public void Initialize()
         {
             _input.PausePerformed += OnPausePerformed;
-            _input.UICancelPerformed += OnUICancelPerformed;
+            _input.CancelPerformed += OnCancelPerformed;
         }
 
-        private void OnUICancelPerformed()
+        private void OnCancelPerformed()
         {
             _uiManager.PerformCancel();
         }
@@ -35,7 +35,7 @@ namespace _Project.Scripts.UI
         public void Dispose()
         {
             _input.PausePerformed -= OnPausePerformed;
-            _input.UICancelPerformed -= OnUICancelPerformed;
+            _input.CancelPerformed -= OnCancelPerformed;
         }
     }
 }

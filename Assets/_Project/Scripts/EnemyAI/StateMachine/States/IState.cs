@@ -1,4 +1,4 @@
-namespace _Project.Scripts.EnemyAI.StateMachine
+namespace _Project.Scripts.EnemyAI.StateMachine.States
 {
     public interface IState
     {

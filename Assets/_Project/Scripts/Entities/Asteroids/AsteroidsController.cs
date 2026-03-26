@@ -83,31 +83,33 @@ namespace _Project.Scripts.Entities.Asteroids
             if (asteroid.TryGetComponent(out LevelBoundsHandler levelBoundsHandler))
                 levelBoundsHandler.Initialize(_levelBounds);
 
-            _asteroids.Add(asteroid);
-            _entitiesContainer.AddEntity(asteroid);
-            
             asteroid.Destroyed += OnAsteroidDestroyed;
             asteroid.CreatedDebris += OnCreatedDebris;
+            
+            _asteroids.Add(asteroid);
+            _entitiesContainer.AddEntity(asteroid);
         }
 
         private void OnAsteroidDestroyed(Asteroid asteroid)
         {
             _asteroids.Remove(asteroid);
             _entitiesContainer.RemoveEntity(asteroid);
+            
             UnsubscribeFromAsteroid(asteroid);
+            
             AsteroidDestroyed?.Invoke(asteroid);
-        }
-
-        private void UnsubscribeFromAsteroid(Asteroid asteroid)
-        {
-            asteroid.Destroyed -= OnAsteroidDestroyed;
-            asteroid.CreatedDebris -= OnCreatedDebris;
         }
 
         private void OnCreatedDebris(List<Asteroid> asteroids)
         {
             foreach (Asteroid asteroid in asteroids)
                 HandleCreatedAsteroid(asteroid);
+        }
+
+        private void UnsubscribeFromAsteroid(Asteroid asteroid)
+        {
+            asteroid.Destroyed -= OnAsteroidDestroyed;
+            asteroid.CreatedDebris -= OnCreatedDebris;
         }
     }
 }

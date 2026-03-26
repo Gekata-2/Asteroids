@@ -83,7 +83,6 @@ namespace _Project.Scripts.Entities.UFO
                 playerHealth.Accept(this);
         }
         
-        
         public void Die()
         {
             Died?.Invoke(this);

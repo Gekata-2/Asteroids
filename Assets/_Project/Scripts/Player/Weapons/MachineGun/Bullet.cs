@@ -12,22 +12,13 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
     {
         public event Action<Bullet> Collided;
 
-       
-
         private Rigidbody2D _rb;
 
-        private float _speed;
-        private Vector2 _direction;
         public float TimeToLive { get; private set; }
 
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
-        }
-
-        private void FixedUpdate()
-        {
-            _rb.linearVelocity = _direction * _speed;
         }
 
         private void Update()
@@ -38,8 +29,7 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
 
         public void Initialize(BulletData bulletData)
         {
-            _speed = bulletData.Speed;
-            _direction = bulletData.MoveDirection;
+            _rb.linearVelocity = bulletData.MoveDirection * bulletData.Speed;
             TimeToLive = bulletData.LifeTime;
         }
 

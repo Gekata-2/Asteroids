@@ -27,7 +27,6 @@ namespace _Project.Scripts.Installers
             Container.Bind<GameOverWindow>().FromComponentInNewPrefab(gameOverWindowPrefab).AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<WindowsInputHandler>().AsSingle();
-            Container.Bind<GamePausedModel>().AsSingle();
             Container.Bind<GameSessionData>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameOverModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameOverPresenter>().AsSingle();

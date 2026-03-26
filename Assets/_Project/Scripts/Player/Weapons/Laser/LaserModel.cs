@@ -1,32 +1,52 @@
-﻿using _Project.Scripts.UI.Laser;
+﻿using System;
 
 namespace _Project.Scripts.Player.Weapons.Laser
 {
-    public abstract class LaserModel
+    public class LaserModel
     {
-        protected readonly LaserView View;
-        protected PlayerWeaponsConfig.LaserConfig Config;
-        protected LaserCharges Charges;
+        public event Action<int> ChargesCountChanged;
+        public event Action<float> CooldownTimeLeftChanged;
+
+        private readonly LaserConfig _config;
+        private readonly LaserCharges _charges;
+
+        public bool IsOnCooldown { get; private set; }
+        private float _cooldownTimeLeft;
         
-        public bool IsOnCooldown { get; protected set; }
-        protected float CooldownTimeLeft;
-        
-        protected LaserModel(LaserView view)
+        public bool IsNoChargesLeft => _charges.IsZero();
+        public bool IsChargesFull => _charges.IsFull();
+        public float Duration => _config.Duration;
+        public float Cooldown => _config.Cooldown;
+        public float Lenght => _config.Lenght;
+        public int Charges => _charges.Current;
+
+        public LaserModel(PlayerWeaponsConfig playerWeaponsConfig)
         {
-            View = view;
+            _config = playerWeaponsConfig.Laser;
+            _charges = new LaserCharges(_config.Charges);
         }
 
-        public bool IsNoChargesLeft => Charges.IsZero();
-        public bool IsChargesFull => Charges.IsFull();
-        public float Duration => Config.Duration;
-        public float Cooldown => Config.Cooldown;
-        public float Lenght => Config.Lenght;
+        public void SetCooldownTimeLeft(float time)
+        {
+            _cooldownTimeLeft = time;
+            CooldownTimeLeftChanged?.Invoke(_cooldownTimeLeft);
+        }
 
-        public abstract void SetConfig(PlayerWeaponsConfig.LaserConfig config);
-        public abstract void SetCooldownTimeLeft(float time);
-        public abstract void SetIsOnCooldown(bool isOnCooldown);
-        public abstract void UseCharge();
-        public abstract void RestoreCharge();
-        public abstract void ResetCharges();
+        public void SetIsOnCooldown(bool isOnCooldown)
+        {
+            IsOnCooldown = isOnCooldown;
+        }
+
+        public void UseCharge()
+        {
+            _charges.UseCharge();
+            ChargesCountChanged?.Invoke(_charges.Current);
+        }
+
+        public void RestoreCharge()
+        {
+            _charges.RestoreCharge();
+            ChargesCountChanged?.Invoke(_charges.Current);
+        }
     }
 }

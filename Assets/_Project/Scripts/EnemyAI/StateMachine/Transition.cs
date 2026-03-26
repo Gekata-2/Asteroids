@@ -1,3 +1,5 @@
+using _Project.Scripts.EnemyAI.StateMachine.States;
+
 namespace _Project.Scripts.EnemyAI.StateMachine
 {
     public class Transition : ITransition

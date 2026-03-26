@@ -41,8 +41,8 @@ namespace _Project.Scripts.Level.GameSession
 
         public void Initialize()
         {
-            _input.UICancelPerformed += OnUICancelPerformed;
-            _input.UISubmitPerformed += OnUISubmitPerformed;
+            _input.CancelPerformed += OnCancelPerformed;
+            _input.SubmitPerformed += OnSubmitPerformed;
         }
 
         public void SetPlayer(PlayerHealth playerHealth)
@@ -57,13 +57,13 @@ namespace _Project.Scripts.Level.GameSession
             GameOver?.Invoke();
         }
 
-        private void OnUISubmitPerformed()
+        private void OnSubmitPerformed()
         {
             if (_uiManager.CurrentState == UIState.GameOver)
                 _sceneLoader.LoadLevelScene();
         }
 
-        private void OnUICancelPerformed()
+        private void OnCancelPerformed()
         {
             if (_uiManager.CurrentState == UIState.GameOver)
                 _exitGameService.PerformExit();
@@ -71,8 +71,8 @@ namespace _Project.Scripts.Level.GameSession
 
         public void Dispose()
         {
-            _input.UICancelPerformed -= OnUICancelPerformed;
-            _input.UISubmitPerformed -= OnUISubmitPerformed;
+            _input.CancelPerformed -= OnCancelPerformed;
+            _input.SubmitPerformed -= OnSubmitPerformed;
             _player.PlayerDead -= OnPlayerDead;
         }
     }

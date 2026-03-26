@@ -1,5 +1,7 @@
 ﻿using _Project.Scripts.Services;
 using _Project.Scripts.Services.Awards;
+using _Project.Scripts.Services.Pause;
+using _Project.Scripts.Services.UI;
 using _Project.Scripts.UI;
 using Zenject;
 

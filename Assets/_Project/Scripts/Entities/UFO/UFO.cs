@@ -84,6 +84,12 @@ namespace _Project.Scripts.Entities.UFO
                 playerHealth.TakeDamage(new Damage(this));
         }
 
+
+        public override void Destroy()
+        {
+            Die();
+        }
+
         public void Die()
         {
             Died?.Invoke(this);

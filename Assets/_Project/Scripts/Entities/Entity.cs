@@ -1,4 +1,5 @@
 using _Project.Scripts.Services;
+using _Project.Scripts.Services.Pause;
 using UnityEngine;
 
 namespace _Project.Scripts.Entities
@@ -41,5 +42,9 @@ namespace _Project.Scripts.Entities
 
         public abstract void Pause();
         public abstract void Resume();
+
+        public virtual void Destroy()
+        {
+        }
     }
 }

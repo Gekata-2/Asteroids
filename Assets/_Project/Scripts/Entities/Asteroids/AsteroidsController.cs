@@ -62,8 +62,7 @@ namespace _Project.Scripts.Entities.Asteroids
 
             HandleCreatedAsteroid(asteroid);
         }
-
-
+        
         private float GetAsteroidSpeed(AsteroidSpeedConfig speedConfig) =>
             Random.Range(speedConfig.Min, speedConfig.Max);
 
@@ -79,55 +78,36 @@ namespace _Project.Scripts.Entities.Asteroids
         private float GetAsteroidTorque(AsteroidTorqueConfig torqueConfig)
             => Random.Range(torqueConfig.Min, torqueConfig.Max);
 
-        private void UnsubscribeFromAsteroid(Asteroid asteroid)
+        private void HandleCreatedAsteroid(Asteroid asteroid)
         {
-            asteroid.Destroyed -= OnAsteroidDestroyed;
-            asteroid.CreatedDebris -= OnCreatedDebris;
             if (asteroid.TryGetComponent(out LevelBoundsHandler levelBoundsHandler))
-                levelBoundsHandler.Destroyed -= OnDestroyedAfterCrossingOuterBounds;
-        }
+                levelBoundsHandler.Initialize(_levelBounds);
 
-        private void OnDestroyedAfterCrossingOuterBounds(Entity entity)
-        {
-            HandleAsteroidDestroyed(entity as Asteroid);
+            _asteroids.Add(asteroid);
+            _entitiesContainer.AddEntity(asteroid);
+            
+            asteroid.Destroyed += OnAsteroidDestroyed;
+            asteroid.CreatedDebris += OnCreatedDebris;
         }
 
         private void OnAsteroidDestroyed(Asteroid asteroid)
         {
-            HandleAsteroidDestroyed(asteroid);
+            _asteroids.Remove(asteroid);
+            _entitiesContainer.RemoveEntity(asteroid);
+            UnsubscribeFromAsteroid(asteroid);
+            AsteroidDestroyed?.Invoke(asteroid);
+        }
+
+        private void UnsubscribeFromAsteroid(Asteroid asteroid)
+        {
+            asteroid.Destroyed -= OnAsteroidDestroyed;
+            asteroid.CreatedDebris -= OnCreatedDebris;
         }
 
         private void OnCreatedDebris(List<Asteroid> asteroids)
         {
             foreach (Asteroid asteroid in asteroids)
                 HandleCreatedAsteroid(asteroid);
-        }
-
-        private void HandleCreatedAsteroid(Asteroid asteroid)
-        {
-            if (asteroid.TryGetComponent(out LevelBoundsHandler levelBoundsHandler))
-            {
-                levelBoundsHandler.Initialize(_levelBounds);
-                levelBoundsHandler.Destroyed += OnDestroyedAfterCrossingOuterBounds;
-            }
-
-            _asteroids.Add(asteroid);
-            _entitiesContainer.AddEntity(asteroid);
-            SubscribeToAsteroid(asteroid);
-        }
-
-        private void SubscribeToAsteroid(Asteroid asteroid)
-        {
-            asteroid.Destroyed += OnAsteroidDestroyed;
-            asteroid.CreatedDebris += OnCreatedDebris;
-        }
-
-        private void HandleAsteroidDestroyed(Asteroid asteroid)
-        {
-            _asteroids.Remove(asteroid);
-            _entitiesContainer.RemoveEntity(asteroid);
-            UnsubscribeFromAsteroid(asteroid);
-            AsteroidDestroyed?.Invoke(asteroid);
         }
     }
 }

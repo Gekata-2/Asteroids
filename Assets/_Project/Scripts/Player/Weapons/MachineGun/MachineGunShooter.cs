@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Extensions;
 using _Project.Scripts.Services;
+using _Project.Scripts.Services.Pause;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;

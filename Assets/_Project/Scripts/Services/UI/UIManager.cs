@@ -1,7 +1,7 @@
 ﻿using _Project.Scripts.Player;
-using _Project.Scripts.Services;
+using _Project.Scripts.UI;
 
-namespace _Project.Scripts.UI
+namespace _Project.Scripts.Services.UI
 {
     public class UIManager
     {

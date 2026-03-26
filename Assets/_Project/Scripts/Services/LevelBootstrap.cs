@@ -1,8 +1,10 @@
 ﻿using _Project.Scripts.Entities;
 using _Project.Scripts.Entities.Asteroids;
 using _Project.Scripts.Entities.UFO;
+using _Project.Scripts.Level.BoundsHandling;
 using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Player;
+using _Project.Scripts.Services.Pause;
 using UnityEngine;
 using Zenject;
 
@@ -24,10 +26,12 @@ namespace _Project.Scripts.Services
         private UfosController _ufosController;
         private GameOverModel _gameOverModel;
         private AsteroidsSpawner _asteroidsSpawner;
+        private LevelBounds _levelBounds;
 
 
         [Inject]
-        private void Construct(DiContainer diContainer, IInput inputHandler,
+        private void Construct(DiContainer diContainer,
+            IInput inputHandler,
             EntitiesContainer entitiesContainer,
             PlayerStatePresenter playerStatePresenter,
             AsteroidsSpawner asteroidsSpawner,
@@ -35,6 +39,7 @@ namespace _Project.Scripts.Services
             UfosSpawner ufosSpawner,
             UfosController ufosController,
             GameOverModel gameOverModel,
+            LevelBounds levelBounds,
             PauseService pauseService = null)
         {
             _di = diContainer;
@@ -43,18 +48,20 @@ namespace _Project.Scripts.Services
             _playerStatePresenter = playerStatePresenter;
             _asteroidsSpawner = asteroidsSpawner;
             _cursorService = cursorService;
-            _pauseService = pauseService;
             _ufosSpawner = ufosSpawner;
             _ufosController = ufosController;
             _gameOverModel = gameOverModel;
+            _levelBounds = levelBounds;
+            _pauseService = pauseService;
         }
 
         private void Awake()
         {
             GameObject player = _di.InstantiatePrefab(playerPrefab);
             player.transform.position = playerSpawnPoint.position;
-            IPlayerMovement playerMovement = player.GetComponent<IPlayerMovement>();
-            _playerStatePresenter.SetPlayerModel(playerMovement);
+            _playerStatePresenter.SetPlayerModel(player.GetComponent<IPlayerMovement>());
+            if (player.TryGetComponent(out LevelBoundsHandler levelBoundsHandler))
+                levelBoundsHandler.Initialize(_levelBounds);
 
             _entitiesContainer.AddEntity(player.GetComponent<Entity>());
 

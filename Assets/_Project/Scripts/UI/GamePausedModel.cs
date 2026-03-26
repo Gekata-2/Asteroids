@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Services;
+using _Project.Scripts.Services.Pause;
 
 namespace _Project.Scripts.UI
 {

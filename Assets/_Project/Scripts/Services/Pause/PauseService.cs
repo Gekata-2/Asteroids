@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace _Project.Scripts.Services
+namespace _Project.Scripts.Services.Pause
 {
     public class PauseService : IDisposable
     {

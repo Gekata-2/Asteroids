@@ -47,7 +47,7 @@ namespace _Project.Scripts.Entities.UFO
             _ufosSpawner.UFOSpawned -= OnUFOSpawned;
 
             foreach (UFO ufo in _ufos)
-                ufo.Died -= OnUfoDied;
+                UnsubscribeFromUfo(ufo);
 
             _ufos.Clear();
         }
@@ -55,23 +55,16 @@ namespace _Project.Scripts.Entities.UFO
         private void OnUFOSpawned(UFO ufo)
         {
             ufo.Initialize(_ufoConfig, _ufosTarget);
-            if (ufo.TryGetComponent(out LevelBoundsHandler boundsHandler))
-            {
+            
+            if (ufo.TryGetComponent(out LevelBoundsHandler boundsHandler)) 
                 boundsHandler.Initialize(_levelBounds);
-                boundsHandler.Destroyed += OnUfoDestroyedAfterCrossingOuterBounds;
-            }
 
             ufo.Died += OnUfoDied;
 
             _ufos.Add(ufo);
             _entitiesContainer.AddEntity(ufo);
         }
-
-        private void OnUfoDestroyedAfterCrossingOuterBounds(Entity entity)
-        {
-            HandleUfoDestroyed(entity as UFO);
-        }
-
+        
         private void OnUfoDied(UFO ufo)
         {
             HandleUfoDestroyed(ufo);
@@ -79,15 +72,17 @@ namespace _Project.Scripts.Entities.UFO
 
         private void HandleUfoDestroyed(UFO ufo)
         {
-            ufo.Died -= OnUfoDied;
+            UnsubscribeFromUfo(ufo);
 
             _ufos.Remove(ufo);
             _entitiesContainer.RemoveEntity(ufo);
 
-            if (ufo.TryGetComponent(out LevelBoundsHandler boundsHandler))
-                boundsHandler.Destroyed -= OnUfoDestroyedAfterCrossingOuterBounds;
-
             UfoDestroyed?.Invoke(ufo);
+        }
+
+        private void UnsubscribeFromUfo(UFO ufo)
+        {
+            ufo.Died -= OnUfoDied;
         }
     }
 }

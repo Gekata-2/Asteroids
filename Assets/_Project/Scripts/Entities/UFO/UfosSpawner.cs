@@ -2,6 +2,7 @@
 using _Project.Scripts.Entities.Spawner;
 using _Project.Scripts.Entities.UFO.Configs;
 using _Project.Scripts.Services;
+using _Project.Scripts.Services.Pause;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;

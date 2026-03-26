@@ -1,5 +1,6 @@
 ﻿using System;
 using _Project.Scripts.Player;
+using _Project.Scripts.Services.UI;
 using Zenject;
 
 namespace _Project.Scripts.UI

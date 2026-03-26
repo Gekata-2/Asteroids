@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Project.Scripts.Services;
+using _Project.Scripts.Services.Pause;
 
 namespace _Project.Scripts.Entities
 {

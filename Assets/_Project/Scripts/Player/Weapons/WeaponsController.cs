@@ -1,6 +1,7 @@
 ﻿using _Project.Scripts.Player.Weapons.Laser;
 using _Project.Scripts.Player.Weapons.MachineGun;
 using _Project.Scripts.Services;
+using _Project.Scripts.Services.Pause;
 using UnityEngine;
 using Zenject;
 

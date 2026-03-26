@@ -2,7 +2,9 @@
 using _Project.Scripts.Entities;
 using _Project.Scripts.Player;
 using _Project.Scripts.Services;
+using _Project.Scripts.Services.Pause;
 using _Project.Scripts.Services.SceneManagement;
+using _Project.Scripts.Services.UI;
 using _Project.Scripts.UI;
 using Zenject;
 

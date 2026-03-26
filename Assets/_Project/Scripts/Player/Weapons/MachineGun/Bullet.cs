@@ -1,6 +1,7 @@
 ﻿using System;
 using _Project.Scripts.Entities;
 using _Project.Scripts.Services;
+using _Project.Scripts.Services.Pause;
 using UnityEngine;
 
 namespace _Project.Scripts.Player.Weapons.MachineGun

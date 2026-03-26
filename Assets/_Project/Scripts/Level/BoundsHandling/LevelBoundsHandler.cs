@@ -1,5 +1,4 @@
-﻿using System;
-using _Project.Scripts.Entities;
+﻿using _Project.Scripts.Entities;
 using UnityEngine;
 
 namespace _Project.Scripts.Level.BoundsHandling
@@ -7,10 +6,9 @@ namespace _Project.Scripts.Level.BoundsHandling
     [RequireComponent(typeof(Entity))]
     public class LevelBoundsHandler : MonoBehaviour
     {
-        public event Action<Entity> Destroyed;
-
         private Entity _entity;
         private LevelBounds _levelBounds;
+
         private bool _hasEnteredLevel;
         private readonly EntityPositionWrapper _positionWrapper = new();
 
@@ -26,7 +24,16 @@ namespace _Project.Scripts.Level.BoundsHandling
 
         private void FixedUpdate()
         {
+            if (_levelBounds == null)
+                return;
+            
             Vector2 position = transform.position;
+
+            if (_levelBounds.IsOutsideOfOuterBounds(position))
+            {
+                _entity.Destroy();
+                return;
+            }
 
             if (!_hasEnteredLevel && _levelBounds.IsInsideLevel(position))
                 _hasEnteredLevel = true;
@@ -34,25 +41,8 @@ namespace _Project.Scripts.Level.BoundsHandling
             if (!_hasEnteredLevel)
                 return;
 
-            if (_levelBounds.IsOutsideOfOuterBounds(position))
-            {
-                HandleOutOfOuterBounds();
-                return;
-            }
-
-            if (_levelBounds.IsOutsideOfBounds(position)) 
-                HandleOutOfBounds();
-        }
-
-        private void HandleOutOfBounds()
-        {
-            _positionWrapper.WrapEntityPosition(_entity, _levelBounds);
-        }
-
-        private void HandleOutOfOuterBounds()
-        {
-            Destroy(_entity.gameObject);
-            Destroyed?.Invoke(_entity);
+            if (_levelBounds.IsOutsideOfBounds(position))
+                _positionWrapper.WrapEntityPosition(_entity, _levelBounds);
         }
     }
 }

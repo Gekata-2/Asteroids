@@ -1,4 +1,4 @@
-﻿namespace _Project.Scripts.Services
+﻿namespace _Project.Scripts.Services.UI
 {
     public enum UIState
     {

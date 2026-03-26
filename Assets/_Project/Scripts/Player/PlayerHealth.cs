@@ -1,19 +1,23 @@
 ﻿using System;
 using _Project.Scripts.Entities;
+using _Project.Scripts.Entities.Asteroids;
 using UnityEngine;
 
 namespace _Project.Scripts.Player
 {
-    public class PlayerHealth : MonoBehaviour, IDamageble
+    public class PlayerHealth : MonoBehaviour, IDamageVisitable
     {
-        public event Action<Damage> PlayerDead;
+        public event Action PlayerDead;
 
         [SerializeField] private bool isActive = true;
 
-        public void TakeDamage(Damage damage)
+        public void Die()
         {
-            if (isActive) 
-                PlayerDead?.Invoke(damage);
+            if (isActive)
+                PlayerDead?.Invoke();
         }
+
+        public void Accept(IDamageVisitor visitor) 
+            => visitor.Visit(this);
     }
 }

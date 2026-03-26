@@ -1,15 +1,14 @@
 ﻿using System;
 using _Project.Scripts.EnemyAI.StateMachine;
 using _Project.Scripts.EnemyAI.StateMachine.States;
+using _Project.Scripts.Entities.Asteroids;
 using _Project.Scripts.Entities.UFO.Configs;
 using _Project.Scripts.Player;
-using _Project.Scripts.Player.Weapons.Laser;
-using _Project.Scripts.Player.Weapons.MachineGun;
 using UnityEngine;
 
 namespace _Project.Scripts.Entities.UFO
 {
-    public class UFO : Entity, IDamageble
+    public class UFO : Entity, IDamageVisitable, IDamageVisitor
     {
         public event Action<UFO> Died;
 
@@ -17,12 +16,12 @@ namespace _Project.Scripts.Entities.UFO
 
         private bool _isActive;
         private bool _initialized;
-        
+
         private bool _hasBeenHitByBullet;
         private bool _hasBeenSweepedByLaser;
 
         private EnemyTarget _target;
-        
+
         public float Speed { get; private set; }
         public float SteeringSpeed { get; private set; }
 
@@ -81,10 +80,9 @@ namespace _Project.Scripts.Entities.UFO
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.TryGetComponent(out PlayerHealth playerHealth))
-                playerHealth.TakeDamage(new Damage(this));
+                playerHealth.Accept(this);
         }
-
-
+        
         public override void Destroy()
         {
             Die();
@@ -108,17 +106,24 @@ namespace _Project.Scripts.Entities.UFO
             Rigidbody.simulated = true;
         }
 
-        public void TakeDamage(Damage damage)
+        public void HandleBullet()
+            => _hasBeenHitByBullet = true;
+
+        public void HandleLaser()
+            => _hasBeenSweepedByLaser = true;
+
+        public void Accept(IDamageVisitor visitor)
+            => visitor.Visit(this);
+
+        public void Visit(PlayerHealth playerHealth) 
+            => playerHealth.Die();
+
+        public void Visit(Asteroid asteroid)
         {
-            switch (damage.Source)
-            {
-                case Bullet:
-                    _hasBeenHitByBullet = true;
-                    break;
-                case Laser:
-                    _hasBeenSweepedByLaser = true;
-                    break;
-            }
+        }
+
+        public void Visit(UFO ufo)
+        {
         }
     }
 }

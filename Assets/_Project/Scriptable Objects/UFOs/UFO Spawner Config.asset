@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidsSpawnerConfig
   <MinInterval>k__BackingField: 2
   <MaxInterval>k__BackingField: 2
-  <StartDelay>k__BackingField: 1
+  <StartDelay>k__BackingField: 111
   <SpawnPositionSize>k__BackingField: {x: 19, y: 13}
   <GizmosColor>k__BackingField: {r: 0, g: 0.890604, b: 1, a: 1}

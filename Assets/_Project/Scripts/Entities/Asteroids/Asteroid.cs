@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Player;
-using _Project.Scripts.Player.Weapons.Laser;
-using _Project.Scripts.Player.Weapons.MachineGun;
 using ModestTree;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,11 +9,10 @@ using Random = UnityEngine.Random;
 namespace _Project.Scripts.Entities.Asteroids
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Asteroid : Entity, IDamageble
+    public class Asteroid : Entity, IDamageVisitable, IDamageVisitor
     {
         public event Action<Asteroid> Destroyed;
         public event Action<List<Asteroid>> CreatedDebris;
-
 
         public Queue<AsteroidsSplitConfig> SplitChain { get; private set; }
 
@@ -32,27 +29,13 @@ namespace _Project.Scripts.Entities.Asteroids
             HandlePositionChanger();
         }
 
-
-        public void TakeDamage(Damage damage)
-        {
-            switch (damage.Source)
-            {
-                case Bullet:
-                    HandleBullet();
-                    break;
-                case Laser:
-                    HandleSweepedByLaser();
-                    break;
-            }
-        }
-
-        private void HandleSweepedByLaser()
+        public void HandleLaser()
         {
             Destroy(gameObject);
             Destroyed?.Invoke(this);
         }
 
-        private void HandleBullet()
+        public void HandleBullet()
         {
             Destroy(gameObject);
 
@@ -107,7 +90,7 @@ namespace _Project.Scripts.Entities.Asteroids
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.TryGetComponent(out PlayerHealth playerHealth))
-                playerHealth.TakeDamage(new Damage(this));
+                playerHealth.Accept(this);
         }
 
         public override void Pause()
@@ -115,5 +98,23 @@ namespace _Project.Scripts.Entities.Asteroids
 
         public override void Resume()
             => Rigidbody.simulated = true;
+
+        public void Accept(IDamageVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
+        public void Visit(PlayerHealth playerHealth)
+        {
+            playerHealth.Die();
+        }
+
+        public void Visit(Asteroid asteroid)
+        {
+        }
+
+        public void Visit(UFO.UFO ufo)
+        {
+        }
     }
 }

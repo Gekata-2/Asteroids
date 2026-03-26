@@ -12,10 +12,11 @@ namespace _Project.Scripts.UI
         private readonly GameOverModel _model;
         private readonly UIManager _uiManager;
 
-        public GameOverPresenter(GameOverWindow view, GameOverModel model)
+        public GameOverPresenter(GameOverWindow view, GameOverModel model, UIManager uiManager)
         {
             _view = view;
             _model = model;
+            _uiManager = uiManager;
         }
 
         public void Initialize()

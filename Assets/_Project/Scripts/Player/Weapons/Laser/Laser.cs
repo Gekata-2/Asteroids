@@ -1,9 +1,11 @@
 using _Project.Scripts.Entities;
+using _Project.Scripts.Entities.Asteroids;
+using _Project.Scripts.Entities.UFO;
 using UnityEngine;
 
 namespace _Project.Scripts.Player.Weapons.Laser
 {
-    public class Laser : MonoBehaviour
+    public class Laser : MonoBehaviour, IDamageVisitor
     {
         [SerializeField] private Transform laserObject;
         [SerializeField] private LaserCollider laserCollider;
@@ -22,8 +24,8 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         private void OnTriggerEntered(Collider2D other)
         {
-            if (other.gameObject.TryGetComponent(out IDamageble damageble))
-                damageble.TakeDamage(new Damage(this));
+            if (other.gameObject.TryGetComponent(out IDamageVisitable visitable))
+                visitable.Accept(this);
         }
 
         public void SetLength(float value)
@@ -32,7 +34,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
             localScale = new Vector3(localScale.x, value, localScale.z);
             laserObject.localScale = localScale;
         }
-        
+
         public void Enable()
         {
             gameObject.SetActive(true);
@@ -44,5 +46,15 @@ namespace _Project.Scripts.Player.Weapons.Laser
             IsEnabled = false;
             gameObject.SetActive(false);
         }
+
+        public void Visit(PlayerHealth playerHealth)
+        {
+        }
+
+        public void Visit(Asteroid asteroid)
+            => asteroid.HandleLaser();
+
+        public void Visit(UFO ufo)
+            => ufo.HandleLaser();
     }
 }

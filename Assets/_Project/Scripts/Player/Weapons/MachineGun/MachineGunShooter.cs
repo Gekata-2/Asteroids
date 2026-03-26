@@ -124,7 +124,7 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
 
             (bulletTransform.position, bulletTransform.rotation) = (bulletsOrigin.position, bulletsOrigin.rotation);
 
-            bullet.Initialize(new Bullet.BulletData(_config.BulletSpeed, bulletTransform.up, _config.BulletLifeTime));
+            bullet.Initialize(new BulletData(_config.BulletSpeed, bulletTransform.up, _config.BulletLifeTime));
 
             _cooldownRoutine = StartCoroutine(CooldownRoutine(_config.FireCooldown));
         }

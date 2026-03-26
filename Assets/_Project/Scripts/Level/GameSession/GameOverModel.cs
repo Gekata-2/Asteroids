@@ -1,5 +1,4 @@
 ﻿using System;
-using _Project.Scripts.Entities;
 using _Project.Scripts.Player;
 using _Project.Scripts.Services;
 using _Project.Scripts.Services.Pause;
@@ -52,7 +51,7 @@ namespace _Project.Scripts.Level.GameSession
             _player.PlayerDead += OnPlayerDead;
         }
 
-        private void OnPlayerDead(Damage damage)
+        private void OnPlayerDead()
         {
             _pauseService.PerformPause();
             GameOver?.Invoke();

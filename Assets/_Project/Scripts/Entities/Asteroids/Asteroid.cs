@@ -45,12 +45,6 @@ namespace _Project.Scripts.Entities.Asteroids
             Destroyed?.Invoke(this);
         }
 
-        public override void Destroy()
-        {
-            Destroy(gameObject);
-            Destroyed?.Invoke(this);
-        }
-
         private void SpawnAsteroidsFromSplitAtPosition(Queue<AsteroidsSplitConfig> asteroidsChainRemainder,
             Vector3 position)
         {

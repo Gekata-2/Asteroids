@@ -28,13 +28,7 @@ namespace _Project.Scripts.Level.BoundsHandling
                 return;
             
             Vector2 position = transform.position;
-
-            if (_levelBounds.IsOutsideOfOuterBounds(position))
-            {
-                _entity.Destroy();
-                return;
-            }
-
+            
             if (!_hasEnteredLevel && _levelBounds.IsInsideLevel(position))
                 _hasEnteredLevel = true;
 

@@ -1,4 +1,3 @@
-using _Project.Scripts.Services;
 using _Project.Scripts.Services.Pause;
 using UnityEngine;
 
@@ -17,7 +16,7 @@ namespace _Project.Scripts.Entities
             Rigidbody = GetComponent<Rigidbody2D>();
         }
 
-        public void InitializeData(EntityConfig entityData)
+        protected void InitializeData(EntityConfig entityData)
         {
             Score = entityData.Score;
         }
@@ -42,9 +41,5 @@ namespace _Project.Scripts.Entities
 
         public abstract void Pause();
         public abstract void Resume();
-
-        public virtual void Destroy()
-        {
-        }
     }
 }

@@ -5,7 +5,7 @@ using Zenject;
 
 namespace _Project.Scripts.Player
 {
-    public class PlayerMovement : Entity, IPlayerMovement
+    public class PlayerMovement : Entity
     {
         private IInput _input;
         

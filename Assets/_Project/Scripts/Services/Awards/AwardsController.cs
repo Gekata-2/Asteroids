@@ -44,7 +44,7 @@ namespace _Project.Scripts.Services.Awards
             AddScoreForDestroyingEntity(ufo);
         }
 
-        private void AddScoreForDestroyingEntity(Entity entity) 
+        private void AddScoreForDestroyingEntity(EnemyEntity entity) 
             => _sessionData.AddScore(entity.Score);
 
         public void LateTick()

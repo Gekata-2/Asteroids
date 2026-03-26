@@ -8,19 +8,12 @@ namespace _Project.Scripts.Entities
     {
         private RigidBody2DTeleporter _teleporter;
         protected Rigidbody2D Rigidbody;
-
-        public int Score { get; private set; }
-
+        
         private void Awake()
         {
             Rigidbody = GetComponent<Rigidbody2D>();
         }
-
-        protected void InitializeData(EntityConfig entityData)
-        {
-            Score = entityData.Score;
-        }
-
+        
         public void SetPosition(Vector3 position)
         {
             if (_teleporter != null)

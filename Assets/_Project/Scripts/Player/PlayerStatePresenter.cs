@@ -6,14 +6,14 @@ namespace _Project.Scripts.Player
     public class PlayerStatePresenter :  IDisposable
     {
         private readonly PlayerStateView _view;
-        private IPlayerMovement _playerModel;
+        private PlayerMovement _playerModel;
 
         public PlayerStatePresenter(PlayerStateView view)
         {
             _view = view;
         }
 
-        public void SetPlayerModel(IPlayerMovement playerMovement)
+        public void SetPlayerModel(PlayerMovement playerMovement)
         {
             _playerModel = playerMovement;
 

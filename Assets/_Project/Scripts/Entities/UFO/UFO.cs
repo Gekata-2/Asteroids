@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Entities.UFO
 {
-    public class UFO : Entity, IDamageVisitable, IDamageVisitor
+    public class UFO : EnemyEntity, IDamageVisitable, IDamageVisitor
     {
         public event Action<UFO> Died;
 

@@ -9,12 +9,12 @@ using Random = UnityEngine.Random;
 namespace _Project.Scripts.Entities.Asteroids
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Asteroid : Entity, IDamageVisitable, IDamageVisitor
+    public class Asteroid : EnemyEntity, IDamageVisitable, IDamageVisitor
     {
         public event Action<Asteroid> Destroyed;
         public event Action<List<Asteroid>> CreatedDebris;
 
-        public Queue<AsteroidsSplitConfig> SplitChain { get; private set; }
+        private Queue<AsteroidsSplitConfig> SplitChain { get; set; }
 
         public void Initialize(AsteroidsInitializationData initializationData)
         {
@@ -94,14 +94,10 @@ namespace _Project.Scripts.Entities.Asteroids
             => Rigidbody.simulated = true;
 
         public void Accept(IDamageVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+            => visitor.Visit(this);
 
         public void Visit(PlayerHealth playerHealth)
-        {
-            playerHealth.Die();
-        }
+            => playerHealth.Die();
 
         public void Visit(Asteroid asteroid)
         {

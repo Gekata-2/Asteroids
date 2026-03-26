@@ -59,7 +59,7 @@ namespace _Project.Scripts.Services
         {
             GameObject player = _di.InstantiatePrefab(playerPrefab);
             player.transform.position = playerSpawnPoint.position;
-            _playerStatePresenter.SetPlayerModel(player.GetComponent<IPlayerMovement>());
+            _playerStatePresenter.SetPlayerModel(player.GetComponent<PlayerMovement>());
             if (player.TryGetComponent(out LevelBoundsHandler levelBoundsHandler))
                 levelBoundsHandler.Initialize(_levelBounds);
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Project.Scripts.Entities.Asteroids.Configs;
+using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Player;
 using ModestTree;
 using UnityEngine;
@@ -103,7 +104,7 @@ namespace _Project.Scripts.Entities.Asteroids
         {
         }
 
-        public void Visit(UFO.UFO ufo)
+        public void Visit(Ufo ufo)
         {
         }
     }

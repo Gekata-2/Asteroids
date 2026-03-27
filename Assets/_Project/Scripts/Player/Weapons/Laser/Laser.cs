@@ -54,7 +54,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
         public void Visit(Asteroid asteroid)
             => asteroid.HandleLaser();
 
-        public void Visit(UFO ufo)
+        public void Visit(Ufo ufo)
             => ufo.HandleLaser();
     }
 }

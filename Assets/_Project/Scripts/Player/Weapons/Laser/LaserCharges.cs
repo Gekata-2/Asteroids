@@ -34,8 +34,5 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         public bool IsFull()
             => Current == Max;
-
-        public void ResetCharges()
-            => Current = Max;
     }
 }

@@ -5,9 +5,6 @@ namespace _Project.Scripts.Services.Pause
 {
     public class PauseService : IDisposable
     {
-        public event Action GamePaused;
-        public event Action GameResumed;
-        
         private readonly List<IPausable> _items;
 
         public bool IsGamePaused { get; private set; }
@@ -39,8 +36,7 @@ namespace _Project.Scripts.Services.Pause
             foreach (IPausable item in _items)
                 item.Pause();
 
-            IsGamePaused = true;
-            GamePaused?.Invoke();
+            IsGamePaused = true; 
         }
 
         public void PerformResume()
@@ -49,7 +45,6 @@ namespace _Project.Scripts.Services.Pause
                 item.Resume();
 
             IsGamePaused = false;
-            GameResumed?.Invoke();
         }
 
         public void Dispose()

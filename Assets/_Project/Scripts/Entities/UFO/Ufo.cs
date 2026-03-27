@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace _Project.Scripts.Entities.UFO
 {
-    public class UFO : EnemyEntity, IDamageVisitable, IDamageVisitor
+    public class Ufo : EnemyEntity, IDamageVisitable, IDamageVisitor
     {
-        public event Action<UFO> Died;
+        public event Action<Ufo> Died;
 
         private StateMachine _stateMachine;
 
@@ -117,7 +117,7 @@ namespace _Project.Scripts.Entities.UFO
         {
         }
 
-        public void Visit(UFO ufo)
+        public void Visit(Ufo ufo)
         {
         }
     }

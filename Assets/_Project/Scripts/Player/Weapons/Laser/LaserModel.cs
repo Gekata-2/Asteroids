@@ -10,9 +10,9 @@ namespace _Project.Scripts.Player.Weapons.Laser
         private readonly LaserConfig _config;
         private readonly LaserCharges _charges;
 
-        public bool IsOnCooldown { get; private set; }
         private float _cooldownTimeLeft;
         
+        public bool IsOnCooldown { get; private set; }
         public bool IsNoChargesLeft => _charges.IsZero();
         public bool IsChargesFull => _charges.IsFull();
         public float Duration => _config.Duration;

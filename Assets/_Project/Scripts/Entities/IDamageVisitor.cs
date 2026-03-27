@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Entities.Asteroids;
+using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Player;
 
 namespace _Project.Scripts.Entities
@@ -7,6 +8,6 @@ namespace _Project.Scripts.Entities
     {
         void Visit(PlayerHealth playerHealth);
         void Visit(Asteroid asteroid);
-        void Visit(UFO.UFO ufo);
+        void Visit(Ufo ufo);
     }
 }

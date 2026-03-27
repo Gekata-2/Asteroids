@@ -8,8 +8,5 @@
         {
             Score = entityData.Score;
         }
-
-        public abstract override void Pause();
-        public abstract override void Resume();
     }
 }

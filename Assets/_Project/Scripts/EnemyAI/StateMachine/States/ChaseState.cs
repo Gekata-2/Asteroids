@@ -8,7 +8,7 @@ namespace _Project.Scripts.EnemyAI.StateMachine.States
     {
         private readonly EnemyTarget _player;
         
-        public ChaseState(EnemyTarget player, UFO ufo) : base(ufo)
+        public ChaseState(EnemyTarget player, Ufo ufo) : base(ufo)
         {
             _player = player;
         }

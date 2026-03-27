@@ -4,9 +4,9 @@ namespace _Project.Scripts.EnemyAI.StateMachine.States
 {
     public abstract class BaseState : IState 
     {
-        protected readonly UFO Ufo;
+        protected readonly Ufo Ufo;
 
-        protected BaseState(UFO ufo)
+        protected BaseState(Ufo ufo)
         {
             Ufo = ufo;
         }

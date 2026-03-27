@@ -10,16 +10,16 @@ namespace _Project.Scripts.Entities.UFO
 {
     public class UfosController : MonoBehaviour
     {
-        public event Action<UFO> UfoDestroyed;
+        public event Action<Ufo> UfoDestroyed;
 
-        private UfosSpawner _ufosSpawner;
         private EntitiesContainer _entitiesContainer;
-        private UfoConfig _ufoConfig;
         private LevelBounds _levelBounds;
+        private UfosSpawner _ufosSpawner;
+        private UfoConfig _ufoConfig;
 
         private EnemyTarget _ufosTarget;
 
-        private readonly List<UFO> _ufos = new();
+        private readonly List<Ufo> _ufos = new();
 
         [Inject]
         public void Construct(EntitiesContainer entitiesContainer,
@@ -38,21 +38,21 @@ namespace _Project.Scripts.Entities.UFO
 
         private void Start()
         {
-            _ufosSpawner.UFOSpawned += OnUFOSpawned;
+            _ufosSpawner.UfoSpawned += OnUfoSpawned;
             _ufosSpawner.StartSpawning();
         }
 
         private void OnDestroy()
         {
-            _ufosSpawner.UFOSpawned -= OnUFOSpawned;
+            _ufosSpawner.UfoSpawned -= OnUfoSpawned;
 
-            foreach (UFO ufo in _ufos)
+            foreach (Ufo ufo in _ufos)
                 UnsubscribeFromUfo(ufo);
 
             _ufos.Clear();
         }
 
-        private void OnUFOSpawned(UFO ufo)
+        private void OnUfoSpawned(Ufo ufo)
         {
             ufo.Initialize(_ufoConfig, _ufosTarget);
 
@@ -65,7 +65,7 @@ namespace _Project.Scripts.Entities.UFO
             _entitiesContainer.AddEntity(ufo);
         }
 
-        private void OnUfoDied(UFO ufo)
+        private void OnUfoDied(Ufo ufo)
         {
             UnsubscribeFromUfo(ufo);
 
@@ -75,7 +75,7 @@ namespace _Project.Scripts.Entities.UFO
             UfoDestroyed?.Invoke(ufo);
         }
 
-        private void UnsubscribeFromUfo(UFO ufo)
+        private void UnsubscribeFromUfo(Ufo ufo)
         {
             ufo.Died -= OnUfoDied;
         }

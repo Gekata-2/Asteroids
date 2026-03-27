@@ -8,9 +8,9 @@ namespace _Project.Scripts.Level.BoundsHandling
     {
         private Entity _entity;
         private LevelBounds _levelBounds;
-
-        private bool _hasEnteredLevel;
         private readonly EntityPositionWrapper _positionWrapper = new();
+        
+        private bool _hasEnteredLevel;
 
         private void Awake()
         {

@@ -7,8 +7,11 @@ namespace _Project.Scripts.Services.SceneManagement
 {
     public class SceneLoader
     {
-        private readonly Dictionary<Scenes, string> _scenesNames = new() { { Scenes.Level, "Level" } };
-        
+        private readonly Dictionary<Scenes, string> _scenesNames = new()
+        {
+            { Scenes.Level, "Level" }
+        };
+
         private void LoadScene(Scenes scene)
         {
             string sceneName = GetScene(scene);

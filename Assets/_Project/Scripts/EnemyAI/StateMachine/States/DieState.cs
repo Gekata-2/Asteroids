@@ -4,7 +4,7 @@ namespace _Project.Scripts.EnemyAI.StateMachine.States
 {
     public class DieState : BaseState
     {
-        public DieState(UFO ufo) : base(ufo)
+        public DieState(Ufo ufo) : base(ufo)
         {
         }
 

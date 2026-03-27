@@ -12,14 +12,14 @@ namespace _Project.Scripts.Entities.UFO
     {
         private const string CONTAINER_NAME = "UFO container";
 
-        public event Action<UFO> UFOSpawned;
+        public event Action<Ufo> UfoSpawned;
 
 
         [SerializeField] private bool drawGizmos;
 
         private UfoConfig _ufoConfig;
         private SimpleSpawnerConfig _spawnerConfig;
-        private UFO _prefab;
+        private Ufo _prefab;
         private RectangleSideSpawnPositionPicker _spawnPositionPicker;
 
         private float _timer;
@@ -50,17 +50,17 @@ namespace _Project.Scripts.Entities.UFO
 
             if (_timer <= 0f)
             {
-                SpawnUFO();
+                SpawnUfo();
                 _timer = GetNextTimer();
             }
         }
 
-        private void SpawnUFO()
+        private void SpawnUfo()
         {
-            UFO ufo = Instantiate(_prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
+            Ufo ufo = Instantiate(_prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
             ufo.transform.parent = _container.transform;
 
-            UFOSpawned?.Invoke(ufo);
+            UfoSpawned?.Invoke(ufo);
         }
 
         private float GetNextTimer()

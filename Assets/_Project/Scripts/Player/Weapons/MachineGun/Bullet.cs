@@ -57,7 +57,7 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
             asteroid.HandleBullet();
         }
 
-        public void Visit(UFO ufo)
+        public void Visit(Ufo ufo)
         {
             ufo.HandleBullet();
         }

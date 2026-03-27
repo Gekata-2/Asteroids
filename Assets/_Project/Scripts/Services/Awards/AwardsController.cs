@@ -37,7 +37,7 @@ namespace _Project.Scripts.Services.Awards
         private void OnAsteroidDestroyed(Asteroid asteroid) 
             => AddScoreForDestroyingEntity(asteroid);
 
-        private void OnUfoDestroyed(UFO ufo) 
+        private void OnUfoDestroyed(Ufo ufo) 
             => AddScoreForDestroyingEntity(ufo);
 
         private void AddScoreForDestroyingEntity(EnemyEntity entity) 

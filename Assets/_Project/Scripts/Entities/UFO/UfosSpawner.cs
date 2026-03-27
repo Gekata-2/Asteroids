@@ -1,6 +1,7 @@
 ﻿using System;
 using _Project.Scripts.Entities.Spawner;
-using _Project.Scripts.Services;
+using _Project.Scripts.Entities.UFO.Configs;
+using _Project.Scripts.Services.Pause;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -9,23 +10,27 @@ namespace _Project.Scripts.Entities.UFO
 {
     public class UfosSpawner : MonoBehaviour, IPausable
     {
-        public event Action<UFO> UFOSpawned;
+        private const string CONTAINER_NAME = "UFO container";
 
-        [SerializeField] private Transform container;
+        public event Action<Ufo> UfoSpawned;
+
+
         [SerializeField] private bool drawGizmos;
 
-        private UfoData _ufoData;
+        private UfoConfig _ufoConfig;
         private SimpleSpawnerConfig _spawnerConfig;
+        private Ufo _prefab;
+        private RectangleSideSpawnPositionPicker _spawnPositionPicker;
 
         private float _timer;
         private bool _isActive;
-        private ISpawnPositionPicker _spawnPositionPicker;
+        private GameObject _container;
 
         [Inject]
-        private void Construct(UfoData ufoData, SimpleSpawnerConfig spawnerConfig,
-            ISpawnPositionPicker spawnPositionPicker)
+        private void Construct(UfoConfig ufoConfig, SimpleSpawnerConfig spawnerConfig,
+            RectangleSideSpawnPositionPicker spawnPositionPicker)
         {
-            _ufoData = ufoData;
+            _prefab = ufoConfig.Prefab;
             _spawnerConfig = spawnerConfig;
             _spawnPositionPicker = spawnPositionPicker;
         }
@@ -33,7 +38,7 @@ namespace _Project.Scripts.Entities.UFO
         private void Start()
         {
             _timer = float.MaxValue;
-            //   _spawnPositionPicker = new RandomOuterSquarePositionPicker(_spawnerConfig.SpawnPositionSideLenght);
+            _container = new GameObject(CONTAINER_NAME);
         }
 
         private void Update()
@@ -45,23 +50,21 @@ namespace _Project.Scripts.Entities.UFO
 
             if (_timer <= 0f)
             {
-                SpawnUFO();
+                SpawnUfo();
                 _timer = GetNextTimer();
             }
         }
 
-        private void SpawnUFO()
+        private void SpawnUfo()
         {
-            UFO ufo = Instantiate(_ufoData.Prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
-            ufo.transform.parent = container;
-            ufo.InitializeData(_ufoData);
+            Ufo ufo = Instantiate(_prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
+            ufo.transform.parent = _container.transform;
 
-            UFOSpawned?.Invoke(ufo);
+            UfoSpawned?.Invoke(ufo);
         }
 
         private float GetNextTimer()
             => Random.Range(_spawnerConfig.MinInterval, _spawnerConfig.MaxInterval);
-
 
         public void Pause()
         {

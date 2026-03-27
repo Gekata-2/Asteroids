@@ -1,7 +1,10 @@
 ﻿using _Project.Scripts.Entities;
 using _Project.Scripts.Entities.Asteroids;
 using _Project.Scripts.Entities.UFO;
+using _Project.Scripts.Level.BoundsHandling;
+using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Player;
+using _Project.Scripts.Services.Pause;
 using UnityEngine;
 using Zenject;
 
@@ -18,17 +21,25 @@ namespace _Project.Scripts.Services
         private EntitiesContainer _entitiesContainer;
         private PlayerStatePresenter _playerStatePresenter;
         private PauseService _pauseService;
-        private AsteroidsSpawner _asteroidsSpawner;
         private UfosSpawner _ufosSpawner;
         private CursorService _cursorService;
         private UfosController _ufosController;
-        private GameObject _player;
+        private GameOverModel _gameOverModel;
+        private AsteroidsSpawner _asteroidsSpawner;
+        private LevelBounds _levelBounds;
+
 
         [Inject]
-        private void Construct(DiContainer diContainer, IInput inputHandler,
-            EntitiesContainer entitiesContainer, PlayerStatePresenter playerStatePresenter,
-            AsteroidsSpawner asteroidsSpawner, CursorService cursorService,
-            UfosSpawner ufosSpawner, UfosController ufosController,
+        private void Construct(DiContainer diContainer,
+            IInput inputHandler,
+            EntitiesContainer entitiesContainer,
+            PlayerStatePresenter playerStatePresenter,
+            AsteroidsSpawner asteroidsSpawner,
+            CursorService cursorService,
+            UfosSpawner ufosSpawner,
+            UfosController ufosController,
+            GameOverModel gameOverModel,
+            LevelBounds levelBounds,
             PauseService pauseService = null)
         {
             _di = diContainer;
@@ -37,25 +48,29 @@ namespace _Project.Scripts.Services
             _playerStatePresenter = playerStatePresenter;
             _asteroidsSpawner = asteroidsSpawner;
             _cursorService = cursorService;
-            _pauseService = pauseService;
             _ufosSpawner = ufosSpawner;
             _ufosController = ufosController;
+            _gameOverModel = gameOverModel;
+            _levelBounds = levelBounds;
+            _pauseService = pauseService;
         }
 
         private void Awake()
         {
-            _player = _di.InstantiatePrefab(playerPrefab);
-            _player.transform.position = playerSpawnPoint.position;
-            IPlayerMovement playerMovement = _player.GetComponent<IPlayerMovement>();
-            _playerStatePresenter.SetPlayerModel(playerMovement);
-
-            _entitiesContainer.AddEntity(_player.GetComponent<Entity>());
+            GameObject player = _di.InstantiatePrefab(playerPrefab);
+            
+            player.transform.position = playerSpawnPoint.position;
+            _playerStatePresenter.SetPlayerModel(player.GetComponent<PlayerMovement>());
+            if (player.TryGetComponent(out LevelBoundsHandler levelBoundsHandler))
+                levelBoundsHandler.Initialize(_levelBounds);
+            _entitiesContainer.AddEntity(player.GetComponent<Entity>());
 
             _pauseService?.AddItem(_entitiesContainer);
             _pauseService?.AddItem(_asteroidsSpawner);
             _pauseService?.AddItem(_ufosSpawner);
 
-            _ufosController.SetTarget(_player.GetComponent<IEnemyTargetable>());
+            _ufosController.SetTarget(player.GetComponent<EnemyTarget>());
+            _gameOverModel.SetPlayer(player.GetComponent<PlayerHealth>());
         }
 
         private void Start()

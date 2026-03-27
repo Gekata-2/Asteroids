@@ -1,26 +1,22 @@
-﻿using _Project.Scripts.Entities;
-using _Project.Scripts.Services.EventBus;
+﻿using System;
+using _Project.Scripts.Entities;
 using UnityEngine;
-using Zenject;
 
 namespace _Project.Scripts.Player
 {
-    public class PlayerHealth : MonoBehaviour, IDamageble
+    public class PlayerHealth : MonoBehaviour, IDamageVisitable
     {
+        public event Action PlayerDead;
+
         [SerializeField] private bool isActive = true;
 
-        private EventBus _eventBus;
-
-        [Inject]
-        private void Construct(EventBus eventBus)
-        {
-            _eventBus = eventBus;
-        }
-
-        public void TakeDamage(Damage damage)
+        public void Die()
         {
             if (isActive)
-                _eventBus.Invoke(new PlayerDeadEvent(damage.Source));
+                PlayerDead?.Invoke();
         }
+
+        public void Accept(IDamageVisitor visitor) 
+            => visitor.Visit(this);
     }
 }

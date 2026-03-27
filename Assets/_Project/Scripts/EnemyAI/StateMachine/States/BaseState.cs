@@ -4,31 +4,18 @@ namespace _Project.Scripts.EnemyAI.StateMachine.States
 {
     public abstract class BaseState : IState 
     {
-        protected readonly UFO _enemy;
-        private string Name { get; }
+        protected readonly Ufo Ufo;
 
-        protected BaseState(UFO enemy, string name = "Base State")
+        protected BaseState(Ufo ufo)
         {
-            _enemy = enemy;
-            Name = name;
+            Ufo = ufo;
         }
-
-        public string GetName()
-            => Name;
-
-        public virtual void Update()
-        {
-        }
-
+        
         public virtual void FixedUpdate()
         {
         }
 
         public virtual void OnEnter()
-        {
-        }
-
-        public virtual void OnExit()
         {
         }
     }

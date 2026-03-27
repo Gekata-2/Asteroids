@@ -1,9 +1,13 @@
+using TMPro;
 using UnityEngine;
 
 namespace _Project.Scripts.UI
 {
-    public abstract class ScoreView : MonoBehaviour
+    public class ScoreView : MonoBehaviour
     {
-        public abstract void SetScore(int value);
+        [SerializeField] private TMP_Text valueText;
+
+        public void SetScore(int value)
+            => valueText.text = $"{value}";
     }
 }

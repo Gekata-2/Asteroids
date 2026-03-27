@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project.Scripts.Services.Awards;
 using _Project.Scripts.UI;
 using Zenject;
 
@@ -6,21 +7,21 @@ namespace _Project.Scripts.Level.GameSession
 {
     public class PlayerScorePresenter : IInitializable, IDisposable
     {
-        private const int START_SCORE = 0;
-
-        private readonly GameSessionModel _model;
+        private readonly GameSessionData _model;
         private readonly ScoreView _view;
+        private readonly ScoreConfig _scoreConfig;
 
-        public PlayerScorePresenter(GameSessionModel model, ScoreView view)
+        public PlayerScorePresenter(GameSessionData model, ScoreView view, ScoreConfig scoreConfig)
         {
             _model = model;
             _view = view;
+            _scoreConfig = scoreConfig;
         }
 
         public void Initialize()
         {
             _model.ScoreChanged += OnScoreChanged;
-            _model.SetScore(START_SCORE);
+            _model.SetScore(_scoreConfig.StartingScore);
         }
 
         private void OnScoreChanged()

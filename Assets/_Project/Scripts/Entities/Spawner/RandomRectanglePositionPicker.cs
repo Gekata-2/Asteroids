@@ -2,7 +2,7 @@
 
 namespace _Project.Scripts.Entities.Spawner
 {
-    public class RectangleSideSpawnPositionPicker : ISpawnPositionPicker
+    public class RectangleSideSpawnPositionPicker
     {
         private readonly Vector2 _size;
         private readonly Color _gizmosColor;

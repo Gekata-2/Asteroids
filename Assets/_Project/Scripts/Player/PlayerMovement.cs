@@ -5,7 +5,7 @@ using Zenject;
 
 namespace _Project.Scripts.Player
 {
-    public class PlayerMovement : PhysicalEntity, IPlayerMovement
+    public class PlayerMovement : Entity
     {
         private IInput _input;
         
@@ -59,7 +59,6 @@ namespace _Project.Scripts.Player
 
             Rotate();
             Move();
-          
         }
 
         private void OnPlayerPerformedMovingForward() 

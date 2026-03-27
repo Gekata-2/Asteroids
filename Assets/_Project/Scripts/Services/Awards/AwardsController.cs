@@ -1,47 +1,61 @@
 ﻿using System;
+using _Project.Scripts.Entities;
+using _Project.Scripts.Entities.Asteroids;
+using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Level.GameSession;
-using _Project.Scripts.Services.EventBus;
 using Zenject;
 
 namespace _Project.Scripts.Services.Awards
 {
     public class AwardsController : IInitializable, IDisposable, ILateTickable
     {
-        private readonly EventBus.EventBus _eventBus;
-        private readonly GameSessionModel _playerModel;
+        private readonly GameSessionData _sessionData;
         private readonly TimeService _timeService;
+        private readonly ScoreConfig _scoreConfig;
+        private readonly UfosController _ufosController;
+        private readonly AsteroidsController _asteroidsController;
 
-        private IAwardGiver<EntityDestroyedEvent> _entityDestroyedAwardGiver;
-        private IAwardGiver<TimeLivedEvent> _timeLivedAwardGiver;
-        private readonly GameSettings _gameSettings;
+        private float _lastAwardGivenTimeStamp;
 
-        public AwardsController(EventBus.EventBus eventBus, GameSessionModel playerModel,
-            TimeService timeService, GameSettings gameSettings)
+        public AwardsController(GameSessionData sessionData,
+            TimeService timeService, ScoreConfig scoreConfig
+            , UfosController ufosController, AsteroidsController asteroidsController)
         {
-            _eventBus = eventBus;
-            _playerModel = playerModel;
+            _sessionData = sessionData;
             _timeService = timeService;
-            _gameSettings = gameSettings;
+            _scoreConfig = scoreConfig;
+            _ufosController = ufosController;
+            _asteroidsController = asteroidsController;
         }
 
         public void Initialize()
         {
-            _eventBus.Subscribe<EntityDestroyedEvent>(OnEntityDestroyed);
-            _entityDestroyedAwardGiver = new EntityDestroyedAwardGiver(_playerModel);
-            _timeLivedAwardGiver = new TimeLivedAwardGiver(_playerModel, _gameSettings.AliveDurationScore);
+            _ufosController.UfoDestroyed += OnUfoDestroyed;
+            _asteroidsController.AsteroidDestroyed += OnAsteroidDestroyed;
         }
 
-        private void OnEntityDestroyed(EntityDestroyedEvent @event)
-            => _entityDestroyedAwardGiver.GiveAwardFor(@event);
+        private void OnAsteroidDestroyed(Asteroid asteroid) 
+            => AddScoreForDestroyingEntity(asteroid);
+
+        private void OnUfoDestroyed(Ufo ufo) 
+            => AddScoreForDestroyingEntity(ufo);
+
+        private void AddScoreForDestroyingEntity(EnemyEntity entity) 
+            => _sessionData.AddScore(entity.Score);
 
         public void LateTick()
         {
-            _timeLivedAwardGiver.GiveAwardFor(new TimeLivedEvent(_timeService.TimeElapsed));
+            if (_timeService.TimeElapsed - _lastAwardGivenTimeStamp >= _scoreConfig.AliveDurationScore.TimeInterval)
+            {
+                _sessionData.AddScore(_scoreConfig.AliveDurationScore.ScoreValue);
+                _lastAwardGivenTimeStamp = _timeService.TimeElapsed;
+            }
         }
 
         public void Dispose()
         {
-            _eventBus.Unsubscribe<EntityDestroyedEvent>(OnEntityDestroyed);
+            _ufosController.UfoDestroyed -= OnUfoDestroyed;
+            _asteroidsController.AsteroidDestroyed -= OnAsteroidDestroyed;
         }
     }
 }

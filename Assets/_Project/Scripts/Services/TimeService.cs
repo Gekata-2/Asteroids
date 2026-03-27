@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _Project.Scripts.Services.Pause;
+using UnityEngine;
 using Zenject;
 
 namespace _Project.Scripts.Services

@@ -1,28 +1,19 @@
 ﻿using System;
 using _Project.Scripts.UI;
-using UnityEngine;
-using Zenject;
 
 namespace _Project.Scripts.Player
 {
-    public class PlayerStatePresenter : IInitializable, IDisposable
+    public class PlayerStatePresenter :  IDisposable
     {
         private readonly PlayerStateView _view;
-        private IPlayerMovement _playerModel;
+        private PlayerMovement _playerModel;
 
         public PlayerStatePresenter(PlayerStateView view)
         {
             _view = view;
         }
 
-        public void Initialize()
-        {
-            _view.SetAngle(0);
-            _view.SetPosition(Vector2.zero);
-            _view.SetSpeed(0);
-        }
-
-        public void SetPlayerModel(IPlayerMovement playerMovement)
+        public void SetPlayerModel(PlayerMovement playerMovement)
         {
             _playerModel = playerMovement;
 
@@ -30,11 +21,9 @@ namespace _Project.Scripts.Player
             _playerModel.RotationChanged += OnRotationChanged;
             _playerModel.SpeedChanged += OnSpeedChanged;
 
-            _view.SetPosition(_playerModel.Position);
-            _view.SetAngle(_playerModel.Rotation);
-            _view.SetSpeed(_playerModel.Speed);
+            _view.Initialize(_playerModel.Position, _playerModel.Rotation, _playerModel.Speed);
         }
-        
+
         private void OnPositionChanged()
             => _view.SetPosition(_playerModel.Position);
 

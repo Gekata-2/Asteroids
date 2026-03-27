@@ -1,25 +1,38 @@
-using _Project.Scripts.Services;
+using _Project.Scripts.Services.Pause;
 using UnityEngine;
 
 namespace _Project.Scripts.Entities
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public abstract class Entity : MonoBehaviour, IPausable
     {
-        public EntityData Data { get; private set; }
-        public bool HasEnteredLevel { get; private set; } = false;
-
-        public virtual void InitializeData(EntityData entityData)
+        private RigidBody2DTeleporter _teleporter;
+        protected Rigidbody2D Rigidbody;
+        
+        private void Awake()
         {
-            if (Data == null) 
-                Data = entityData;
+            Rigidbody = GetComponent<Rigidbody2D>();
         }
         
-        public abstract void SetPosition(Vector3 position);
-        
+        public void SetPosition(Vector3 position)
+        {
+            if (_teleporter != null)
+                return;
+
+            _teleporter = new RigidBody2DTeleporter(position, Rigidbody);
+        }
+
+        protected void HandlePositionChanger()
+        {
+            if (_teleporter == null)
+                return;
+
+            _teleporter.PerformNext();
+            if (_teleporter.IsFinished)
+                _teleporter = null;
+        }
+
         public abstract void Pause();
         public abstract void Resume();
-        
-        public void MarkEnteredLevel() 
-            => HasEnteredLevel = true;
     }
 }

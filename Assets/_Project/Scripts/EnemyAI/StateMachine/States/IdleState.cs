@@ -4,7 +4,7 @@ namespace _Project.Scripts.EnemyAI.StateMachine.States
 {
     public class IdleState : BaseState
     {
-        public IdleState(UFO enemy) : base(enemy, "Idle")
+        public IdleState(Ufo ufo) : base(ufo)
         {
         }
     }

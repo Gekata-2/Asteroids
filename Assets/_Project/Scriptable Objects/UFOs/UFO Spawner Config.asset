@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6679570f8af14a8497be6ecb6b78d5b7, type: 3}
   m_Name: UFO Spawner Config
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidsSpawnerConfig
-  <MinInterval>k__BackingField: 5
-  <MaxInterval>k__BackingField: 15
-  <StartDelay>k__BackingField: 1
-  <SpawnPositionSize>k__BackingField: {x: 18, y: 12}
+  <MinInterval>k__BackingField: 12
+  <MaxInterval>k__BackingField: 25
+  <StartDelay>k__BackingField: 20
+  <SpawnPositionSize>k__BackingField: {x: 19, y: 13}
   <GizmosColor>k__BackingField: {r: 0, g: 0.890604, b: 1, a: 1}

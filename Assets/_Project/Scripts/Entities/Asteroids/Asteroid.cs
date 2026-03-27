@@ -1,78 +1,111 @@
 using System;
 using System.Collections.Generic;
+using _Project.Scripts.Entities.Asteroids.Configs;
+using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Player;
-using _Project.Scripts.Player.Weapons.Laser;
-using _Project.Scripts.Player.Weapons.MachineGun;
+using ModestTree;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Entities.Asteroids
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Asteroid : PhysicalEntity, IDamageble
+    public class Asteroid : EnemyEntity, IDamageVisitable, IDamageVisitor
     {
-        public event Action<Asteroid> CollidedWithBullet;
-        public event Action<Asteroid> SweepedByLaser;
+        public event Action<Asteroid> Destroyed;
+        public event Action<List<Asteroid>> CreatedDebris;
 
-        private float _speed;
-        private Vector2 _moveDirection;
-        private Vector2 _velocity;
+        private Queue<AsteroidsSplitConfig> SplitChain { get; set; }
 
-        public Queue<AsteroidsSplitData> SplitChain { get; private set; }
-
-        public void InitializeBehaviour(float speed, Vector2 moveDirection, Queue<AsteroidsSplitData> splitChain)
+        public void Initialize(AsteroidsInitializationData initializationData)
         {
-            _speed = speed;
-            _moveDirection = moveDirection.normalized;
-            SplitChain = splitChain;
-            
-            UpdateVelocity();
+            InitializeData(initializationData.EntityConfig);
+            SplitChain = initializationData.SplitChain;
+            Rigidbody.AddTorque(initializationData.Torque);
+            Rigidbody.linearVelocity = initializationData.Speed * initializationData.MoveDirection.normalized;
         }
 
         private void FixedUpdate()
         {
             HandlePositionChanger();
-            Move();
         }
 
-        private void UpdateVelocity()
-            => _velocity = _moveDirection * _speed;
-
-        private void Move()
-        {
-            Rigidbody.linearVelocity = _velocity;
-        }
-
-        public void Die()
+        public void HandleLaser()
         {
             Destroy(gameObject);
+            Destroyed?.Invoke(this);
         }
 
-        public void TakeDamage(Damage damage)
+        public void HandleBullet()
         {
-            switch (damage.Source)
-            {
-                case Bullet:
-                    CollidedWithBullet?.Invoke(this);
-                    break;
-                case Laser:
-                    SweepedByLaser?.Invoke(this);
-                    break;
-            }
+            Destroy(gameObject);
+
+            if (!SplitChain.IsEmpty())
+                SpawnAsteroidsFromSplitAtPosition(SplitChain, Rigidbody.position);
+
+            Destroyed?.Invoke(this);
         }
+
+        private void SpawnAsteroidsFromSplitAtPosition(Queue<AsteroidsSplitConfig> asteroidsChainRemainder,
+            Vector3 position)
+        {
+            AsteroidsSplitConfig split = asteroidsChainRemainder.Dequeue();
+            AsteroidConfig asteroidConfig = split.Config;
+
+            int newAsteroidsCount = Random.Range(split.MinNewAsteroids, split.MaxNewAsteroids + 1);
+
+            List<Asteroid> newAsteroids = new List<Asteroid>(newAsteroidsCount);
+
+            for (int i = 0; i < newAsteroidsCount; i++)
+            {
+                Asteroid asteroid = Instantiate(asteroidConfig.Prefab, position, Quaternion.identity);
+                asteroid.Initialize(
+                    new AsteroidsInitializationData(
+                        GetAsteroidSpeed(asteroidConfig.Speed),
+                        GetAsteroidRandomDirection(),
+                        GetAsteroidTorque(asteroidConfig.Torque),
+                        asteroidsChainRemainder,
+                        asteroidConfig));
+                asteroid.transform.localScale = Vector3.one * split.Size;
+                newAsteroids.Add(asteroid);
+            }
+
+            CreatedDebris?.Invoke(newAsteroids);
+        }
+
+        private float GetAsteroidSpeed(AsteroidSpeedConfig speedConfig) =>
+            Random.Range(speedConfig.Min, speedConfig.Max);
+
+        private Vector2 GetAsteroidRandomDirection()
+            => Random.insideUnitCircle.normalized;
+
+        private float GetAsteroidTorque(AsteroidTorqueConfig torqueConfig)
+            => Random.Range(torqueConfig.Min, torqueConfig.Max);
 
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.TryGetComponent(out PlayerHealth playerHealth))
-                playerHealth.TakeDamage(new Damage(this));
+                playerHealth.Accept(this);
         }
 
-        public void AddTorque(float value) 
-            => Rigidbody.AddTorque(value);
-
-        public override void Pause() 
+        public override void Pause()
             => Rigidbody.simulated = false;
 
-        public override void Resume() 
+        public override void Resume()
             => Rigidbody.simulated = true;
+
+        public void Accept(IDamageVisitor visitor)
+            => visitor.Visit(this);
+
+        public void Visit(PlayerHealth playerHealth)
+            => playerHealth.Die();
+
+        public void Visit(Asteroid asteroid)
+        {
+        }
+
+        public void Visit(Ufo ufo)
+        {
+        }
     }
 }

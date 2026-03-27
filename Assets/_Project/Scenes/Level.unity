@@ -298,7 +298,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 401577737}
-  - component: {fileID: 401577736}
+  - component: {fileID: 401577738}
   m_Layer: 0
   m_Name: AsteroidsSpawner
   m_TagString: Untagged
@@ -306,20 +306,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &401577736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401577735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0157cc131e81bad4aa00a813fd3be00c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  asteroidsContainer: {fileID: 401577737}
-  drawGizmos: 1
 --- !u!4 &401577737
 Transform:
   m_ObjectHideFlags: 0
@@ -335,6 +321,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 151814266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &401577738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401577735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0157cc131e81bad4aa00a813fd3be00c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Entities.Asteroids.AsteroidsSpawner
+  asteroidsContainer: {fileID: 401577737}
+  drawGizmos: 1
 --- !u!1 &449118774
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,7 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d89d8c0c6b441ea0318cc8e6c40c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.UFOsInstaller
-  ufoData: {fileID: 11400000, guid: 064801225bef42d458a30b479c78588b, type: 2}
+  ufoConfig: {fileID: 11400000, guid: 064801225bef42d458a30b479c78588b, type: 2}
   spawnerConfig: {fileID: 11400000, guid: bffdeb19e9b23a34dbccc6e75e436849, type: 2}
 --- !u!1 &667685350
 GameObject:
@@ -1135,7 +1135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43e9489a9b4b2354c9c6d5a1e2baa39b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  gameSettings: {fileID: 11400000, guid: 4f8b00a7ba3772b419bcf9f83bafa472, type: 2}
+  scoreConfig: {fileID: 11400000, guid: 4f8b00a7ba3772b419bcf9f83bafa472, type: 2}
   gameOverWindowPrefab: {fileID: 2279743988569126690, guid: 358510561d51bff4888ca6f2c6893943, type: 3}
   pauseWindowPrefab: {fileID: 5592300926124235036, guid: 233698637be01a745b2fe4a4081a3e0d, type: 3}
 --- !u!4 &1815354542

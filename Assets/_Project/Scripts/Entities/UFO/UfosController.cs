@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using _Project.Scripts.Entities.UFO.Configs;
 using _Project.Scripts.Level.BoundsHandling;
 using _Project.Scripts.Player;
-using UnityEngine;
 using Zenject;
 
 namespace _Project.Scripts.Entities.UFO
 {
-    public class UfosController : MonoBehaviour
+    public class UfosController : EntitiesController
     {
-        public event Action<Ufo> UfoDestroyed;
-
         private EntitiesContainer _entitiesContainer;
         private LevelBounds _levelBounds;
         private UfosSpawner _ufosSpawner;
@@ -72,7 +68,7 @@ namespace _Project.Scripts.Entities.UFO
             _ufos.Remove(ufo);
             _entitiesContainer.RemoveEntity(ufo);
 
-            UfoDestroyed?.Invoke(ufo);
+            NotifyAboutEntityDestroyed(ufo);
         }
 
         private void UnsubscribeFromUfo(Ufo ufo)

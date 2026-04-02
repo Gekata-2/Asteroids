@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Entities.Spawner;
+﻿using _Project.Scripts.Entities;
+using _Project.Scripts.Entities.Spawner;
 using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Entities.UFO.Configs;
 using UnityEngine;
@@ -17,8 +18,7 @@ namespace _Project.Scripts.Installers
             Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig).WhenInjectedInto<UfosSpawner>();
 
             Container.BindInterfacesAndSelfTo<UfosSpawner>().FromComponentsInHierarchy().AsSingle();
-            Container.Bind<UfosController>().FromComponentsInHierarchy().AsSingle();
-
+            Container.Bind<EntitiesController>().To<UfosController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<RectangleSideSpawnPositionPicker>()
                 .WithArguments(spawnerConfig.SpawnPositionSize, spawnerConfig.GizmosColor)
                 .WhenInjectedInto<UfosSpawner>();

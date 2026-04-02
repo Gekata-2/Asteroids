@@ -1,5 +1,4 @@
 ﻿using _Project.Scripts.Entities;
-using _Project.Scripts.Entities.Asteroids;
 using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Level.BoundsHandling;
 using _Project.Scripts.Level.GameSession;

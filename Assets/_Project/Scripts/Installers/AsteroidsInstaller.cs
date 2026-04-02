@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Entities.Asteroids;
+﻿using _Project.Scripts.Entities;
+using _Project.Scripts.Entities.Asteroids;
 using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Entities.Spawner;
 using UnityEngine;
@@ -14,11 +15,12 @@ namespace _Project.Scripts.Installers
         public override void InstallBindings()
         {
             Container.Bind<AsteroidsConfig>().FromScriptableObject(asteroidsConfig).AsSingle();
-            Container.Bind<AsteroidsController>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<EntitiesController>().To<AsteroidsController>().FromComponentInHierarchy().AsSingle();
             Container.BindInterfacesAndSelfTo<AsteroidsSpawner>().FromComponentInHierarchy().AsSingle();
 
-            Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig).WhenInjectedInto<AsteroidsSpawner>();
-            
+            Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig)
+                .WhenInjectedInto<AsteroidsSpawner>();
+
             Container.Bind<RectangleSideSpawnPositionPicker>()
                 .WithArguments(spawnerConfig.SpawnPositionSize, spawnerConfig.GizmosColor)
                 .WhenInjectedInto<AsteroidsSpawner>();

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Entities.Asteroids.Configs;
@@ -9,10 +8,8 @@ using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Entities.Asteroids
 {
-    public class AsteroidsController : MonoBehaviour
+    public class AsteroidsController : EntitiesController
     {
-        public event Action<Asteroid> AsteroidDestroyed;
-
         private EntitiesContainer _entitiesContainer;
         private AsteroidsSpawner _spawner;
         private AsteroidsConfig _asteroidsConfig;
@@ -62,7 +59,7 @@ namespace _Project.Scripts.Entities.Asteroids
 
             HandleCreatedAsteroid(asteroid);
         }
-        
+
         private float GetAsteroidSpeed(AsteroidSpeedConfig speedConfig) =>
             Random.Range(speedConfig.Min, speedConfig.Max);
 
@@ -85,7 +82,7 @@ namespace _Project.Scripts.Entities.Asteroids
 
             asteroid.Destroyed += OnAsteroidDestroyed;
             asteroid.CreatedDebris += OnCreatedDebris;
-            
+
             _asteroids.Add(asteroid);
             _entitiesContainer.AddEntity(asteroid);
         }
@@ -94,10 +91,10 @@ namespace _Project.Scripts.Entities.Asteroids
         {
             _asteroids.Remove(asteroid);
             _entitiesContainer.RemoveEntity(asteroid);
-            
+
             UnsubscribeFromAsteroid(asteroid);
-            
-            AsteroidDestroyed?.Invoke(asteroid);
+
+            NotifyAboutEntityDestroyed(asteroid);
         }
 
         private void OnCreatedDebris(List<Asteroid> asteroids)

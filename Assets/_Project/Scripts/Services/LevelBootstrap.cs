@@ -20,12 +20,9 @@ namespace _Project.Scripts.Services
         private IInput _inputHandler;
         private EntitiesContainer _entitiesContainer;
         private PlayerStatePresenter _playerStatePresenter;
-        private PauseService _pauseService;
-        private UfosSpawner _ufosSpawner;
         private CursorService _cursorService;
         private UfosController _ufosController;
         private GameOverModel _gameOverModel;
-        private AsteroidsSpawner _asteroidsSpawner;
         private LevelBounds _levelBounds;
 
 
@@ -34,9 +31,7 @@ namespace _Project.Scripts.Services
             IInput inputHandler,
             EntitiesContainer entitiesContainer,
             PlayerStatePresenter playerStatePresenter,
-            AsteroidsSpawner asteroidsSpawner,
             CursorService cursorService,
-            UfosSpawner ufosSpawner,
             UfosController ufosController,
             GameOverModel gameOverModel,
             LevelBounds levelBounds,
@@ -46,13 +41,10 @@ namespace _Project.Scripts.Services
             _inputHandler = inputHandler;
             _entitiesContainer = entitiesContainer;
             _playerStatePresenter = playerStatePresenter;
-            _asteroidsSpawner = asteroidsSpawner;
             _cursorService = cursorService;
-            _ufosSpawner = ufosSpawner;
             _ufosController = ufosController;
             _gameOverModel = gameOverModel;
             _levelBounds = levelBounds;
-            _pauseService = pauseService;
         }
 
         private void Awake()
@@ -64,11 +56,7 @@ namespace _Project.Scripts.Services
             if (player.TryGetComponent(out LevelBoundsHandler levelBoundsHandler))
                 levelBoundsHandler.Initialize(_levelBounds);
             _entitiesContainer.AddEntity(player.GetComponent<Entity>());
-
-            _pauseService?.AddItem(_entitiesContainer);
-            _pauseService?.AddItem(_asteroidsSpawner);
-            _pauseService?.AddItem(_ufosSpawner);
-
+            
             _ufosController.SetTarget(player.GetComponent<EnemyTarget>());
             _gameOverModel.SetPlayer(player.GetComponent<PlayerHealth>());
         }

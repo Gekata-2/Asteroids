@@ -16,7 +16,7 @@ namespace _Project.Scripts.Installers
             Container.Bind<UfoConfig>().FromScriptableObject(ufoConfig).AsSingle();
             Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig).WhenInjectedInto<UfosSpawner>();
 
-            Container.Bind<UfosSpawner>().FromComponentsInHierarchy().AsSingle();
+            Container.BindInterfacesAndSelfTo<UfosSpawner>().FromComponentsInHierarchy().AsSingle();
             Container.Bind<UfosController>().FromComponentsInHierarchy().AsSingle();
 
             Container.Bind<RectangleSideSpawnPositionPicker>()

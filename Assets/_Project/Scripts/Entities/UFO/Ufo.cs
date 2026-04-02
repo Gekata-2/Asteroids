@@ -47,7 +47,8 @@ namespace _Project.Scripts.Entities.UFO
             DieState dieState = new(this);
 
             _stateMachine.AddTransition(idleState, chaseState, new FuncPredicate(() => _initialized));
-            _stateMachine.AddAnyTransition(dieState, new FuncPredicate(() => _hasBeenHitByBullet || _hasBeenSweepedByLaser));
+            _stateMachine.AddAnyTransition(dieState,
+                new FuncPredicate(() => _hasBeenHitByBullet || _hasBeenSweepedByLaser));
             _stateMachine.SetState(idleState);
 
             _isActive = true;
@@ -79,10 +80,10 @@ namespace _Project.Scripts.Entities.UFO
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.TryGetComponent(out PlayerHealth playerHealth))
-                playerHealth.Accept(this);
+            if (other.gameObject.TryGetComponent(out IDamageVisitable visitable))
+                visitable.Accept(this);
         }
-        
+
         public void Die()
         {
             Died?.Invoke(this);
@@ -110,8 +111,8 @@ namespace _Project.Scripts.Entities.UFO
         public void Accept(IDamageVisitor visitor)
             => visitor.Visit(this);
 
-        public void Visit(PlayerHealth playerHealth) 
-            => playerHealth.Die();
+        public void Visit(Player.Player player)
+            => player.Die();
 
         public void Visit(Asteroid asteroid)
         {

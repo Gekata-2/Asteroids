@@ -47,7 +47,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
             gameObject.SetActive(false);
         }
 
-        public void Visit(PlayerHealth playerHealth)
+        public void Visit(Player player)
         {
         }
 

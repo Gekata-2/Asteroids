@@ -84,8 +84,8 @@ namespace _Project.Scripts.Entities.Asteroids
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.TryGetComponent(out PlayerHealth playerHealth))
-                playerHealth.Accept(this);
+            if (other.gameObject.TryGetComponent(out IDamageVisitable visitable))
+                visitable.Accept(this);
         }
 
         public override void Pause()
@@ -97,8 +97,8 @@ namespace _Project.Scripts.Entities.Asteroids
         public void Accept(IDamageVisitor visitor)
             => visitor.Visit(this);
 
-        public void Visit(PlayerHealth playerHealth)
-            => playerHealth.Die();
+        public void Visit(Player.Player player)
+            => player.Die();
 
         public void Visit(Asteroid asteroid)
         {

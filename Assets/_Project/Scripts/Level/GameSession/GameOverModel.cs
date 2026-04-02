@@ -19,7 +19,7 @@ namespace _Project.Scripts.Level.GameSession
         private readonly ExitGameService _exitGameService;
         private readonly GameSessionData _gameSessionData;
 
-        private PlayerHealth _player;
+        private Player.Player _player;
         private readonly UIManager _uiManager;
 
         public int Score => _gameSessionData.Score;
@@ -45,9 +45,9 @@ namespace _Project.Scripts.Level.GameSession
             _input.SubmitPerformed += OnSubmitPerformed;
         }
 
-        public void SetPlayer(PlayerHealth playerHealth)
+        public void SetPlayer(Player.Player player)
         {
-            _player = playerHealth;
+            _player = player;
             _player.PlayerDead += OnPlayerDead;
         }
 

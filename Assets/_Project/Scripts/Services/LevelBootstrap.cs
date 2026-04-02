@@ -57,7 +57,7 @@ namespace _Project.Scripts.Services
             _entitiesContainer.AddEntity(player.GetComponent<Entity>());
             
             _ufosController.SetTarget(player.GetComponent<EnemyTarget>());
-            _gameOverModel.SetPlayer(player.GetComponent<PlayerHealth>());
+            _gameOverModel.SetPlayer(player.GetComponent<Player.Player>());
         }
 
         private void Start()

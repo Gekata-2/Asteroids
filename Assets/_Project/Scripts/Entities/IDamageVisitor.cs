@@ -6,7 +6,7 @@ namespace _Project.Scripts.Entities
 {
     public interface IDamageVisitor
     {
-        void Visit(PlayerHealth playerHealth);
+        void Visit(Player.Player player);
         void Visit(Asteroid asteroid);
         void Visit(Ufo ufo);
     }

@@ -48,7 +48,7 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
             }
         }
 
-        public void Visit(PlayerHealth playerHealth)
+        public void Visit(Player player)
         {
         }
 

@@ -14,8 +14,8 @@ namespace _Project.Scripts.Installers
 
         public override void InstallBindings()
         {
+
             Container.Bind<AsteroidsConfig>().FromScriptableObject(asteroidsConfig).AsSingle();
-            Container.Bind<EntitiesController>().To<AsteroidsController>().FromComponentInHierarchy().AsSingle();
             Container.BindInterfacesAndSelfTo<AsteroidsSpawner>().FromComponentInHierarchy().AsSingle();
 
             Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig)

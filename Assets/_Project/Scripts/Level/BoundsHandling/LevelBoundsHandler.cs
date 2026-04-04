@@ -1,5 +1,6 @@
 ﻿using _Project.Scripts.Entities;
 using UnityEngine;
+using Zenject;
 
 namespace _Project.Scripts.Level.BoundsHandling
 {
@@ -17,9 +18,15 @@ namespace _Project.Scripts.Level.BoundsHandling
             _entity = GetComponent<Entity>();
         }
 
-        public void Initialize(LevelBounds levelBounds)
+        [Inject]
+        public void Construct(LevelBounds levelBounds)
         {
             _levelBounds = levelBounds;
+        }
+
+        public void Initialize(LevelBounds levelBounds)
+        {
+        //    _levelBounds = levelBounds;
         }
 
         private void FixedUpdate()

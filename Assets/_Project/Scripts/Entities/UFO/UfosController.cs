@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Entities.UFO.Configs;
-using _Project.Scripts.Level.BoundsHandling;
-using _Project.Scripts.Player;
 using Zenject;
 
 namespace _Project.Scripts.Entities.UFO
@@ -9,29 +6,17 @@ namespace _Project.Scripts.Entities.UFO
     public class UfosController : EntitiesController
     {
         private EntitiesContainer _entitiesContainer;
-        private LevelBounds _levelBounds;
         private UfosSpawner _ufosSpawner;
-        private UfoConfig _ufoConfig;
-
-        private EnemyTarget _ufosTarget;
-
         private readonly List<Ufo> _ufos = new();
 
         [Inject]
         public void Construct(EntitiesContainer entitiesContainer,
-            UfosSpawner ufosSpawner, UfoConfig ufoConfig,
-            LevelBounds levelBounds)
+            UfosSpawner ufosSpawner)
         {
             _ufosSpawner = ufosSpawner;
             _entitiesContainer = entitiesContainer;
-            _ufoConfig = ufoConfig;
-            _levelBounds = levelBounds;
         }
-
-        public void SetTarget(EnemyTarget target)
-            => _ufosTarget = target;
-
-
+        
         private void Start()
         {
             _ufosSpawner.UfoSpawned += OnUfoSpawned;
@@ -50,11 +35,6 @@ namespace _Project.Scripts.Entities.UFO
 
         private void OnUfoSpawned(Ufo ufo)
         {
-            ufo.Initialize(_ufoConfig, _ufosTarget);
-
-            if (ufo.TryGetComponent(out LevelBoundsHandler boundsHandler))
-                boundsHandler.Initialize(_levelBounds);
-
             ufo.Died += OnUfoDied;
 
             _ufos.Add(ufo);

@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using Zenject;
+﻿using Zenject;
 
 namespace _Project.Scripts.Entities.Factories
 {

@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Entities;
+using _Project.Scripts.Entities.Factories;
 using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Level.BoundsHandling;
 using _Project.Scripts.Level.GameSession;
@@ -11,11 +12,10 @@ namespace _Project.Scripts.Services
 {
     public class LevelBootstrap : MonoBehaviour
     {
-        [SerializeField] private GameObject playerPrefab;
         [SerializeField] private Transform playerSpawnPoint;
         [SerializeField] private bool isCursorVisible;
-
-        private DiContainer _di;
+        
+        private PlayerFactory _playerFactory;
         private IInput _inputHandler;
         private EntitiesContainer _entitiesContainer;
         private PlayerStatePresenter _playerStatePresenter;
@@ -24,9 +24,8 @@ namespace _Project.Scripts.Services
         private GameOverModel _gameOverModel;
         private LevelBounds _levelBounds;
 
-
         [Inject]
-        private void Construct(DiContainer diContainer,
+        private void Construct(PlayerFactory playerFactory,
             IInput inputHandler,
             EntitiesContainer entitiesContainer,
             PlayerStatePresenter playerStatePresenter,
@@ -36,7 +35,7 @@ namespace _Project.Scripts.Services
             LevelBounds levelBounds,
             PauseService pauseService = null)
         {
-            _di = diContainer;
+            _playerFactory = playerFactory;
             _inputHandler = inputHandler;
             _entitiesContainer = entitiesContainer;
             _playerStatePresenter = playerStatePresenter;
@@ -48,16 +47,16 @@ namespace _Project.Scripts.Services
 
         private void Awake()
         {
-            GameObject player = _di.InstantiatePrefab(playerPrefab);
-            
+            Player.Player player = _playerFactory.Create();
+
             player.transform.position = playerSpawnPoint.position;
             _playerStatePresenter.SetPlayerModel(player.GetComponent<PlayerMovement>());
             if (player.TryGetComponent(out LevelBoundsHandler levelBoundsHandler))
                 levelBoundsHandler.Initialize(_levelBounds);
             _entitiesContainer.AddEntity(player.GetComponent<Entity>());
-            
+
             _ufosController.SetTarget(player.GetComponent<EnemyTarget>());
-            _gameOverModel.SetPlayer(player.GetComponent<Player.Player>());
+            _gameOverModel.SetPlayer(player);
         }
 
         private void Start()

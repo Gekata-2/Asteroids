@@ -1,12 +1,11 @@
 ﻿using _Project.Scripts.EnemyAI.StateMachine;
 using _Project.Scripts.EnemyAI.StateMachine.States;
-using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Entities.UFO.Configs;
 using _Project.Scripts.Player;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Entities.Factories
+namespace _Project.Scripts.Entities.UFO
 {
     public class UfoFactory : PlaceholderFactory<Vector3, EnemyTarget, Ufo>
     {

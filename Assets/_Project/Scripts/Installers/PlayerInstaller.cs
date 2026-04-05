@@ -1,5 +1,4 @@
-﻿using _Project.Scripts.Entities.Factories;
-using _Project.Scripts.Level.GameSession;
+﻿using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Player;
 using _Project.Scripts.Player.Weapons;
 using _Project.Scripts.Player.Weapons.Laser;

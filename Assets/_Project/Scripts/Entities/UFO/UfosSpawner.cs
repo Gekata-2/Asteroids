@@ -28,10 +28,12 @@ namespace _Project.Scripts.Entities.UFO
         private EnemyTarget _target;
 
         [Inject]
-        private void Construct(SimpleSpawnerConfig spawnerConfig, UfoFactory ufoFactory)
+        private void Construct(SimpleSpawnerConfig spawnerConfig, UfoFactory ufoFactory,
+            RectangleSideSpawnPositionPicker spawnPositionPicker)
         {
             _spawnerConfig = spawnerConfig;
             _ufoFactory = ufoFactory;
+            _spawnPositionPicker = spawnPositionPicker;
         }
 
         private void Start()
@@ -55,9 +57,7 @@ namespace _Project.Scripts.Entities.UFO
 
         private void SpawnUfo()
         {
-            // Ufo ufo = Instantiate(_prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
-            Ufo ufo = _ufoFactory.Create(_target);
-            ufo.SetPosition(_spawnPositionPicker.GetNextPosition());
+            Ufo ufo = _ufoFactory.Create(_spawnPositionPicker.GetNextPosition(), _target);
             UfoSpawned?.Invoke(ufo);
         }
 

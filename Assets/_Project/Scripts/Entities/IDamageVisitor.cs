@@ -1,6 +1,5 @@
 ﻿using _Project.Scripts.Entities.Asteroids;
 using _Project.Scripts.Entities.UFO;
-using _Project.Scripts.Player;
 
 namespace _Project.Scripts.Entities
 {

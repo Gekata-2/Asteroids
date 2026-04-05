@@ -577,7 +577,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf7ec4905b5146149b2872e955730901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bootstrap
-  playerPrefab: {fileID: 8707059178151170775, guid: fb56c36f9305e3249ae8af24b421703c, type: 3}
   playerSpawnPoint: {fileID: 1198808307}
   isCursorVisible: 0
 --- !u!4 &739494896
@@ -925,6 +924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.AsteroidsInstaller
   asteroidsConfig: {fileID: 11400000, guid: 1dfcf413176dead4485e6d6888352e6f, type: 2}
   spawnerConfig: {fileID: 11400000, guid: 5ed469316618e514baf36771f95f4ff4, type: 2}
+  poolsConfig: {fileID: 11400000, guid: 0d9c9d7ad432e174f8184ebdb6eedc1a, type: 2}
 --- !u!4 &1317088369
 Transform:
   m_ObjectHideFlags: 0

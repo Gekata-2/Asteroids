@@ -8,11 +8,11 @@ using Zenject;
 
 namespace _Project.Scripts.Entities.Factories
 {
-    public class UfoFactory : PlaceholderFactory<EnemyTarget, Ufo>
+    public class UfoFactory : PlaceholderFactory<Vector3, EnemyTarget, Ufo>
     {
     }
 
-    public class CustomUfoFactory : IFactory<EnemyTarget, Ufo>
+    public class CustomUfoFactory : IFactory<Vector3, EnemyTarget, Ufo>
     {
         private const string CONTAINER_NAME = "UFO container";
 
@@ -27,10 +27,15 @@ namespace _Project.Scripts.Entities.Factories
 
             _container = new GameObject(CONTAINER_NAME);
         }
-        
-        public Ufo Create(EnemyTarget target)
+
+        public Ufo Create(Vector3 position, EnemyTarget target)
         {
-            Ufo ufo = _di.InstantiatePrefabForComponent<Ufo>(_config.Prefab, _container.transform);
+            Ufo ufo = _di.InstantiatePrefabForComponent<Ufo>(
+                _config.Prefab,
+                position,
+                Quaternion.identity,
+                _container.transform);
+
             StateMachine stateMachine = CreateStateMachine(ufo, target);
             ufo.Initialize(_config);
             ufo.SetBehaviour(stateMachine);

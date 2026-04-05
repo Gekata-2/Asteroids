@@ -15,7 +15,7 @@ namespace _Project.Scripts.Installers
 
         public override void InstallBindings()
         {
-            Container.BindFactory<EnemyTarget, Ufo, UfoFactory>().FromFactory<CustomUfoFactory>();
+            Container.BindFactory<Vector3, EnemyTarget, Ufo, UfoFactory>().FromFactory<CustomUfoFactory>();
             Container.Bind<UfoConfig>().FromScriptableObject(ufoConfig).AsSingle();
             Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig).WhenInjectedInto<UfosSpawner>();
 
@@ -23,7 +23,7 @@ namespace _Project.Scripts.Installers
             Container.BindInterfacesAndSelfTo<UfosController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<RectangleSideSpawnPositionPicker>()
                 .WithArguments(spawnerConfig.SpawnPositionSize, spawnerConfig.GizmosColor)
-                .WhenInjectedInto<CustomUfoFactory>();
+                .WhenInjectedInto<UfosSpawner>();
         }
     }
 }

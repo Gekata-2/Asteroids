@@ -1,5 +1,4 @@
-﻿using _Project.Scripts.Entities.Factories;
-using _Project.Scripts.Entities.Spawner;
+﻿using _Project.Scripts.Entities.Spawner;
 using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Entities.UFO.Configs;
 using _Project.Scripts.Player;

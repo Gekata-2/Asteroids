@@ -1,5 +1,4 @@
 ﻿using _Project.Scripts.Entities.Asteroids.Pools;
-using _Project.Scripts.Entities.Factories;
 using UnityEngine;
 
 namespace _Project.Scripts.Entities.Asteroids.Configs

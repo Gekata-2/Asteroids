@@ -1,5 +1,4 @@
 ﻿using _Project.Scripts.Entities;
-using _Project.Scripts.Entities.Factories;
 using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Player;

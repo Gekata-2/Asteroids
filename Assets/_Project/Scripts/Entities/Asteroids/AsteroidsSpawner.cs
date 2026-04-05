@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using _Project.Scripts.Entities.Asteroids.Configs;
+using _Project.Scripts.Entities.Asteroids.Pools;
+using _Project.Scripts.Entities.Factories;
 using _Project.Scripts.Entities.Spawner;
 using _Project.Scripts.Services.Pause;
 using UnityEngine;
@@ -11,34 +13,33 @@ namespace _Project.Scripts.Entities.Asteroids
 {
     public class AsteroidsSpawner : MonoBehaviour, IPausable
     {
-        private const string CONTAINER_NAME = "Asteroids Container";
+        public event Action<Asteroid, Vector2> AsteroidSpawned;
 
-        public event Action<Asteroid> AsteroidSpawned;
-  
         [SerializeField] private bool drawGizmos;
-        
+
         private SimpleSpawnerConfig _spawnerConfig;
         private RectangleSideSpawnPositionPicker _spawnPositionPicker;
-        private Asteroid _prefab;
-        
-        private GameObject _container;
-        
+
+        private AsteroidType _type;
+
         private float _timer;
         private bool _isActive;
+        private AsteroidPools _pools;
 
         [Inject]
         private void Construct(AsteroidsConfig asteroidsConfig, SimpleSpawnerConfig spawnerConfig,
-            RectangleSideSpawnPositionPicker spawnPositionPicker)
+            RectangleSideSpawnPositionPicker spawnPositionPicker, AsteroidPools pools)
         {
+            _pools = pools;
             _spawnerConfig = spawnerConfig;
             _spawnPositionPicker = spawnPositionPicker;
-            _prefab = asteroidsConfig.Chain.First().Config.Prefab;
+
+            _type = asteroidsConfig.Chain.First().Config.AsteroidType;
         }
 
         private void Start()
         {
             _timer = float.MaxValue;
-            _container = new GameObject(CONTAINER_NAME);
         }
 
         private void Update()
@@ -57,15 +58,17 @@ namespace _Project.Scripts.Entities.Asteroids
 
         private void SpawnAsteroid()
         {
-            Asteroid asteroid = Instantiate(_prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
-            asteroid.transform.parent = _container.transform;
-
-            AsteroidSpawned?.Invoke(asteroid);
+            Vector2 spawnPosition = _spawnPositionPicker.GetNextPosition();
+            Asteroid asteroid = _pools.Get(_type);
+            
+            asteroid.SetPosition(spawnPosition);
+            
+            AsteroidSpawned?.Invoke(asteroid,spawnPosition);
         }
 
         private float GetNextTimer()
             => Random.Range(_spawnerConfig.MinInterval, _spawnerConfig.MaxInterval);
-        
+
         public void Pause()
             => _isActive = false;
 

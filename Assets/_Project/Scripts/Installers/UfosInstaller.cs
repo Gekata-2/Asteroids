@@ -1,6 +1,8 @@
-﻿using _Project.Scripts.Entities.Spawner;
+﻿using _Project.Scripts.Entities.Factories;
+using _Project.Scripts.Entities.Spawner;
 using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Entities.UFO.Configs;
+using _Project.Scripts.Player;
 using UnityEngine;
 using Zenject;
 
@@ -13,12 +15,12 @@ namespace _Project.Scripts.Installers
 
         public override void InstallBindings()
         {
+            Container.BindFactory<Vector3, EnemyTarget, Ufo, UfoFactory>().FromFactory<CustomUfoFactory>();
             Container.Bind<UfoConfig>().FromScriptableObject(ufoConfig).AsSingle();
             Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig).WhenInjectedInto<UfosSpawner>();
 
-            Container.Bind<UfosSpawner>().FromComponentsInHierarchy().AsSingle();
-            Container.Bind<UfosController>().FromComponentsInHierarchy().AsSingle();
-
+            Container.BindInterfacesAndSelfTo<UfosSpawner>().FromComponentsInHierarchy().AsSingle();
+            Container.BindInterfacesAndSelfTo<UfosController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<RectangleSideSpawnPositionPicker>()
                 .WithArguments(spawnerConfig.SpawnPositionSize, spawnerConfig.GizmosColor)
                 .WhenInjectedInto<UfosSpawner>();

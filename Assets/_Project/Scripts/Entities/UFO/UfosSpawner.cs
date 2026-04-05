@@ -1,6 +1,8 @@
 ﻿using System;
+using _Project.Scripts.Entities.Factories;
 using _Project.Scripts.Entities.Spawner;
 using _Project.Scripts.Entities.UFO.Configs;
+using _Project.Scripts.Player;
 using _Project.Scripts.Services.Pause;
 using UnityEngine;
 using Zenject;
@@ -10,35 +12,33 @@ namespace _Project.Scripts.Entities.UFO
 {
     public class UfosSpawner : MonoBehaviour, IPausable
     {
-        private const string CONTAINER_NAME = "UFO container";
-
         public event Action<Ufo> UfoSpawned;
-
 
         [SerializeField] private bool drawGizmos;
 
         private UfoConfig _ufoConfig;
         private SimpleSpawnerConfig _spawnerConfig;
-        private Ufo _prefab;
+
         private RectangleSideSpawnPositionPicker _spawnPositionPicker;
 
         private float _timer;
         private bool _isActive;
         private GameObject _container;
+        private UfoFactory _ufoFactory;
+        private EnemyTarget _target;
 
         [Inject]
-        private void Construct(UfoConfig ufoConfig, SimpleSpawnerConfig spawnerConfig,
+        private void Construct(SimpleSpawnerConfig spawnerConfig, UfoFactory ufoFactory,
             RectangleSideSpawnPositionPicker spawnPositionPicker)
         {
-            _prefab = ufoConfig.Prefab;
             _spawnerConfig = spawnerConfig;
+            _ufoFactory = ufoFactory;
             _spawnPositionPicker = spawnPositionPicker;
         }
 
         private void Start()
         {
             _timer = float.MaxValue;
-            _container = new GameObject(CONTAINER_NAME);
         }
 
         private void Update()
@@ -57,14 +57,14 @@ namespace _Project.Scripts.Entities.UFO
 
         private void SpawnUfo()
         {
-            Ufo ufo = Instantiate(_prefab, _spawnPositionPicker.GetNextPosition(), Quaternion.identity);
-            ufo.transform.parent = _container.transform;
-
+            Ufo ufo = _ufoFactory.Create(_spawnPositionPicker.GetNextPosition(), _target);
             UfoSpawned?.Invoke(ufo);
         }
 
         private float GetNextTimer()
             => Random.Range(_spawnerConfig.MinInterval, _spawnerConfig.MaxInterval);
+
+        public void SetTarget(EnemyTarget enemyTarget) => _target = enemyTarget;
 
         public void Pause()
         {

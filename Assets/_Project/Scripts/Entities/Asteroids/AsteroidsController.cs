@@ -1,7 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Project.Scripts.Entities.Asteroids.Configs;
+using _Project.Scripts.Entities.Asteroids.Pools;
+using _Project.Scripts.Entities.Factories;
 using _Project.Scripts.Level.BoundsHandling;
 using UnityEngine;
 using Zenject;
@@ -9,26 +10,25 @@ using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Entities.Asteroids
 {
-    public class AsteroidsController : MonoBehaviour
+    public class AsteroidsController : EntitiesController
     {
-        public event Action<Asteroid> AsteroidDestroyed;
-
         private EntitiesContainer _entitiesContainer;
         private AsteroidsSpawner _spawner;
         private AsteroidsConfig _asteroidsConfig;
         private LevelBounds _levelBounds;
-
+        private AsteroidPools _pools;
+        
         private readonly List<Asteroid> _asteroids = new();
 
         [Inject]
         private void Construct(EntitiesContainer entitiesContainer, AsteroidsSpawner spawner,
-            AsteroidsConfig asteroidsConfig,
-            LevelBounds levelBounds)
+            AsteroidsConfig asteroidsConfig, LevelBounds levelBounds, AsteroidPools pools)
         {
             _entitiesContainer = entitiesContainer;
             _spawner = spawner;
             _asteroidsConfig = asteroidsConfig;
             _levelBounds = levelBounds;
+            _pools = pools;
         }
 
         private void Start()
@@ -47,7 +47,7 @@ namespace _Project.Scripts.Entities.Asteroids
             _asteroids.Clear();
         }
 
-        private void OnAsteroidSpawned(Asteroid asteroid)
+        private void OnAsteroidSpawned(Asteroid asteroid, Vector2 spawnPosition)
         {
             AsteroidConfig asteroidConfig = _asteroidsConfig.Chain.First().Config;
             Queue<AsteroidsSplitConfig> splitChain = new(_asteroidsConfig.Chain);
@@ -55,22 +55,24 @@ namespace _Project.Scripts.Entities.Asteroids
             asteroid.Initialize(
                 new AsteroidsInitializationData(
                     GetAsteroidSpeed(asteroidConfig.Speed),
-                    GetAsteroidInitialDirectionFromPosition(asteroid.transform.position),
+                    GetAsteroidInitialDirectionFromPosition(spawnPosition),
                     GetAsteroidTorque(asteroidConfig.Torque),
                     splitChain,
                     asteroidConfig));
 
             HandleCreatedAsteroid(asteroid);
         }
-        
+
         private float GetAsteroidSpeed(AsteroidSpeedConfig speedConfig) =>
             Random.Range(speedConfig.Min, speedConfig.Max);
 
         private Vector2 GetAsteroidInitialDirectionFromPosition(Vector2 spawnPosition)
         {
             Vector2 positionInsideLevelBounds = new(
-                Random.Range(_levelBounds.Bounds.min.x, _levelBounds.Bounds.max.x),
-                Random.Range(_levelBounds.Bounds.min.y, _levelBounds.Bounds.max.y));
+                Random.Range(_levelBounds.Bounds.min.x + _levelBounds.SkinWidth,
+                    _levelBounds.Bounds.max.x - _levelBounds.SkinWidth),
+                Random.Range(_levelBounds.Bounds.min.y + _levelBounds.SkinWidth,
+                    _levelBounds.Bounds.max.y - _levelBounds.SkinWidth));
 
             return (positionInsideLevelBounds - spawnPosition).normalized;
         }
@@ -80,24 +82,22 @@ namespace _Project.Scripts.Entities.Asteroids
 
         private void HandleCreatedAsteroid(Asteroid asteroid)
         {
-            if (asteroid.TryGetComponent(out LevelBoundsHandler levelBoundsHandler))
-                levelBoundsHandler.Initialize(_levelBounds);
-
             asteroid.Destroyed += OnAsteroidDestroyed;
             asteroid.CreatedDebris += OnCreatedDebris;
-            
+
             _asteroids.Add(asteroid);
             _entitiesContainer.AddEntity(asteroid);
         }
 
         private void OnAsteroidDestroyed(Asteroid asteroid)
         {
+            _pools.Release(asteroid);
             _asteroids.Remove(asteroid);
             _entitiesContainer.RemoveEntity(asteroid);
-            
+
             UnsubscribeFromAsteroid(asteroid);
-            
-            AsteroidDestroyed?.Invoke(asteroid);
+
+            NotifyAboutEntityDestroyed(asteroid);
         }
 
         private void OnCreatedDebris(List<Asteroid> asteroids)

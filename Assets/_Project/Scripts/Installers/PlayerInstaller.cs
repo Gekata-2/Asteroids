@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Level.GameSession;
+﻿using _Project.Scripts.Entities.Factories;
+using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Player;
 using _Project.Scripts.Player.Weapons;
 using _Project.Scripts.Player.Weapons.Laser;
@@ -11,7 +12,7 @@ namespace _Project.Scripts.Installers
 {
     public class PlayerInstaller : MonoInstaller
     {
-        
+        [SerializeField] private GameObject playerPrefab;
         [SerializeField] private PlayerConfig playerConfig;
         [SerializeField] private PlayerWeaponsConfig weaponsConfig;
         [Header("UI")] 
@@ -21,6 +22,8 @@ namespace _Project.Scripts.Installers
 
         public override void InstallBindings()
         {
+            Container.BindFactory<Player.Player, PlayerFactory>().FromComponentInNewPrefab(playerPrefab);
+            
             Container.Bind<PlayerConfig>().FromScriptableObject(playerConfig).AsSingle();
             Container.Bind<PlayerWeaponsConfig>().FromScriptableObject(weaponsConfig).AsSingle();
 

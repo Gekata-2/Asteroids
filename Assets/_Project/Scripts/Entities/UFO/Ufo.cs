@@ -1,9 +1,7 @@
 ﻿using System;
 using _Project.Scripts.EnemyAI.StateMachine;
-using _Project.Scripts.EnemyAI.StateMachine.States;
 using _Project.Scripts.Entities.Asteroids;
 using _Project.Scripts.Entities.UFO.Configs;
-using _Project.Scripts.Player;
 using UnityEngine;
 
 namespace _Project.Scripts.Entities.UFO
@@ -13,14 +11,7 @@ namespace _Project.Scripts.Entities.UFO
         public event Action<Ufo> Died;
 
         private StateMachine _stateMachine;
-
         private bool _isActive;
-        private bool _initialized;
-
-        private bool _hasBeenHitByBullet;
-        private bool _hasBeenSweepedByLaser;
-
-        private EnemyTarget _target;
 
         public float Speed { get; private set; }
         public float SteeringSpeed { get; private set; }
@@ -28,28 +19,21 @@ namespace _Project.Scripts.Entities.UFO
         public float Rotation { get; private set; }
         public Vector2 Position => Rigidbody.position;
         public Vector2 Up => transform.up;
+        public bool Initialized { get; private set; }
+        public bool HasBeenHitByBullet { get; private set; }
+        public bool HasBeenSweepedByLaser { get; private set; }
 
 
-        public void Initialize(UfoConfig ufoConfig, EnemyTarget target)
+        public void Initialize(UfoConfig ufoConfig)
         {
             InitializeData(ufoConfig);
             Speed = ufoConfig.Movement.Speed;
             SteeringSpeed = ufoConfig.Movement.SteeringSpeed;
-            _target = target;
-            _initialized = true;
+            Initialized = true;
         }
 
         private void Start()
         {
-            _stateMachine = new StateMachine();
-            IdleState idleState = new(this);
-            ChaseState chaseState = new(_target, this);
-            DieState dieState = new(this);
-
-            _stateMachine.AddTransition(idleState, chaseState, new FuncPredicate(() => _initialized));
-            _stateMachine.AddAnyTransition(dieState, new FuncPredicate(() => _hasBeenHitByBullet || _hasBeenSweepedByLaser));
-            _stateMachine.SetState(idleState);
-
             _isActive = true;
         }
 
@@ -68,6 +52,9 @@ namespace _Project.Scripts.Entities.UFO
             _stateMachine.FixedUpdate();
         }
 
+        public void SetBehaviour(StateMachine stateMachine)
+            => _stateMachine = stateMachine;
+
         public void SetVelocity(Vector2 velocity)
             => Rigidbody.linearVelocity = velocity;
 
@@ -79,10 +66,10 @@ namespace _Project.Scripts.Entities.UFO
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.TryGetComponent(out PlayerHealth playerHealth))
-                playerHealth.Accept(this);
+            if (other.gameObject.TryGetComponent(out IDamageVisitable visitable))
+                visitable.Accept(this);
         }
-        
+
         public void Die()
         {
             Died?.Invoke(this);
@@ -102,16 +89,16 @@ namespace _Project.Scripts.Entities.UFO
         }
 
         public void HandleBullet()
-            => _hasBeenHitByBullet = true;
+            => HasBeenHitByBullet = true;
 
         public void HandleLaser()
-            => _hasBeenSweepedByLaser = true;
+            => HasBeenSweepedByLaser = true;
 
         public void Accept(IDamageVisitor visitor)
             => visitor.Visit(this);
 
-        public void Visit(PlayerHealth playerHealth) 
-            => playerHealth.Die();
+        public void Visit(Player.Player player)
+            => player.Die();
 
         public void Visit(Asteroid asteroid)
         {

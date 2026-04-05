@@ -333,7 +333,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0157cc131e81bad4aa00a813fd3be00c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Entities.Asteroids.AsteroidsSpawner
-  asteroidsContainer: {fileID: 401577737}
   drawGizmos: 1
 --- !u!1 &449118774
 GameObject:
@@ -423,7 +422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e571a0f073fd421b863897a241040dca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entities.UFO.UfosSpawner
-  container: {fileID: 458748473}
   drawGizmos: 1
 --- !u!1 &563128494
 GameObject:
@@ -579,7 +577,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf7ec4905b5146149b2872e955730901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bootstrap
-  playerPrefab: {fileID: 8707059178151170775, guid: fb56c36f9305e3249ae8af24b421703c, type: 3}
   playerSpawnPoint: {fileID: 1198808307}
   isCursorVisible: 0
 --- !u!4 &739494896
@@ -831,6 +828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 843cc66438e441988219b72c762f717a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.PlayerInstaller
+  playerPrefab: {fileID: 8707059178151170775, guid: fb56c36f9305e3249ae8af24b421703c, type: 3}
   playerConfig: {fileID: 11400000, guid: 59bb1d3877dbd1c4294d6b737e9a4b1d, type: 2}
   weaponsConfig: {fileID: 11400000, guid: a536a75de87d3f54ab599035666a5f5b, type: 2}
   scoreViewPrefab: {fileID: 5449726620632011077, guid: eaf4e2ec6750cdd4f83ca924ff85ff80, type: 3}
@@ -926,6 +924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.AsteroidsInstaller
   asteroidsConfig: {fileID: 11400000, guid: 1dfcf413176dead4485e6d6888352e6f, type: 2}
   spawnerConfig: {fileID: 11400000, guid: 5ed469316618e514baf36771f95f4ff4, type: 2}
+  poolsConfig: {fileID: 11400000, guid: 0d9c9d7ad432e174f8184ebdb6eedc1a, type: 2}
 --- !u!4 &1317088369
 Transform:
   m_ObjectHideFlags: 0
@@ -1088,7 +1087,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelBounds
   size: {x: 15, y: 9}
-  outerBoundsSize: {x: 25, y: 25}
   skinWidth: 0.33
   drawGizmos: 1
 --- !u!4 &1681604405

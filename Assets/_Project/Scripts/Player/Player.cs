@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Player
 {
-    public class PlayerHealth : MonoBehaviour, IDamageVisitable
+    public class Player : MonoBehaviour, IDamageVisitable
     {
         public event Action PlayerDead;
 

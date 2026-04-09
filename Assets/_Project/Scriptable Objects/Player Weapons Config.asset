@@ -15,7 +15,7 @@ MonoBehaviour:
   <MachineGun>k__BackingField:
     <RateOfFire>k__BackingField: 2
     <BulletSpeed>k__BackingField: 5
-    <BulletLifeTime>k__BackingField: 8
+    <BulletLifeTime>k__BackingField: 4
   <Laser>k__BackingField:
     <Cooldown>k__BackingField: 15
     <Lenght>k__BackingField: 9

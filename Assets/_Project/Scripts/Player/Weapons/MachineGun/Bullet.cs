@@ -11,6 +11,7 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
     public class Bullet : MonoBehaviour, IPausable, IDamageVisitor
     {
         public event Action<Bullet> Collided;
+        public event Action<Bullet> LiveTimeEnded;
 
         private Rigidbody2D _rb;
 
@@ -23,8 +24,13 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
 
         private void Update()
         {
-            if (_rb.simulated)
-                TimeToLive -= Time.deltaTime;
+            if (!_rb.simulated || TimeToLive <= 0f)
+                return;
+
+            TimeToLive -= Time.deltaTime;
+            
+            if (TimeToLive <= 0f) 
+                LiveTimeEnded?.Invoke(this);
         }
 
         public void Initialize(BulletData bulletData)

@@ -13,10 +13,10 @@ namespace _Project.Scripts.Entities.Asteroids
     {
         private EntitiesContainer _entitiesContainer;
         private AsteroidsSpawner _spawner;
-        private AsteroidsConfig _asteroidsConfig;
+        private List<AsteroidsSplitConfig> _asteroidSplitChain;
         private LevelBounds _levelBounds;
         private AsteroidPools _pools;
-        
+
         private readonly List<Asteroid> _asteroids = new();
 
         [Inject]
@@ -25,7 +25,7 @@ namespace _Project.Scripts.Entities.Asteroids
         {
             _entitiesContainer = entitiesContainer;
             _spawner = spawner;
-            _asteroidsConfig = asteroidsConfig;
+            _asteroidSplitChain = asteroidsConfig.Chain;
             _levelBounds = levelBounds;
             _pools = pools;
         }
@@ -48,8 +48,8 @@ namespace _Project.Scripts.Entities.Asteroids
 
         private void OnAsteroidSpawned(Asteroid asteroid, Vector2 spawnPosition)
         {
-            AsteroidConfig asteroidConfig = _asteroidsConfig.Chain.First().Config;
-            Queue<AsteroidsSplitConfig> splitChain = new(_asteroidsConfig.Chain);
+            AsteroidConfig asteroidConfig = _asteroidSplitChain.First().Config;
+            Queue<AsteroidsSplitConfig> splitChain = new(_asteroidSplitChain);
             splitChain.Dequeue();
             asteroid.Initialize(
                 new AsteroidsInitializationData(

@@ -10,18 +10,19 @@ namespace _Project.Scripts.Level.GameSession
         private readonly GameSessionData _model;
         private readonly ScoreView _view;
         private readonly ScoreConfig _scoreConfig;
+        private readonly int _startingScore;
 
         public PlayerScorePresenter(GameSessionData model, ScoreView view, ScoreConfig scoreConfig)
         {
             _model = model;
             _view = view;
-            _scoreConfig = scoreConfig;
+            _startingScore = scoreConfig.StartingScore;
         }
 
         public void Initialize()
         {
             _model.ScoreChanged += OnScoreChanged;
-            _model.SetScore(_scoreConfig.StartingScore);
+            _model.SetScore(_startingScore);
         }
 
         private void OnScoreChanged()

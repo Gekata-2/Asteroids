@@ -8,7 +8,7 @@ namespace _Project.Scripts.Player
     public class PlayerMovement : Entity
     {
         private IInput _input;
-        
+
         private float _speed;
         private float _rotationSpeed;
         private float _rotation;
@@ -19,11 +19,14 @@ namespace _Project.Scripts.Player
         public event Action PositionChanged;
         public event Action SpeedChanged;
         public event Action RotationChanged;
-        
+
         public Vector2 Position => Rigidbody.position;
         public float Speed => Rigidbody.linearVelocity.magnitude;
         public float Rotation => _rotation;
-        
+
+        private float _prevSpeed;
+        private Vector2 _prevPosition;
+
         [Inject]
         public void Construct(IInput input, PlayerConfig config)
         {
@@ -48,9 +51,12 @@ namespace _Project.Scripts.Player
         {
             if (!Rigidbody.simulated)
                 return;
-            
-            SpeedChanged?.Invoke();
-            PositionChanged?.Invoke();
+
+            if (!Mathf.Approximately(_prevSpeed, Speed)) SpeedChanged?.Invoke();
+            if (IsPositionChanged(_prevPosition, Position)) PositionChanged?.Invoke();
+
+            _prevSpeed = Speed;
+            _prevPosition = Position;
             
             HandlePositionChanger();
 
@@ -61,10 +67,13 @@ namespace _Project.Scripts.Player
             Move();
         }
 
-        private void OnPlayerPerformedMovingForward() 
+        private bool IsPositionChanged(Vector2 oldPos, Vector2 newPos) 
+            => !Mathf.Approximately(oldPos.x, newPos.x) || !Mathf.Approximately(oldPos.y, newPos.y);
+
+        private void OnPlayerPerformedMovingForward()
             => _isMoveForward = true;
 
-        private void OnPlayerCanceledMovingForward() 
+        private void OnPlayerCanceledMovingForward()
             => _isMoveForward = false;
 
         private void Rotate()
@@ -92,11 +101,11 @@ namespace _Project.Scripts.Player
 
             Rigidbody.AddForce(transform.up * _speed, ForceMode2D.Force);
         }
-        
-        public override void Pause() 
+
+        public override void Pause()
             => Rigidbody.simulated = false;
 
-        public override void Resume() 
+        public override void Resume()
             => Rigidbody.simulated = true;
     }
 }

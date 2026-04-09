@@ -14,13 +14,11 @@ namespace _Project.Scripts.Entities.UFO
         public event Action<Ufo> UfoSpawned;
 
         [SerializeField] private bool drawGizmos;
-
-        private UfoConfig _ufoConfig;
-        private SimpleSpawnerConfig _spawnerConfig;
-
+        
         private RectangleSideSpawnPositionPicker _spawnPositionPicker;
 
         private float _timer;
+        private SpawnerTimingConfig _timings;
         private bool _isActive;
         private GameObject _container;
         private UfoFactory _ufoFactory;
@@ -30,9 +28,9 @@ namespace _Project.Scripts.Entities.UFO
         private void Construct(SimpleSpawnerConfig spawnerConfig, UfoFactory ufoFactory,
             RectangleSideSpawnPositionPicker spawnPositionPicker)
         {
-            _spawnerConfig = spawnerConfig;
             _ufoFactory = ufoFactory;
             _spawnPositionPicker = spawnPositionPicker;
+            _timings = spawnerConfig.Timings;
         }
 
         private void Start()
@@ -61,7 +59,7 @@ namespace _Project.Scripts.Entities.UFO
         }
 
         private float GetNextTimer()
-            => Random.Range(_spawnerConfig.MinInterval, _spawnerConfig.MaxInterval);
+            => Random.Range(_timings.MinInterval, _timings.MaxInterval);
 
         public void SetTarget(EnemyTarget enemyTarget) => _target = enemyTarget;
 
@@ -78,7 +76,7 @@ namespace _Project.Scripts.Entities.UFO
         public void StartSpawning()
         {
             _isActive = true;
-            _timer = _spawnerConfig.StartDelay;
+            _timer = _timings.StartDelay;
         }
 
         private void OnDrawGizmos()

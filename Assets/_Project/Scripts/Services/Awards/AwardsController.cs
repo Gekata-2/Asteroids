@@ -10,18 +10,17 @@ namespace _Project.Scripts.Services.Awards
     {
         private readonly GameSessionData _sessionData;
         private readonly TimeService _timeService;
-        private readonly ScoreConfig _scoreConfig;
-
+        private readonly AliveDurationScoreConfig _aliveDurationScoreConfig;
         private readonly List<EntitiesController> _entitiesControllers;
 
         private float _lastAwardGivenTimeStamp;
 
-        public AwardsController(GameSessionData sessionData,
-            TimeService timeService, ScoreConfig scoreConfig, List<EntitiesController> entitiesControllers)
+        public AwardsController(GameSessionData sessionData, TimeService timeService,
+            ScoreConfig scoreConfig, List<EntitiesController> entitiesControllers)
         {
             _sessionData = sessionData;
             _timeService = timeService;
-            _scoreConfig = scoreConfig;
+            _aliveDurationScoreConfig = scoreConfig.AliveDurationScore;
             _entitiesControllers = entitiesControllers;
         }
 
@@ -36,9 +35,9 @@ namespace _Project.Scripts.Services.Awards
 
         public void LateTick()
         {
-            if (_timeService.TimeElapsed - _lastAwardGivenTimeStamp >= _scoreConfig.AliveDurationScore.TimeInterval)
+            if (_timeService.TimeElapsed - _lastAwardGivenTimeStamp >= _aliveDurationScoreConfig.TimeInterval)
             {
-                _sessionData.AddScore(_scoreConfig.AliveDurationScore.ScoreValue);
+                _sessionData.AddScore(_aliveDurationScoreConfig.ScoreValue);
                 _lastAwardGivenTimeStamp = _timeService.TimeElapsed;
             }
         }

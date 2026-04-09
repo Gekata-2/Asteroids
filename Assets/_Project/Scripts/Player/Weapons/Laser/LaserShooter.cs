@@ -1,5 +1,6 @@
-﻿using System.Collections;
+﻿using System.Threading;
 using _Project.Scripts.Services.Pause;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -11,10 +12,10 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         private LaserModel _model;
 
-        private Coroutine _cooldownRoutine;
-        private Coroutine _laserActiveRoutine;
-
         private bool _isPaused;
+
+        private CancellationTokenSource _ctsCooldown;
+        private CancellationTokenSource _ctsLaser;
 
         [Inject]
         private void Construct(LaserModel model)
@@ -26,6 +27,14 @@ namespace _Project.Scripts.Player.Weapons.Laser
         {
             laser.SetLength(_model.Lenght);
             laser.Disable();
+        }
+
+        private void OnDestroy()
+        {
+            _ctsCooldown?.Cancel();
+            _ctsCooldown?.Dispose();
+            _ctsLaser?.Cancel();
+            _ctsLaser?.Dispose();
         }
 
         public virtual void TryShoot()
@@ -43,29 +52,34 @@ namespace _Project.Scripts.Player.Weapons.Laser
         {
             if (_model.IsOnCooldown)
                 return;
-            if (_cooldownRoutine != null)
-                StopCoroutine(_cooldownRoutine);
 
-            _cooldownRoutine = StartCoroutine(CooldownRoutine(_model.Cooldown));
+            _ctsCooldown?.Cancel();
+            _ctsCooldown?.Dispose();
+            _ctsCooldown = new CancellationTokenSource();
+
+            CooldownRoutine(_model.Cooldown, _ctsCooldown.Token).Forget();
         }
 
         private void ShowLaser()
         {
             if (!laser.IsEnabled)
                 laser.Enable();
-            if (_laserActiveRoutine != null)
-                StopCoroutine(_laserActiveRoutine);
 
-            _laserActiveRoutine = StartCoroutine(LaserDisableRoutine(_model.Duration));
+            _ctsLaser?.Cancel();
+            _ctsLaser?.Dispose();
+            _ctsLaser = new CancellationTokenSource();
+
+            LaserDisableRoutine(_model.Duration, _ctsLaser.Token).Forget();
         }
 
-        private IEnumerator CooldownRoutine(float cooldown)
+        private async UniTask CooldownRoutine(float cooldown, CancellationToken token)
         {
             float timer = cooldown;
             _model.SetIsOnCooldown(true);
 
             while (timer > 0f)
             {
+                token.ThrowIfCancellationRequested();
                 if (!_isPaused)
                 {
                     if (timer - Time.deltaTime <= 0)
@@ -81,21 +95,23 @@ namespace _Project.Scripts.Player.Weapons.Laser
                     _model.SetCooldownTimeLeft(timer);
                 }
 
-                yield return null;
+                await UniTask.Yield(token);
             }
 
             _model.SetIsOnCooldown(false);
         }
 
-        private IEnumerator LaserDisableRoutine(float duration)
+
+        private async UniTask LaserDisableRoutine(float duration, CancellationToken token)
         {
             float timer = duration;
             while (timer >= 0f)
             {
+                token.ThrowIfCancellationRequested();
                 if (!_isPaused)
                     timer -= Time.deltaTime;
 
-                yield return null;
+                await UniTask.Yield(token);
             }
 
             laser.Disable();

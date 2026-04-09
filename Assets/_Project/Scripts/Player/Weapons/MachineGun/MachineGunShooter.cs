@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using _Project.Scripts.Extensions;
 using _Project.Scripts.Services.Pause;
 using UnityEngine;
@@ -14,8 +13,9 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
         [SerializeField] private Transform bulletsOrigin;
         [SerializeField] private Bullet bulletPrefab;
 
-        [Header("Bullets Pool")] 
-        [SerializeField, Min(1)] private int maxSize = 10;
+        [Header("Bullets Pool")] [SerializeField, Min(1)]
+        private int maxSize = 10;
+
         [SerializeField, Min(1)] private int defaultCapacity = 20;
 
         private MachineGunConfig _config;
@@ -60,39 +60,31 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
             _activeBullets.Clear();
         }
 
-        private void Update()
-        {
-            if (_isPaused)
-                return;
-
-            ReleaseOutlivedBullets();
-        }
-
-        private void ReleaseOutlivedBullets()
-        {
-            List<Bullet> bulletsToRelease = _activeBullets.Where(bullet => bullet.TimeToLive <= 0f).ToList();
-            foreach (Bullet bullet in bulletsToRelease)
-                _bulletsPool.Release(bullet);
-        }
-
         private void OnDestroyBullet(Bullet bullet)
         {
-            bullet.Collided -= OnBulletCollided;
+            UnsubscribeFromBullet(bullet);
             _pauseService?.RemoveItem(bullet);
             Destroy(bullet.gameObject);
         }
 
         private void OnReturnBulletToPool(Bullet bullet)
         {
-            bullet.Collided -= OnBulletCollided;
+            UnsubscribeFromBullet(bullet);
             bullet.gameObject.SetActive(false);
             if (_activeBullets.Contains(bullet))
                 _activeBullets.Remove(bullet);
         }
 
+        private void UnsubscribeFromBullet(Bullet bullet)
+        {
+            bullet.Collided -= OnBulletCollided;
+            bullet.LiveTimeEnded -= OnBulletLiveTimeEnded;
+        }
+
         private void OnTakeBulletFromPool(Bullet bullet)
         {
             bullet.Collided += OnBulletCollided;
+            bullet.LiveTimeEnded += OnBulletLiveTimeEnded;
             bullet.gameObject.SetActive(true);
             if (!_activeBullets.Contains(bullet))
                 _activeBullets.Add(bullet);
@@ -106,6 +98,11 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
         }
 
         private void OnBulletCollided(Bullet bullet)
+        {
+            _bulletsPool.Release(bullet);
+        }
+
+        private void OnBulletLiveTimeEnded(Bullet bullet)
         {
             _bulletsPool.Release(bullet);
         }

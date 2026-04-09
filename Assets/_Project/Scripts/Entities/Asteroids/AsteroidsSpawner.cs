@@ -16,22 +16,21 @@ namespace _Project.Scripts.Entities.Asteroids
 
         [SerializeField] private bool drawGizmos;
 
-        private SimpleSpawnerConfig _spawnerConfig;
         private RectangleSideSpawnPositionPicker _spawnPositionPicker;
 
         private AsteroidType _type;
-
         private float _timer;
         private bool _isActive;
         private AsteroidPools _pools;
+        private SpawnerTimingConfig _timings;
 
         [Inject]
         private void Construct(AsteroidsConfig asteroidsConfig, SimpleSpawnerConfig spawnerConfig,
             RectangleSideSpawnPositionPicker spawnPositionPicker, AsteroidPools pools)
         {
             _pools = pools;
-            _spawnerConfig = spawnerConfig;
             _spawnPositionPicker = spawnPositionPicker;
+            _timings = spawnerConfig.Timings;
 
             _type = asteroidsConfig.Chain.First().Config.AsteroidType;
         }
@@ -59,14 +58,14 @@ namespace _Project.Scripts.Entities.Asteroids
         {
             Vector2 spawnPosition = _spawnPositionPicker.GetNextPosition();
             Asteroid asteroid = _pools.Get(_type);
-            
+
             asteroid.SetPosition(spawnPosition);
-            
-            AsteroidSpawned?.Invoke(asteroid,spawnPosition);
+
+            AsteroidSpawned?.Invoke(asteroid, spawnPosition);
         }
 
         private float GetNextTimer()
-            => Random.Range(_spawnerConfig.MinInterval, _spawnerConfig.MaxInterval);
+            => Random.Range(_timings.MinInterval, _timings.MaxInterval);
 
         public void Pause()
             => _isActive = false;
@@ -77,7 +76,7 @@ namespace _Project.Scripts.Entities.Asteroids
         public void StartSpawning()
         {
             _isActive = true;
-            _timer = _spawnerConfig.StartDelay;
+            _timer = _timings.StartDelay;
         }
 
         private void OnDrawGizmos()

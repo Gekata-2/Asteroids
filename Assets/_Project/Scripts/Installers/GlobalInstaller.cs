@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Services.SceneManagement;
+﻿using _Project.Scripts.DataPersistence;
+using _Project.Scripts.Services.SceneManagement;
 using Zenject;
 
 namespace _Project.Scripts.Installers
@@ -7,7 +8,8 @@ namespace _Project.Scripts.Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<SceneLoader>().FromNew().AsSingle();
+            Container.Bind<SceneLoader>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PlayerPrefsSaveLoadService>().AsSingle().WithArguments(true);
         }
     }
 }

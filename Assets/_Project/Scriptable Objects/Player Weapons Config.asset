@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Player Weapons Config
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerWeaponsConfig
   <MachineGun>k__BackingField:
-    <RateOfFire>k__BackingField: 2
+    <RateOfFire>k__BackingField: 4
     <BulletSpeed>k__BackingField: 5
     <BulletLifeTime>k__BackingField: 4
   <Laser>k__BackingField:
-    <Cooldown>k__BackingField: 15
+    <Cooldown>k__BackingField: 3
     <Lenght>k__BackingField: 9
     <Duration>k__BackingField: 2
     <Charges>k__BackingField: 3

@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading;
 using _Project.Scripts.Extensions;
 using _Project.Scripts.Services.Pause;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;
@@ -22,11 +23,11 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
         private bool _canShoot;
         private bool _isPaused;
 
-        private Coroutine _cooldownRoutine;
-
         private PauseService _pauseService;
         private ObjectPool<Bullet> _bulletsPool;
         private List<Bullet> _activeBullets;
+
+        private CancellationTokenSource _cooldownCts;
 
         [Inject]
         private void Construct(PlayerWeaponsConfig weaponsConfig, PauseService pauseService)
@@ -56,6 +57,9 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
 
         private void OnDestroy()
         {
+            _cooldownCts?.Cancel();
+            _cooldownCts?.Dispose();
+
             _bulletsPool.Clear();
             _activeBullets.Clear();
         }
@@ -111,8 +115,11 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
         {
             if (!_canShoot || _isPaused)
                 return;
-            if (_cooldownRoutine != null)
-                StopCoroutine(_cooldownRoutine);
+
+            _cooldownCts?.Cancel();
+            _cooldownCts?.Dispose();
+            _cooldownCts = new CancellationTokenSource();
+
 
             Bullet bullet = _bulletsPool.Get();
             Transform bulletTransform = bullet.transform;
@@ -121,20 +128,24 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
 
             bullet.Initialize(new BulletData(_config.BulletSpeed, bulletTransform.up, _config.BulletLifeTime));
 
-            _cooldownRoutine = StartCoroutine(CooldownRoutine(_config.FireCooldown));
+            CooldownRoutine(_config.FireCooldown, _cooldownCts.Token).Forget();
         }
 
 
-        private IEnumerator CooldownRoutine(float cooldown)
+        private async UniTask CooldownRoutine(float cooldown, CancellationToken token)
         {
             _canShoot = false;
+
             float timer = cooldown;
+
             while (timer >= 0f)
             {
+                token.ThrowIfCancellationRequested();
+
                 if (!_isPaused)
                     timer -= Time.deltaTime;
 
-                yield return null;
+                await UniTask.Yield(token);
             }
 
             _canShoot = true;

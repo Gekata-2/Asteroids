@@ -1,11 +1,21 @@
 ﻿using System;
+using _Project.Scripts.Services;
 
 namespace _Project.Scripts.Level.GameSession
 {
     public class GameSessionData
     {
         public event Action ScoreChanged;
+
+        private readonly TimeService _timeService;
+
         public int Score { get; private set; }
+        public float TimeElapsed => _timeService.TimeElapsed;
+
+        public GameSessionData(TimeService timeService)
+        {
+            _timeService = timeService;
+        }
 
         public void AddScore(int value)
         {

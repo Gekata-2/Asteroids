@@ -26,7 +26,7 @@ namespace _Project.Scripts.Level.BoundsHandling
                     -bounds.extents.y + skinWidth, bounds.extents.y - skinWidth);
             }
 
-            entity.SetPosition(newPosition);
+            entity.SetPositionImmediate(newPosition);
         }
     }
 }

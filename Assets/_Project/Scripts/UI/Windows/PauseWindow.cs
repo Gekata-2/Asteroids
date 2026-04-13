@@ -4,12 +4,12 @@ namespace _Project.Scripts.UI.Windows
 {
     public class PauseWindow : MonoBehaviour
     {
-        [SerializeField] private GameObject content;
+        [SerializeField] private GameObject _content;
 
         public void Show() 
-            => content.SetActive(true);
+            => _content.SetActive(true);
 
         public void Hide() 
-            => content.SetActive(false);
+            => _content.SetActive(false);
     }
 }

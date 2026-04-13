@@ -1,8 +1,10 @@
 ﻿using System;
+using _Project.Scripts.Analytics;
 using _Project.Scripts.DataPersistence;
 using _Project.Scripts.Services;
 using _Project.Scripts.Services.Pause;
 using _Project.Scripts.Services.SceneManagement;
+using Cysharp.Threading.Tasks;
 
 namespace _Project.Scripts.Level.GameSession
 {
@@ -10,28 +12,37 @@ namespace _Project.Scripts.Level.GameSession
     {
         public event Action GameOver;
         private readonly ISaveLoadService _saveLoadService;
+        private readonly SaveProvider _saveProvider;
+        private readonly IAnalytics _analytics;
+        private readonly AnalyticsDataBuilder _analyticsDataBuilder;
 
         private readonly PauseService _pauseService;
         private readonly SceneLoader _sceneLoader;
         private readonly ExitGameService _exitGameService;
         private readonly GameSessionData _gameSessionData;
 
+
         private Player.Player _player;
 
         public int Score => _gameSessionData.Score;
 
         public GameOverModel(
-            ISaveLoadService saveLoadService,
             PauseService pauseService,
             SceneLoader sceneLoader,
             ExitGameService exitGameService,
-            GameSessionData gameSessionData)
+            GameSessionData gameSessionData,
+            ISaveLoadService saveLoadService, SaveProvider saveProvider,
+            IAnalytics analytics, AnalyticsDataBuilder analyticsDataBuilder)
         {
-            _saveLoadService = saveLoadService;
             _pauseService = pauseService;
             _sceneLoader = sceneLoader;
             _exitGameService = exitGameService;
             _gameSessionData = gameSessionData;
+
+            _saveLoadService = saveLoadService;
+            _saveProvider = saveProvider;
+            _analytics = analytics;
+            _analyticsDataBuilder = analyticsDataBuilder;
         }
 
 
@@ -41,11 +52,17 @@ namespace _Project.Scripts.Level.GameSession
             _player.PlayerDead += OnPlayerDead;
         }
 
-        private async void OnPlayerDead()
+        private void OnPlayerDead()
+        {
+            HandlePlayerDead().Forget();
+        }
+
+        private async UniTask HandlePlayerDead()
         {
             _pauseService.PerformPause();
             GameOver?.Invoke();
-            await _saveLoadService.Save(new SaveData(_gameSessionData.Score, _gameSessionData.TimeElapsed));
+            _analytics.LogGameOver(_analyticsDataBuilder.CreateGameOverData());
+            await _saveLoadService.Save(_saveProvider.CreateSave());
         }
 
         public void RestartGame()

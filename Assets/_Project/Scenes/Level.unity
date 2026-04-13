@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0157cc131e81bad4aa00a813fd3be00c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Entities.Asteroids.AsteroidsSpawner
-  drawGizmos: 1
+  _drawGizmos: 1
 --- !u!1 &449118774
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,7 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e571a0f073fd421b863897a241040dca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entities.UFO.UfosSpawner
-  drawGizmos: 1
+  _drawGizmos: 1
 --- !u!1 &563128494
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,8 +467,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d89d8c0c6b441ea0318cc8e6c40c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.UFOsInstaller
-  ufoConfig: {fileID: 11400000, guid: 064801225bef42d458a30b479c78588b, type: 2}
-  spawnerConfig: {fileID: 11400000, guid: bffdeb19e9b23a34dbccc6e75e436849, type: 2}
+  _ufoConfig: {fileID: 11400000, guid: 064801225bef42d458a30b479c78588b, type: 2}
+  _spawnerConfig: {fileID: 11400000, guid: bffdeb19e9b23a34dbccc6e75e436849, type: 2}
 --- !u!1 &667685350
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,8 +577,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf7ec4905b5146149b2872e955730901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bootstrap
-  playerSpawnPoint: {fileID: 1198808307}
-  isCursorVisible: 0
+  _playerSpawnPoint: {fileID: 1198808307}
+  _isCursorVisible: 0
 --- !u!4 &739494896
 Transform:
   m_ObjectHideFlags: 0
@@ -741,7 +741,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: c847f3d7ad49d5b4483aa0a54d316348, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -828,12 +828,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 843cc66438e441988219b72c762f717a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.PlayerInstaller
-  playerPrefab: {fileID: 8707059178151170775, guid: fb56c36f9305e3249ae8af24b421703c, type: 3}
-  playerConfig: {fileID: 11400000, guid: 59bb1d3877dbd1c4294d6b737e9a4b1d, type: 2}
-  weaponsConfig: {fileID: 11400000, guid: a536a75de87d3f54ab599035666a5f5b, type: 2}
-  scoreViewPrefab: {fileID: 5449726620632011077, guid: eaf4e2ec6750cdd4f83ca924ff85ff80, type: 3}
-  playerStateViewPrefab: {fileID: 5427334960053963454, guid: 5efbaf7264cd894449cf0ae78859e7a7, type: 3}
-  laserViewPrefab: {fileID: 6735474000009992902, guid: afbac880c0532174289b8506adf0c8bd, type: 3}
+  _playerPrefab: {fileID: 8707059178151170775, guid: fb56c36f9305e3249ae8af24b421703c, type: 3}
+  _playerConfig: {fileID: 11400000, guid: 59bb1d3877dbd1c4294d6b737e9a4b1d, type: 2}
+  _weaponsConfig: {fileID: 11400000, guid: a536a75de87d3f54ab599035666a5f5b, type: 2}
+  _scoreViewPrefab: {fileID: 5449726620632011077, guid: eaf4e2ec6750cdd4f83ca924ff85ff80, type: 3}
+  _playerStateViewPrefab: {fileID: 5427334960053963454, guid: 5efbaf7264cd894449cf0ae78859e7a7, type: 3}
+  _laserViewPrefab: {fileID: 6735474000009992902, guid: afbac880c0532174289b8506adf0c8bd, type: 3}
 --- !u!4 &1296308045
 Transform:
   m_ObjectHideFlags: 0
@@ -922,9 +922,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee08125330c24f74b867d2be12bb8873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.AsteroidsInstaller
-  asteroidsConfig: {fileID: 11400000, guid: 1dfcf413176dead4485e6d6888352e6f, type: 2}
-  spawnerConfig: {fileID: 11400000, guid: 5ed469316618e514baf36771f95f4ff4, type: 2}
-  poolsConfig: {fileID: 11400000, guid: 0d9c9d7ad432e174f8184ebdb6eedc1a, type: 2}
+  _asteroidsConfig: {fileID: 11400000, guid: 1dfcf413176dead4485e6d6888352e6f, type: 2}
+  _spawnerConfig: {fileID: 11400000, guid: 5ed469316618e514baf36771f95f4ff4, type: 2}
+  _poolsConfig: {fileID: 11400000, guid: 0d9c9d7ad432e174f8184ebdb6eedc1a, type: 2}
 --- !u!4 &1317088369
 Transform:
   m_ObjectHideFlags: 0
@@ -1086,9 +1086,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7997e659ea6045d49a710f257e3c3b4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelBounds
-  size: {x: 15, y: 9}
-  skinWidth: 0.33
-  drawGizmos: 1
+  _size: {x: 14, y: 8}
+  _skinWidth: 0.15
+  _drawGizmos: 1
 --- !u!4 &1681604405
 Transform:
   m_ObjectHideFlags: 0
@@ -1133,9 +1133,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43e9489a9b4b2354c9c6d5a1e2baa39b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  scoreConfig: {fileID: 11400000, guid: 4f8b00a7ba3772b419bcf9f83bafa472, type: 2}
-  gameOverWindowPrefab: {fileID: 2279743988569126690, guid: 358510561d51bff4888ca6f2c6893943, type: 3}
-  pauseWindowPrefab: {fileID: 5592300926124235036, guid: 233698637be01a745b2fe4a4081a3e0d, type: 3}
+  _scoreConfig: {fileID: 11400000, guid: 4f8b00a7ba3772b419bcf9f83bafa472, type: 2}
+  _gameOverWindowPrefab: {fileID: 2279743988569126690, guid: 358510561d51bff4888ca6f2c6893943, type: 3}
+  _pauseWindowPrefab: {fileID: 5592300926124235036, guid: 233698637be01a745b2fe4a4081a3e0d, type: 3}
 --- !u!4 &1815354542
 Transform:
   m_ObjectHideFlags: 0
@@ -1158,9 +1158,9 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 1549877144}
   - {fileID: 739494896}
-  - {fileID: 667685353}
   - {fileID: 832575519}
   - {fileID: 1165641957}
   - {fileID: 1681604405}
   - {fileID: 151814266}
   - {fileID: 993495623}
+  - {fileID: 667685353}

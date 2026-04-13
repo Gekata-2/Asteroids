@@ -8,11 +8,11 @@ namespace _Project.Scripts.Player
     {
         public event Action PlayerDead;
 
-        [SerializeField] private bool isActive = true;
+        [SerializeField] private bool _isActive = true;
 
         public void Die()
         {
-            if (isActive)
+            if (_isActive)
                 PlayerDead?.Invoke();
         }
 

@@ -8,7 +8,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
 {
     public class LaserShooter : MonoBehaviour, IPausable
     {
-        [SerializeField] private Laser laser;
+        [SerializeField] private Laser _laser;
 
         private LaserModel _model;
 
@@ -25,8 +25,8 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         private void Start()
         {
-            laser.SetLength(_model.Lenght);
-            laser.Disable();
+            _laser.SetLength(_model.Lenght);
+            _laser.Disable();
         }
 
         private void OnDestroy()
@@ -62,8 +62,8 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         private void ShowLaser()
         {
-            if (!laser.IsEnabled)
-                laser.Enable();
+            if (!_laser.IsEnabled)
+                _laser.Enable();
 
             _ctsLaser?.Cancel();
             _ctsLaser?.Dispose();
@@ -114,7 +114,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
                 await UniTask.Yield(token);
             }
 
-            laser.Disable();
+            _laser.Disable();
         }
 
         public void Pause()

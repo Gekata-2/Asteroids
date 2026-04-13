@@ -57,8 +57,6 @@ namespace _Project.Scripts.Player
 
             _prevSpeed = Speed;
             _prevPosition = Position;
-            
-            HandlePositionChanger();
 
             if (_input == null)
                 return;

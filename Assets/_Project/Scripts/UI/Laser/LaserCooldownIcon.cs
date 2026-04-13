@@ -5,9 +5,9 @@ namespace _Project.Scripts.UI.Laser
 {
     public class LaserCooldownIcon : MonoBehaviour
     {
-        [SerializeField] private Image fillImage;
+        [SerializeField] private Image _fillImage;
 
         public void SetProgress(float value) 
-            => fillImage.fillAmount = value;
+            => _fillImage.fillAmount = value;
     }
 }

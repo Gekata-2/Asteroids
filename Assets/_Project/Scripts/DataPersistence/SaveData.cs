@@ -16,6 +16,6 @@ namespace _Project.Scripts.DataPersistence
         }
 
         public override string ToString()
-            => JsonConvert.SerializeObject(this, Formatting.Indented);
+            => JsonConvert.SerializeObject(this);
     }
 }

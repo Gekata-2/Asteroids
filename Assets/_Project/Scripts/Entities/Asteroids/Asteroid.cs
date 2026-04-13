@@ -17,7 +17,7 @@ namespace _Project.Scripts.Entities.Asteroids
         public event Action<List<Asteroid>> CreatedDebris;
 
         private Queue<AsteroidsSplitConfig> SplitChain { get; set; }
-        public AsteroidType Type { get; set; }
+        public AsteroidType Type { get; private set; }
 
         public void Initialize(AsteroidsInitializationData initializationData)
         {
@@ -37,11 +37,6 @@ namespace _Project.Scripts.Entities.Asteroids
 
         public void SetType(AsteroidType type)
             => Type = type;
-
-        private void FixedUpdate()
-        {
-            HandlePositionChanger();
-        }
 
         public void HandleLaser()
         {

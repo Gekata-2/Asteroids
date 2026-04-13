@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991dc537b682fc7499f21b2d3adc3445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  fillImage: {fileID: 6405488009685769190}
+  _fillImage: {fileID: 5558311411685467459}
 --- !u!114 &4859121905251063310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,8 +505,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7414e1335253483b8385ae70d8b52e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserIconView
-  cooldownIcon: {fileID: 3409464161931427748}
-  chargesLeftText: {fileID: 6586717775208067749}
+  _cooldownIcon: {fileID: 3409464161931427748}
+  _chargesLeftText: {fileID: 6586717775208067749}
 --- !u!1 &7168308532134974645
 GameObject:
   m_ObjectHideFlags: 0

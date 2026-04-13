@@ -7,19 +7,19 @@ namespace _Project.Scripts.Player.Weapons.Laser
 {
     public class Laser : MonoBehaviour, IDamageVisitor
     {
-        [SerializeField] private Transform laserObject;
-        [SerializeField] private LaserCollider laserCollider;
+        [SerializeField] private Transform _laserObject;
+        [SerializeField] private LaserCollider _laserCollider;
 
         public bool IsEnabled { get; private set; }
 
         private void Start()
         {
-            laserCollider.TriggerEntered += OnTriggerEntered;
+            _laserCollider.TriggerEntered += OnTriggerEntered;
         }
 
         private void OnDestroy()
         {
-            laserCollider.TriggerEntered -= OnTriggerEntered;
+            _laserCollider.TriggerEntered -= OnTriggerEntered;
         }
 
         private void OnTriggerEntered(Collider2D other)
@@ -30,9 +30,9 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         public void SetLength(float value)
         {
-            Vector3 localScale = laserObject.localScale;
+            Vector3 localScale = _laserObject.localScale;
             localScale = new Vector3(localScale.x, value, localScale.z);
-            laserObject.localScale = localScale;
+            _laserObject.localScale = localScale;
         }
 
         public void Enable()

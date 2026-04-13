@@ -1,5 +1,7 @@
+using _Project.Scripts.Analytics;
 using _Project.Scripts.DataPersistence;
 using _Project.Scripts.Services.SceneManagement;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -9,19 +11,26 @@ namespace _Project.Scripts.Services
     {
         private SceneLoader _sceneLoader;
         private ISaveLoadService _saveLoadService;
+        private IAnalytics _analytics;
+
 
         [Inject]
-        private void Construct(SceneLoader sceneLoader, ISaveLoadService saveLoadService)
+        private void Construct(SceneLoader sceneLoader, ISaveLoadService saveLoadService, IAnalytics analytics)
         {
             _sceneLoader = sceneLoader;
             _saveLoadService = saveLoadService;
+            _analytics = analytics;
         }
 
-        private async void Start()
+        private void Start()
         {
-            // For test before save data needed
-            await _saveLoadService.Load();
-           // _sceneLoader.LoadLevelScene();
+            BootGame().Forget();
+        }
+
+        private async UniTask BootGame()
+        {
+            await UniTask.WhenAll(_saveLoadService.Load(), _analytics.Initialize());
+            _sceneLoader.LoadLevelScene();
         }
     }
 }

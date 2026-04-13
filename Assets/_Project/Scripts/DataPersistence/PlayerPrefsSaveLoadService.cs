@@ -1,18 +1,19 @@
 ﻿using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
+using ILogger = _Project.Scripts.Services.Logging.ILogger;
 
 namespace _Project.Scripts.DataPersistence
 {
     public class PlayerPrefsSaveLoadService : ISaveLoadService
     {
         private readonly string _key;
-        private readonly bool _debug;
+        private readonly ILogger _logger;
 
-        public PlayerPrefsSaveLoadService(string key = "Save", bool debug = false)
+        public PlayerPrefsSaveLoadService(ILogger logger = null, string key = "Save")
         {
+            _logger = logger;
             _key = key;
-            _debug = debug;
         }
 
         public UniTask<SaveData> Load()
@@ -21,14 +22,12 @@ namespace _Project.Scripts.DataPersistence
 
             if (string.IsNullOrEmpty(json))
             {
-                if (_debug)
-                    Debug.Log("Save doesnt exists");
+                _logger?.LogSave("Save doesnt exists");
                 return UniTask.FromResult<SaveData>(null);
             }
 
             SaveData data = JsonConvert.DeserializeObject<SaveData>(json);
-            if (_debug)
-                Debug.Log($"Loaded: {data}");
+            _logger?.LogSave($"Loaded: {data}");
             return UniTask.FromResult(data);
         }
 
@@ -36,8 +35,7 @@ namespace _Project.Scripts.DataPersistence
         {
             PlayerPrefs.SetString(_key, JsonConvert.SerializeObject(data, Formatting.Indented));
             PlayerPrefs.Save();
-            if (_debug)
-                Debug.Log($"Saved successfully: {data}");
+            _logger?.LogSave($"Saved successfully: {data}");
             return UniTask.CompletedTask;
         }
     }

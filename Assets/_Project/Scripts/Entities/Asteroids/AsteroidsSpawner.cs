@@ -14,7 +14,7 @@ namespace _Project.Scripts.Entities.Asteroids
     {
         public event Action<Asteroid, Vector2> AsteroidSpawned;
 
-        [SerializeField] private bool drawGizmos;
+        [SerializeField] private bool _drawGizmos;
 
         private RectangleSideSpawnPositionPicker _spawnPositionPicker;
 
@@ -59,7 +59,7 @@ namespace _Project.Scripts.Entities.Asteroids
             Vector2 spawnPosition = _spawnPositionPicker.GetNextPosition();
             Asteroid asteroid = _pools.Get(_type);
 
-            asteroid.SetPosition(spawnPosition);
+            asteroid.SetPositionImmediate(spawnPosition);
 
             AsteroidSpawned?.Invoke(asteroid, spawnPosition);
         }
@@ -81,7 +81,7 @@ namespace _Project.Scripts.Entities.Asteroids
 
         private void OnDrawGizmos()
         {
-            if (drawGizmos)
+            if (_drawGizmos)
                 _spawnPositionPicker?.DrawGizmos();
         }
     }

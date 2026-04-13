@@ -275,8 +275,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e35d83492541a69d8104494dbe1d36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.WeaponsController
-  machineGunShooter: {fileID: 517392462550661871}
-  laserShooter: {fileID: 8789946487600211437}
+  _machineGunShooter: {fileID: 517392462550661871}
+  _laserShooter: {fileID: 8789946487600211437}
 --- !u!114 &517392462550661871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,10 +289,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04df926c79224bdcb7a0dd4f151f6190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.MachineGunShooter
-  bulletsOrigin: {fileID: 679582953562117720}
-  bulletPrefab: {fileID: 5508270340655722120, guid: a678647388e63964d86eb63410d65925, type: 3}
-  maxSize: 60
-  defaultCapacity: 30
+  _bulletsOrigin: {fileID: 679582953562117720}
+  _bulletPrefab: {fileID: 5508270340655722120, guid: a678647388e63964d86eb63410d65925, type: 3}
+  _maxSize: 60
+  _defaultCapacity: 30
 --- !u!114 &8789946487600211437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce46023b2bd49bd8b3e49fd90957d5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.LaserShooter
-  laser: {fileID: 2832862967911557450}
+  _laser: {fileID: 2832862967911557450}
 --- !u!114 &-5079509310783742989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9884e5a4b1f4cb7afb3a755147da7fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerHealth
-  isActive: 1
+  _isActive: 1
 --- !u!114 &7071195440467202193
 MonoBehaviour:
   m_ObjectHideFlags: 0

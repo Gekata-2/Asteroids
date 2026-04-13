@@ -3,6 +3,7 @@ using System.Linq;
 using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Entities.Asteroids.Pools;
 using _Project.Scripts.Level.BoundsHandling;
+using _Project.Scripts.Level.GameSession;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -16,18 +17,20 @@ namespace _Project.Scripts.Entities.Asteroids
         private List<AsteroidsSplitConfig> _asteroidSplitChain;
         private LevelBounds _levelBounds;
         private AsteroidPools _pools;
+        private GameSessionData _sessionData;
 
         private readonly List<Asteroid> _asteroids = new();
 
         [Inject]
         private void Construct(EntitiesContainer entitiesContainer, AsteroidsSpawner spawner,
-            AsteroidsConfig asteroidsConfig, LevelBounds levelBounds, AsteroidPools pools)
+            AsteroidsConfig asteroidsConfig, LevelBounds levelBounds, AsteroidPools pools, GameSessionData sessionData)
         {
             _entitiesContainer = entitiesContainer;
             _spawner = spawner;
             _asteroidSplitChain = asteroidsConfig.Chain;
             _levelBounds = levelBounds;
             _pools = pools;
+            _sessionData = sessionData;
         }
 
         private void Start()
@@ -93,6 +96,8 @@ namespace _Project.Scripts.Entities.Asteroids
             _pools.Release(asteroid);
             _asteroids.Remove(asteroid);
             _entitiesContainer.RemoveEntity(asteroid);
+
+            _sessionData.AddAsteroidDestroyed();
 
             UnsubscribeFromAsteroid(asteroid);
 

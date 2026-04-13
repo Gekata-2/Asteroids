@@ -21,7 +21,7 @@ namespace _Project.Scripts.Services
         {
             // For test before save data needed
             await _saveLoadService.Load();
-            _sceneLoader.LoadLevelScene();
+           // _sceneLoader.LoadLevelScene();
         }
     }
 }

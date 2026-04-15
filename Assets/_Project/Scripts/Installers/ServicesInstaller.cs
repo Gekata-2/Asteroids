@@ -1,4 +1,6 @@
-﻿using _Project.Scripts.Services;
+﻿using _Project.Scripts.Analytics;
+using _Project.Scripts.DataPersistence;
+using _Project.Scripts.Services;
 using _Project.Scripts.Services.Awards;
 using _Project.Scripts.Services.Pause;
 using _Project.Scripts.Services.UI;
@@ -16,6 +18,9 @@ namespace _Project.Scripts.Installers
             Container.Bind<ExitGameService>().FromNew().AsSingle();
             Container.BindInterfacesAndSelfTo<TimeService>().FromNew().AsSingle();
             Container.BindInterfacesAndSelfTo<AwardsController>().FromNew().AsSingle().NonLazy();
+
+            Container.Bind<AnalyticsDataBuilder>().AsSingle();
+            Container.Bind<SaveProvider>().AsSingle();
         }
     }
 }

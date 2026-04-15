@@ -8,8 +8,8 @@ namespace _Project.Scripts.Player.Weapons
 {
     public class WeaponsController : MonoBehaviour
     {
-        [SerializeField] private MachineGunShooter machineGunShooter;
-        [SerializeField] private LaserShooter laserShooter;
+        [SerializeField] private MachineGunShooter _machineGunShooter;
+        [SerializeField] private LaserShooter _laserShooter;
 
         private IInput _input;
         private PauseService _pauseService;
@@ -26,8 +26,8 @@ namespace _Project.Scripts.Player.Weapons
         {
             if (_pauseService != null)
             {
-                _pauseService.AddItem(laserShooter);
-                _pauseService.AddItem(machineGunShooter);
+                _pauseService.AddItem(_laserShooter);
+                _pauseService.AddItem(_machineGunShooter);
             }
         }
 
@@ -37,7 +37,7 @@ namespace _Project.Scripts.Player.Weapons
             _input.ShootMachineGunCanceled += OnShootMachineGunCanceled;
             _input.ShootLaserPerformed += OnShootLaserPerformed;
             
-            machineGunShooter.Enable();
+            _machineGunShooter.Enable();
         }
 
         private void OnDestroy()
@@ -50,11 +50,11 @@ namespace _Project.Scripts.Player.Weapons
         private void Update()
         {
             if (_isMachineGunShootPressed)
-                machineGunShooter.TryShoot();
+                _machineGunShooter.TryShoot();
         }
 
         private void OnShootLaserPerformed()
-            => laserShooter.TryShoot();
+            => _laserShooter.TryShoot();
 
         private void OnShootMachineGunCanceled()
             => _isMachineGunShootPressed = false;

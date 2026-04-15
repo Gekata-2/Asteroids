@@ -1,4 +1,6 @@
-﻿namespace _Project.Scripts.Services
+﻿using UnityEngine;
+
+namespace _Project.Scripts.Services
 {
     public class ExitGameService
     {

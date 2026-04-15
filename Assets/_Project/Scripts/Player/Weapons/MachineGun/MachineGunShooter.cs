@@ -11,28 +11,27 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
 {
     public class MachineGunShooter : MonoBehaviour, IPausable
     {
-        [SerializeField] private Transform bulletsOrigin;
-        [SerializeField] private Bullet bulletPrefab;
+        [SerializeField] private Transform _bulletsOrigin;
+        [SerializeField] private Bullet _bulletPrefab;
 
-        [Header("Bullets Pool")] [SerializeField, Min(1)]
-        private int maxSize = 10;
-
-        [SerializeField, Min(1)] private int defaultCapacity = 20;
-
-        private MachineGunConfig _config;
-        private bool _canShoot;
+        [Header("Bullets Pool")] 
+        [SerializeField, Min(1)] private int _maxSize = 60;
+        [SerializeField, Min(1)] private int _defaultCapacity = 30;
+        
         private bool _isPaused;
 
+        private MachineGunModel _model;
         private PauseService _pauseService;
+        
         private ObjectPool<Bullet> _bulletsPool;
         private List<Bullet> _activeBullets;
 
         private CancellationTokenSource _cooldownCts;
 
         [Inject]
-        private void Construct(PlayerWeaponsConfig weaponsConfig, PauseService pauseService)
+        private void Construct(MachineGunModel model, PauseService pauseService)
         {
-            _config = weaponsConfig.MachineGun;
+            _model = model;
             _pauseService = pauseService;
         }
 
@@ -45,14 +44,14 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
                 OnReturnBulletToPool,
                 OnDestroyBullet,
                 collectionCheck: true,
-                defaultCapacity: defaultCapacity,
-                maxSize: maxSize
+                defaultCapacity: _defaultCapacity,
+                maxSize: _maxSize
             );
         }
 
         private void Start()
         {
-            _bulletsPool.PreWarm(defaultCapacity);
+            _bulletsPool.PreWarm(_defaultCapacity);
         }
 
         private void OnDestroy()
@@ -96,7 +95,7 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
 
         private Bullet CreateBullet()
         {
-            Bullet bullet = Instantiate(bulletPrefab, bulletsOrigin);
+            Bullet bullet = Instantiate(_bulletPrefab, _bulletsOrigin);
             _pauseService?.AddItem(bullet);
             return bullet;
         }
@@ -113,7 +112,7 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
 
         public virtual void TryShoot()
         {
-            if (!_canShoot || _isPaused)
+            if (!_model.CanShoot || _isPaused)
                 return;
 
             _cooldownCts?.Cancel();
@@ -124,18 +123,18 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
             Bullet bullet = _bulletsPool.Get();
             Transform bulletTransform = bullet.transform;
 
-            (bulletTransform.position, bulletTransform.rotation) = (bulletsOrigin.position, bulletsOrigin.rotation);
+            (bulletTransform.position, bulletTransform.rotation) = (_bulletsOrigin.position, _bulletsOrigin.rotation);
+            bullet.Initialize(new BulletData(_model.BulletSpeed, bulletTransform.up, _model.BulletLifeTime));
+            
+            _model.IncreaseShotsFired();
 
-            bullet.Initialize(new BulletData(_config.BulletSpeed, bulletTransform.up, _config.BulletLifeTime));
-
-            CooldownRoutine(_config.FireCooldown, _cooldownCts.Token).Forget();
+            CooldownRoutine(_model.FireCooldown, _cooldownCts.Token).Forget();
         }
 
 
         private async UniTask CooldownRoutine(float cooldown, CancellationToken token)
         {
-            _canShoot = false;
-
+            _model.SetIsCanShoot(false);
             float timer = cooldown;
 
             while (timer >= 0f)
@@ -148,11 +147,11 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
                 await UniTask.Yield(token);
             }
 
-            _canShoot = true;
+            _model.SetIsCanShoot(true);
         }
 
         public void Enable()
-            => _canShoot = true;
+            => _model.SetIsCanShoot(true);
 
         public void Pause()
             => _isPaused = true;

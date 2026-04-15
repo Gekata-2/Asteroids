@@ -13,7 +13,7 @@ namespace _Project.Scripts.Entities.UFO
     {
         public event Action<Ufo> UfoSpawned;
 
-        [SerializeField] private bool drawGizmos;
+        [SerializeField] private bool _drawGizmos;
         
         private RectangleSideSpawnPositionPicker _spawnPositionPicker;
 
@@ -81,7 +81,7 @@ namespace _Project.Scripts.Entities.UFO
 
         private void OnDrawGizmos()
         {
-            if (!drawGizmos)
+            if (!_drawGizmos)
                 return;
             _spawnPositionPicker?.DrawGizmos();
         }

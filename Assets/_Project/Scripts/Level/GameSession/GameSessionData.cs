@@ -10,6 +10,9 @@ namespace _Project.Scripts.Level.GameSession
         private readonly TimeService _timeService;
 
         public int Score { get; private set; }
+        public int UfoDestroyed { get; private set; }
+        public int AsteroidsDestroyed { get; private set; }
+        
         public float TimeElapsed => _timeService.TimeElapsed;
 
         public GameSessionData(TimeService timeService)
@@ -37,5 +40,11 @@ namespace _Project.Scripts.Level.GameSession
             Score = value;
             ScoreChanged?.Invoke();
         }
+
+        public void AddUfoDestroyed() 
+            => UfoDestroyed++;
+        
+        public void AddAsteroidDestroyed()
+            => AsteroidsDestroyed++;
     }
 }

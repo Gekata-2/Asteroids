@@ -5,9 +5,9 @@ namespace _Project.Scripts.UI
 {
     public class ScoreView : MonoBehaviour
     {
-        [SerializeField] private TMP_Text valueText;
+        [SerializeField] private TMP_Text _valueText;
 
         public void SetScore(int value)
-            => valueText.text = $"{value}";
+            => _valueText.text = $"{value}";
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
+using _Project.Scripts.Analytics;
 
 namespace _Project.Scripts.Player.Weapons.Laser
 {
     public class LaserModel
     {
+        private readonly IAnalytics _analytics;
         public event Action<int> ChargesCountChanged;
         public event Action<float> CooldownTimeLeftChanged;
 
@@ -12,7 +14,9 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         private float _cooldownTimeLeft;
         
+        public int UsedCount { get; private set; }
         public bool IsOnCooldown { get; private set; }
+        
         public bool IsNoChargesLeft => _charges.IsZero();
         public bool IsChargesFull => _charges.IsFull();
         public float Duration => _config.Duration;
@@ -20,8 +24,9 @@ namespace _Project.Scripts.Player.Weapons.Laser
         public float Lenght => _config.Lenght;
         public int Charges => _charges.Current;
 
-        public LaserModel(PlayerWeaponsConfig playerWeaponsConfig)
+        public LaserModel(PlayerWeaponsConfig playerWeaponsConfig, IAnalytics analytics)
         {
+            _analytics = analytics;
             _config = playerWeaponsConfig.Laser;
             _charges = new LaserCharges(_config.Charges);
         }
@@ -39,7 +44,9 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         public void UseCharge()
         {
+            ++UsedCount;
             _charges.UseCharge();
+            _analytics.LogLaserUsed();
             ChargesCountChanged?.Invoke(_charges.Current);
         }
 

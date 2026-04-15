@@ -9,19 +9,19 @@ namespace _Project.Scripts.Installers
 {
     public class UfosInstaller : MonoInstaller
     {
-        [SerializeField] private UfoConfig ufoConfig;
-        [SerializeField] private SimpleSpawnerConfig spawnerConfig;
+        [SerializeField] private UfoConfig _ufoConfig;
+        [SerializeField] private SimpleSpawnerConfig _spawnerConfig;
 
         public override void InstallBindings()
         {
             Container.BindFactory<Vector3, EnemyTarget, Ufo, UfoFactory>().FromFactory<CustomUfoFactory>();
-            Container.Bind<UfoConfig>().FromScriptableObject(ufoConfig).AsSingle();
-            Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig).WhenInjectedInto<UfosSpawner>();
+            Container.Bind<UfoConfig>().FromScriptableObject(_ufoConfig).AsSingle();
+            Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(_spawnerConfig).WhenInjectedInto<UfosSpawner>();
 
             Container.BindInterfacesAndSelfTo<UfosSpawner>().FromComponentsInHierarchy().AsSingle();
             Container.BindInterfacesAndSelfTo<UfosController>().FromComponentInHierarchy().AsSingle();
             Container.Bind<RectangleSideSpawnPositionPicker>()
-                .WithArguments(spawnerConfig.SpawnPositionSize, spawnerConfig.GizmosColor)
+                .WithArguments(_spawnerConfig.SpawnPositionSize, _spawnerConfig.GizmosColor)
                 .WhenInjectedInto<UfosSpawner>();
         }
     }

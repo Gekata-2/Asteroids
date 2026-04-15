@@ -115,8 +115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89fbda5da41d4a738fd78128663dee45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.GameOverWindow
-  window: {fileID: 6225696779380290388}
-  score: {fileID: 5663615587901416695}
+  _window: {fileID: 6225696779380290388}
+  _score: {fileID: 5663615587901416695}
 --- !u!1 &499462215138007657
 GameObject:
   m_ObjectHideFlags: 0

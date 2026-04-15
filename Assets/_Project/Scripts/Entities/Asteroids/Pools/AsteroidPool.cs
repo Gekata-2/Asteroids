@@ -38,19 +38,22 @@ namespace _Project.Scripts.Entities.Asteroids.Pools
         {
             Asteroid asteroid = _factory.Create(_data.Prefab);
             asteroid.transform.parent = _data.Container;
+            asteroid.SetPositionImmediate(_data.DefaultInactivePosition);
             asteroid.SetType(_data.AsteroidType);
             return asteroid;
         }
 
         private void OnTakeAsteroidFromPool(Asteroid asteroid)
-            => asteroid.gameObject.SetActive(true);
+        {
+            asteroid.gameObject.SetActive(true);
+        }
 
         private void OnReturnAsteroidToPool(Asteroid asteroid)
         {
-            asteroid.gameObject.SetActive(false);
+            asteroid.SetPositionImmediate(_data.DefaultInactivePosition);
             foreach (IReinitializable reinitializable in asteroid.gameObject.GetComponents<IReinitializable>())
                 reinitializable.Reinitialize();
-            asteroid.transform.position = _data.DefaultInactivePosition;
+            asteroid.gameObject.SetActive(false);
         }
 
         private void OnDestroyAsteroid(Asteroid asteroid)

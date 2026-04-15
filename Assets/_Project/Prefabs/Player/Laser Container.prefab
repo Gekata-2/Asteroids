@@ -81,7 +81,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -1342531085, guid: 928ee19155fdb994ca25672c5668e5ee, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -196,5 +196,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 979fab68d6ccde0459701a151c17c8bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  laserObject: {fileID: 5562027572516146400}
-  laserCollider: {fileID: 7712245828227698778}
+  _laserObject: {fileID: 5562027572516146400}
+  _laserCollider: {fileID: 7712245828227698778}

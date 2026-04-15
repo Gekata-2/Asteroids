@@ -9,26 +9,26 @@ namespace _Project.Scripts.Installers
 {
     public class AsteroidsInstaller : MonoInstaller
     {
-        [SerializeField] private AsteroidsConfig asteroidsConfig;
-        [SerializeField] private SimpleSpawnerConfig spawnerConfig;
-        [SerializeField] private AsteroidPoolsConfig poolsConfig;
+        [SerializeField] private AsteroidsConfig _asteroidsConfig;
+        [SerializeField] private SimpleSpawnerConfig _spawnerConfig;
+        [SerializeField] private AsteroidPoolsConfig _poolsConfig;
 
         public override void InstallBindings()
         {
             Container.BindFactory<Object, Asteroid, AsteroidFactory>().FromFactory<PrefabFactory<Asteroid>>();
             Container.BindFactory<AsteroidPoolData, AsteroidPool, AsteroidPoolFactory>();
 
-            Container.Bind<AsteroidPoolsConfig>().FromScriptableObject(poolsConfig).AsSingle();
+            Container.Bind<AsteroidPoolsConfig>().FromScriptableObject(_poolsConfig).AsSingle();
             Container.BindInterfacesAndSelfTo<AsteroidPools>().AsSingle();
 
-            Container.Bind<AsteroidsConfig>().FromScriptableObject(asteroidsConfig).AsSingle();
+            Container.Bind<AsteroidsConfig>().FromScriptableObject(_asteroidsConfig).AsSingle();
             Container.BindInterfacesAndSelfTo<AsteroidsSpawner>().FromComponentInHierarchy().AsSingle();
 
-            Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(spawnerConfig)
+            Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(_spawnerConfig)
                 .WhenInjectedInto<AsteroidsSpawner>();
 
             Container.Bind<RectangleSideSpawnPositionPicker>()
-                .WithArguments(spawnerConfig.SpawnPositionSize, spawnerConfig.GizmosColor)
+                .WithArguments(_spawnerConfig.SpawnPositionSize, _spawnerConfig.GizmosColor)
                 .WhenInjectedInto<AsteroidsSpawner>();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using _Project.Scripts.Level.GameSession;
 using Zenject;
 
 namespace _Project.Scripts.Entities.UFO
@@ -7,14 +8,16 @@ namespace _Project.Scripts.Entities.UFO
     {
         private EntitiesContainer _entitiesContainer;
         private UfosSpawner _ufosSpawner;
+        private GameSessionData _sessionData;
         private readonly List<Ufo> _ufos = new();
 
         [Inject]
         public void Construct(EntitiesContainer entitiesContainer,
-            UfosSpawner ufosSpawner)
+            UfosSpawner ufosSpawner, GameSessionData sessionData)
         {
             _ufosSpawner = ufosSpawner;
             _entitiesContainer = entitiesContainer;
+            _sessionData = sessionData;
         }
         
         private void Start()
@@ -48,6 +51,8 @@ namespace _Project.Scripts.Entities.UFO
             _ufos.Remove(ufo);
             _entitiesContainer.RemoveEntity(ufo);
 
+            _sessionData.AddUfoDestroyed();
+            
             NotifyAboutEntityDestroyed(ufo);
         }
 

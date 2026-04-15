@@ -47,8 +47,7 @@ namespace _Project.Scripts.Entities.UFO
         {
             if (!_isActive)
                 return;
-
-            HandlePositionChanger();
+            
             _stateMachine.FixedUpdate();
         }
 

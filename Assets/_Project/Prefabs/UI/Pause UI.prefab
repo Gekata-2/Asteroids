@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fd6039f1f374bf49fd354531bac4617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.PauseWindow
-  content: {fileID: 3746260297086736594}
+  _content: {fileID: 3746260297086736594}
 --- !u!1 &2300362830252433131
 GameObject:
   m_ObjectHideFlags: 0

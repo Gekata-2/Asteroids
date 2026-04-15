@@ -4,14 +4,14 @@ namespace _Project.Scripts.Level.BoundsHandling
 {
     public class LevelBounds : MonoBehaviour
     {
-        [SerializeField] private Vector2 size;
-        [SerializeField] private float skinWidth = 0.15f;
-        [SerializeField] private bool drawGizmos;
+        [SerializeField] private Vector2 _size;
+        [SerializeField] private float _skinWidth = 0.15f;
+        [SerializeField] private bool _drawGizmos;
 
         private Bounds _bounds;
         
         public Bounds Bounds => _bounds;
-        public float SkinWidth => skinWidth;
+        public float SkinWidth => _skinWidth;
         
         private void Start()
         {
@@ -24,7 +24,7 @@ namespace _Project.Scripts.Level.BoundsHandling
         }
 
         private void UpdateBounds() 
-            => _bounds = GetBounds(size);
+            => _bounds = GetBounds(_size);
 
         private Bounds GetBounds(Vector2 boundsSize)
             => new(Vector3.zero, boundsSize);
@@ -38,14 +38,14 @@ namespace _Project.Scripts.Level.BoundsHandling
 
         private void OnDrawGizmos()
         {
-            if (!drawGizmos)
+            if (!_drawGizmos)
                 return;
 
             Gizmos.color = Color.green;
             Gizmos.DrawWireCube(_bounds.center, _bounds.size);
 
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(_bounds.center, _bounds.size - Vector3.one * skinWidth * 2f);
+            Gizmos.DrawWireCube(_bounds.center, _bounds.size - Vector3.one * _skinWidth * 2f);
         }
     }
 }

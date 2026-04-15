@@ -189,10 +189,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2414a4f215d44961af048a3c130c47bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.TextPlayerDataView
-  xCoordText: {fileID: 8931981359374616589}
-  yCoordText: {fileID: 6735460607301521766}
-  angleText: {fileID: 8698677988638198522}
-  speedText: {fileID: 4107787280217529577}
+  _xCoordText: {fileID: 8931981359374616589}
+  _yCoordText: {fileID: 6735460607301521766}
+  _angleText: {fileID: 8698677988638198522}
+  _speedText: {fileID: 4107787280217529577}
 --- !u!1 &8083531149822445355
 GameObject:
   m_ObjectHideFlags: 0

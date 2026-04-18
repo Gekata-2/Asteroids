@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Extensions;
+﻿using _Project.Scripts.AssetsProviding;
+using _Project.Scripts.Extensions;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -10,11 +11,15 @@ namespace _Project.Scripts.Entities.Asteroids.Pools
         private readonly AsteroidFactory _factory;
         private readonly AsteroidPoolData _data;
         private readonly int _prewarmSize;
+        private readonly IAssetProvider _assetProvider;
 
-        public AsteroidPool(AsteroidFactory factory, AsteroidPoolData data)
+        private Object _prefab;
+
+        public AsteroidPool(AsteroidFactory factory, AsteroidPoolData data, IAssetProvider assetProvider)
         {
             _factory = factory;
             _data = data;
+            _assetProvider = assetProvider;
             _pool = new ObjectPool<Asteroid>(
                 CreateAsteroid,
                 OnTakeAsteroidFromPool,
@@ -28,6 +33,9 @@ namespace _Project.Scripts.Entities.Asteroids.Pools
         public void PreWarm()
             => _pool.PreWarm(_data.DefaultCapacity);
 
+        public void FetchPrefab()
+            => _assetProvider.TryGetAsset(_data.AssetName, out _prefab);
+
         public void Release(Asteroid asteroid)
             => _pool.Release(asteroid);
 
@@ -36,7 +44,10 @@ namespace _Project.Scripts.Entities.Asteroids.Pools
 
         private Asteroid CreateAsteroid()
         {
-            Asteroid asteroid = _factory.Create(_data.Prefab);
+            if (_prefab == null)
+                FetchPrefab();
+
+            Asteroid asteroid = _factory.Create(_prefab);
             asteroid.transform.parent = _data.Container;
             asteroid.SetPositionImmediate(_data.DefaultInactivePosition);
             asteroid.SetType(_data.AsteroidType);
@@ -58,7 +69,6 @@ namespace _Project.Scripts.Entities.Asteroids.Pools
 
         private void OnDestroyAsteroid(Asteroid asteroid)
         {
-            Debug.Log("ZXC");
             Object.Destroy(asteroid.gameObject);
         }
     }

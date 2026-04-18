@@ -1,6 +1,5 @@
 ﻿using System;
 using _Project.Scripts.Entities.Spawner;
-using _Project.Scripts.Entities.UFO.Configs;
 using _Project.Scripts.Player;
 using _Project.Scripts.Services.Pause;
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace _Project.Scripts.Entities.UFO
         public event Action<Ufo> UfoSpawned;
 
         [SerializeField] private bool _drawGizmos;
-        
+
         private RectangleSideSpawnPositionPicker _spawnPositionPicker;
 
         private float _timer;
@@ -61,17 +60,14 @@ namespace _Project.Scripts.Entities.UFO
         private float GetNextTimer()
             => Random.Range(_timings.MinInterval, _timings.MaxInterval);
 
-        public void SetTarget(EnemyTarget enemyTarget) => _target = enemyTarget;
+        public void SetTarget(EnemyTarget enemyTarget)
+            => _target = enemyTarget;
 
         public void Pause()
-        {
-            _isActive = false;
-        }
+            => _isActive = false;
 
         public void Resume()
-        {
-            _isActive = true;
-        }
+            => _isActive = true;
 
         public void StartSpawning()
         {

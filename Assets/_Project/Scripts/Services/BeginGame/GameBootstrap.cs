@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Services
+namespace _Project.Scripts.Services.BeginGame
 {
     public class GameBootstrap : MonoBehaviour
     {

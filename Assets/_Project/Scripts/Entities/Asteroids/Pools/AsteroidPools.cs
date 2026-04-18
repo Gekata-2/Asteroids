@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using _Project.Scripts.Level.BoundsHandling;
+using _Project.Scripts.Services.BeginGame;
 using UnityEngine;
-using Zenject;
 
 namespace _Project.Scripts.Entities.Asteroids.Pools
 {
-    public class AsteroidPools : IInitializable
+    public class AsteroidPools : IAssetFetcher, IGameStarter
     {
         private readonly Dictionary<AsteroidType, AsteroidPool> _pools = new();
         private readonly GameObject _container;
@@ -19,13 +19,19 @@ namespace _Project.Scripts.Entities.Asteroids.Pools
                 AsteroidPoolConfig config = pair.Value;
                 AsteroidType asteroidType = pair.Key;
                 AsteroidPool pool = poolFactory.Create(
-                    new AsteroidPoolData(asteroidType, config.Prefab,
-                        container.transform, defaultPosition, config.DefaultCapacity, config.MaxSize));
+                    new AsteroidPoolData(asteroidType, config.AssetName, container.transform,
+                        defaultPosition, config.DefaultCapacity, config.MaxSize));
                 _pools.Add(asteroidType, pool);
             }
         }
 
-        public void Initialize()
+        public void FetchAssets()
+        {
+            foreach (AsteroidPool pool in _pools.Values)
+                pool.FetchPrefab();
+        }
+
+        public void BeginGame()
         {
             foreach (AsteroidPool pool in _pools.Values)
                 pool.PreWarm();

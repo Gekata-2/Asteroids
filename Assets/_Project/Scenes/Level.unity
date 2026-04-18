@@ -579,6 +579,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bootstrap
   _playerSpawnPoint: {fileID: 1198808307}
   _isCursorVisible: 0
+  _preloadAssets:
+  - <AssetsKeys>k__BackingField:
+    - pause_ui
+    - game_over_ui
+    - player_state_ui
+    - laser_ui
+    - score_ui
+  - <AssetsKeys>k__BackingField:
+    - asteroid_small
+    - ufo
+    - asteroid_big
+    - player
 --- !u!4 &739494896
 Transform:
   m_ObjectHideFlags: 0
@@ -828,12 +840,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 843cc66438e441988219b72c762f717a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.PlayerInstaller
-  _playerPrefab: {fileID: 8707059178151170775, guid: fb56c36f9305e3249ae8af24b421703c, type: 3}
   _playerConfig: {fileID: 11400000, guid: 59bb1d3877dbd1c4294d6b737e9a4b1d, type: 2}
   _weaponsConfig: {fileID: 11400000, guid: a536a75de87d3f54ab599035666a5f5b, type: 2}
-  _scoreViewPrefab: {fileID: 5449726620632011077, guid: eaf4e2ec6750cdd4f83ca924ff85ff80, type: 3}
-  _playerStateViewPrefab: {fileID: 5427334960053963454, guid: 5efbaf7264cd894449cf0ae78859e7a7, type: 3}
-  _laserViewPrefab: {fileID: 6735474000009992902, guid: afbac880c0532174289b8506adf0c8bd, type: 3}
 --- !u!4 &1296308045
 Transform:
   m_ObjectHideFlags: 0
@@ -1134,8 +1142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   _scoreConfig: {fileID: 11400000, guid: 4f8b00a7ba3772b419bcf9f83bafa472, type: 2}
-  _gameOverWindowPrefab: {fileID: 2279743988569126690, guid: 358510561d51bff4888ca6f2c6893943, type: 3}
-  _pauseWindowPrefab: {fileID: 5592300926124235036, guid: 233698637be01a745b2fe4a4081a3e0d, type: 3}
+  _levelAssetsConfig: {fileID: 11400000, guid: f6074af2052f4514ea7b81b46c6a8955, type: 2}
 --- !u!4 &1815354542
 Transform:
   m_ObjectHideFlags: 0

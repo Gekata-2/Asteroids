@@ -1,5 +1,6 @@
 ﻿using System;
 using _Project.Scripts.Analytics;
+using _Project.Scripts.AssetsProviding;
 using _Project.Scripts.DataPersistence;
 using _Project.Scripts.Services;
 using _Project.Scripts.Services.Pause;
@@ -11,15 +12,18 @@ namespace _Project.Scripts.Level.GameSession
     public class GameOverModel : IDisposable
     {
         public event Action GameOver;
+
         private readonly ISaveLoadService _saveLoadService;
-        private readonly SaveProvider _saveProvider;
         private readonly IAnalytics _analytics;
+        private readonly IAssetProvider _assetProvider;
+        private readonly SaveProvider _saveProvider;
         private readonly AnalyticsDataBuilder _analyticsDataBuilder;
 
         private readonly PauseService _pauseService;
         private readonly SceneLoader _sceneLoader;
         private readonly ExitGameService _exitGameService;
         private readonly GameSessionData _gameSessionData;
+        private readonly LevelAssetsConfig _levelAssetsConfig;
 
 
         private Player.Player _player;
@@ -32,7 +36,8 @@ namespace _Project.Scripts.Level.GameSession
             ExitGameService exitGameService,
             GameSessionData gameSessionData,
             ISaveLoadService saveLoadService, SaveProvider saveProvider,
-            IAnalytics analytics, AnalyticsDataBuilder analyticsDataBuilder)
+            IAnalytics analytics, AnalyticsDataBuilder analyticsDataBuilder,
+            IAssetProvider assetProvider, LevelAssetsConfig levelAssetsConfig)
         {
             _pauseService = pauseService;
             _sceneLoader = sceneLoader;
@@ -43,6 +48,8 @@ namespace _Project.Scripts.Level.GameSession
             _saveProvider = saveProvider;
             _analytics = analytics;
             _analyticsDataBuilder = analyticsDataBuilder;
+            _levelAssetsConfig = levelAssetsConfig;
+            _assetProvider = assetProvider;
         }
 
 
@@ -66,10 +73,22 @@ namespace _Project.Scripts.Level.GameSession
         }
 
         public void RestartGame()
-            => _sceneLoader.LoadLevelScene();
+        {
+            ReleaseUsedAssets();
+            _sceneLoader.LoadLevelScene();
+        }
 
         public void ExitGame()
-            => _exitGameService.PerformExit();
+        {
+            ReleaseUsedAssets();
+            _exitGameService.PerformExit();
+        }
+
+        private void ReleaseUsedAssets()
+        {
+            foreach (string assetKey in _levelAssetsConfig.UsedAssets)
+                _assetProvider.Release(assetKey);
+        }
 
         public void Dispose()
         {

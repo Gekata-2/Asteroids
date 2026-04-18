@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Entities.Asteroids.Pools
 {
-    [CreateAssetMenu(menuName = "Scriptable Objects/Create Asteroid Pools Config", fileName = "Asteroid Pools Config")]
+    [CreateAssetMenu(menuName = "Scriptable Objects/Asteroid Pools Config", fileName = "Asteroid Pools Config")]
     public class AsteroidPoolsConfig : ScriptableObject
     {
         [field: SerializeField]

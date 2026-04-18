@@ -3,17 +3,17 @@ using _Project.Scripts.Entities;
 using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Player;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Services
+namespace _Project.Scripts.Services.BeginGame
 {
     public class LevelBootstrap : MonoBehaviour
     {
         [SerializeField] private Transform _playerSpawnPoint;
         [SerializeField] private bool _isCursorVisible;
 
-        private PlayerFactory _playerFactory;
         private IInput _inputHandler;
         private EntitiesContainer _entitiesContainer;
         private PlayerStatePresenter _playerStatePresenter;
@@ -21,18 +21,20 @@ namespace _Project.Scripts.Services
         private GameOverModel _gameOverModel;
         private UfosSpawner _ufosSpawner;
         private IAnalytics _analytics;
+        private BeginGameModel _beginGameModel;
+        private LevelAssetsConfig _levelAssetsConfig;
 
         [Inject]
-        private void Construct(PlayerFactory playerFactory,
-            IInput inputHandler,
+        private void Construct(IInput inputHandler,
             EntitiesContainer entitiesContainer,
             PlayerStatePresenter playerStatePresenter,
             CursorService cursorService,
             UfosSpawner ufosSpawner,
             GameOverModel gameOverModel,
-            IAnalytics analytics)
+            IAnalytics analytics,
+            BeginGameModel beginGameModel,
+            LevelAssetsConfig levelAssetsConfig)
         {
-            _playerFactory = playerFactory;
             _inputHandler = inputHandler;
             _entitiesContainer = entitiesContainer;
             _playerStatePresenter = playerStatePresenter;
@@ -40,24 +42,34 @@ namespace _Project.Scripts.Services
             _ufosSpawner = ufosSpawner;
             _gameOverModel = gameOverModel;
             _analytics = analytics;
+            _beginGameModel = beginGameModel;
+            _levelAssetsConfig = levelAssetsConfig;
         }
 
         private void Awake()
         {
-            Player.Player player = _playerFactory.Create();
-
-            player.transform.position = _playerSpawnPoint.position;
-            _playerStatePresenter.SetPlayerModel(player.GetComponent<PlayerMovement>());
-            _entitiesContainer.AddEntity(player.GetComponent<Entity>());
-
-            _ufosSpawner.SetTarget(player.GetComponent<EnemyTarget>());
-            _gameOverModel.SetPlayer(player);
+            _cursorService.SetCursorVisibility(_isCursorVisible);
         }
 
         private void Start()
         {
-            _cursorService.SetCursorVisibility(_isCursorVisible);
             _inputHandler.Enable();
+            BeginGame().Forget();
+        }
+
+        private async UniTask BeginGame()
+        {
+            await _beginGameModel.PreloadAssets(_levelAssetsConfig.UsedAssets);
+            _beginGameModel.FetchAssets();
+
+            Player.Player player = _beginGameModel.SpawnPlayer(_playerSpawnPoint.position);
+            _playerStatePresenter.SetPlayerModel(player.GetComponent<PlayerMovement>());
+            _entitiesContainer.AddEntity(player.GetComponent<Entity>());
+            _ufosSpawner.SetTarget(player.GetComponent<EnemyTarget>());
+            _gameOverModel.SetPlayer(player);
+
+            _beginGameModel.BeginGame();
+
             _analytics.LogGameStarted();
         }
 

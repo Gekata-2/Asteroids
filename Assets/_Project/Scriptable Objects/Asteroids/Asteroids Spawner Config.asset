@@ -15,6 +15,6 @@ MonoBehaviour:
   <Timings>k__BackingField:
     <MinInterval>k__BackingField: 3
     <MaxInterval>k__BackingField: 5
-    <StartDelay>k__BackingField: 2
+    <StartDelay>k__BackingField: 0
   <SpawnPositionSize>k__BackingField: {x: 18, y: 12}
   <GizmosColor>k__BackingField: {r: 0.98490566, g: 0.05017436, b: 0.91436464, a: 1}

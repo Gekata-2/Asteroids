@@ -1,7 +1,6 @@
 ﻿using _Project.Scripts.Entities.Spawner;
 using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Entities.UFO.Configs;
-using _Project.Scripts.Player;
 using UnityEngine;
 using Zenject;
 
@@ -14,7 +13,8 @@ namespace _Project.Scripts.Installers
 
         public override void InstallBindings()
         {
-            Container.BindFactory<Vector3, EnemyTarget, Ufo, UfoFactory>().FromFactory<CustomUfoFactory>();
+            Container.BindInterfacesAndSelfTo<UfoFactory>().AsSingle();
+
             Container.Bind<UfoConfig>().FromScriptableObject(_ufoConfig).AsSingle();
             Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(_spawnerConfig).WhenInjectedInto<UfosSpawner>();
 

@@ -1,16 +1,28 @@
 ﻿using System;
+using _Project.Scripts.Services.BeginGame;
 using _Project.Scripts.UI;
 
 namespace _Project.Scripts.Player
 {
-    public class PlayerStatePresenter :  IDisposable
+    public class PlayerStatePresenter : IAssetFetcher, IDisposable
     {
-        private readonly PlayerStateView _view;
-        private PlayerMovement _playerModel;
+        private const string WINDOW_ASSET_NAME = "player_state_ui";
+        
+        private readonly AssetsFactory _viewFactory;
 
-        public PlayerStatePresenter(PlayerStateView view)
+        private PlayerMovement _playerModel;
+        private PlayerStateView _view;
+
+        public PlayerStatePresenter(AssetsFactory viewFactory)
         {
-            _view = view;
+            _viewFactory = viewFactory;
+        }
+
+        public void FetchAssets()
+        {
+            _view = _viewFactory.Create<PlayerStateView>(WINDOW_ASSET_NAME);
+            if (_playerModel != null)
+                _view.Initialize(_playerModel.Position, _playerModel.Rotation, _playerModel.Speed);
         }
 
         public void SetPlayerModel(PlayerMovement playerMovement)
@@ -21,17 +33,27 @@ namespace _Project.Scripts.Player
             _playerModel.RotationChanged += OnRotationChanged;
             _playerModel.SpeedChanged += OnSpeedChanged;
 
-            _view.Initialize(_playerModel.Position, _playerModel.Rotation, _playerModel.Speed);
+            if (_view != null)
+                _view.Initialize(_playerModel.Position, _playerModel.Rotation, _playerModel.Speed);
         }
 
         private void OnPositionChanged()
-            => _view.SetPosition(_playerModel.Position);
+        {
+            if (_view != null)
+                _view.SetPosition(_playerModel.Position);
+        }
 
         private void OnRotationChanged()
-            => _view.SetAngle(_playerModel.Rotation);
+        {
+            if (_view != null)
+                _view.SetAngle(_playerModel.Rotation);
+        }
 
         private void OnSpeedChanged()
-            => _view.SetSpeed(_playerModel.Speed);
+        {
+            if (_view != null)
+                _view.SetSpeed(_playerModel.Speed);
+        }
 
         public void Dispose()
         {

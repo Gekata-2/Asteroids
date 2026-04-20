@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ca17ca1b6a8441d947c9dfb65c363d4, type: 3}
+  m_Name: Level Assets Config
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Services.LevelAssetsConfig
+  <UsedAssets>k__BackingField:
+  - asteroid_small
+  - ufo
+  - asteroid_big
+  - player
+  - pause_ui
+  - game_over_ui
+  - player_state_ui
+  - laser_ui
+  - score_ui

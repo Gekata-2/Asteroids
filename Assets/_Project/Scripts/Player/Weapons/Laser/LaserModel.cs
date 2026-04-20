@@ -12,7 +12,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
         private readonly LaserConfig _config;
         private readonly LaserCharges _charges;
 
-        private float _cooldownTimeLeft;
+        public float CooldownTimeLeft { get; private set; }
         
         public int UsedCount { get; private set; }
         public bool IsOnCooldown { get; private set; }
@@ -33,8 +33,8 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         public void SetCooldownTimeLeft(float time)
         {
-            _cooldownTimeLeft = time;
-            CooldownTimeLeftChanged?.Invoke(_cooldownTimeLeft);
+            CooldownTimeLeft = time;
+            CooldownTimeLeftChanged?.Invoke(CooldownTimeLeft);
         }
 
         public void SetIsOnCooldown(bool isOnCooldown)

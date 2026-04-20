@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using _Project.Scripts.Level.GameSession;
+using _Project.Scripts.Services.BeginGame;
 using Zenject;
 
 namespace _Project.Scripts.Entities.UFO
 {
-    public class UfosController : EntitiesController
+    public class UfosController : EntitiesController, IGameStarter
     {
         private EntitiesContainer _entitiesContainer;
         private UfosSpawner _ufosSpawner;
@@ -19,10 +20,14 @@ namespace _Project.Scripts.Entities.UFO
             _entitiesContainer = entitiesContainer;
             _sessionData = sessionData;
         }
-        
+
         private void Start()
         {
             _ufosSpawner.UfoSpawned += OnUfoSpawned;
+        }
+
+        public void BeginGame()
+        {
             _ufosSpawner.StartSpawning();
         }
 
@@ -52,7 +57,7 @@ namespace _Project.Scripts.Entities.UFO
             _entitiesContainer.RemoveEntity(ufo);
 
             _sessionData.AddUfoDestroyed();
-            
+
             NotifyAboutEntityDestroyed(ufo);
         }
 

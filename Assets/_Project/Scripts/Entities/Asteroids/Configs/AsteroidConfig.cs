@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Entities.Asteroids.Configs
 {
-    [CreateAssetMenu(menuName = "Scriptable Objects/Create Asteroid Config", fileName = "Asteroid Config", order = 0)]
+    [CreateAssetMenu(menuName = "Scriptable Objects/Asteroid Config", fileName = "Asteroid Config", order = 0)]
     public class AsteroidConfig : EntityConfig
     {
         [field: SerializeField] public AsteroidType AsteroidType { get; private set; }

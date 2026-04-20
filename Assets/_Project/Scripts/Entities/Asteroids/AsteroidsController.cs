@@ -4,13 +4,14 @@ using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Entities.Asteroids.Pools;
 using _Project.Scripts.Level.BoundsHandling;
 using _Project.Scripts.Level.GameSession;
+using _Project.Scripts.Services.BeginGame;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Entities.Asteroids
 {
-    public class AsteroidsController : EntitiesController
+    public class AsteroidsController : EntitiesController, IGameStarter
     {
         private EntitiesContainer _entitiesContainer;
         private AsteroidsSpawner _spawner;
@@ -35,8 +36,12 @@ namespace _Project.Scripts.Entities.Asteroids
 
         private void Start()
         {
-            _spawner.StartSpawning();
             _spawner.AsteroidSpawned += OnAsteroidSpawned;
+        }
+
+        public void BeginGame()
+        {
+            _spawner.StartSpawning();
         }
 
         private void OnDestroy()

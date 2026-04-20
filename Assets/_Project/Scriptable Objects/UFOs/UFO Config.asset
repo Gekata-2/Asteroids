@@ -14,6 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Entities.UFO.UFOData
   <Score>k__BackingField: 15
   <Prefab>k__BackingField: {fileID: 5075061622665474813, guid: c7e4c9fb1a9006c438a0c973c685fadb, type: 3}
+  <Asset>k__BackingField:
+    m_AssetGUID: c7e4c9fb1a9006c438a0c973c685fadb
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
   <Movement>k__BackingField:
     <SteeringSpeed>k__BackingField: 120
     <Speed>k__BackingField: 2

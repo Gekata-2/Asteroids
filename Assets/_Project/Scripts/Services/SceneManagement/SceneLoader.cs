@@ -9,7 +9,8 @@ namespace _Project.Scripts.Services.SceneManagement
     {
         private readonly Dictionary<Scenes, string> _scenesNames = new()
         {
-            { Scenes.Level, "Level" }
+            { Scenes.Level, "Level" },
+            { Scenes.MainMenu, "Main Menu" },
         };
 
         private void LoadScene(Scenes scene)
@@ -26,5 +27,8 @@ namespace _Project.Scripts.Services.SceneManagement
 
         public void LoadLevelScene()
             => LoadScene(Scenes.Level);
+
+        public void LoadMainMenu()
+            => LoadScene(Scenes.MainMenu);
     }
 }

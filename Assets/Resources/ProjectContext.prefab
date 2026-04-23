@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 4013088373412650422}
   - component: {fileID: 207137102878233611}
   m_Layer: 0
-  m_Name: Scene Loader
+  m_Name: Global Installer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,4 +106,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ec495c29ef043b0be628c9394d5efc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts._Installers.GlobalInstaller
-  scenesData: {fileID: 11400000, guid: 921f3359e48769445aa8c5cbf163b2f9, type: 2}
+  _adsConfig: {fileID: 11400000, guid: 18ce61bd86f38b349abb66851ae522ee, type: 2}

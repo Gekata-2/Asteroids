@@ -6,8 +6,10 @@ namespace _Project.Scripts.Services.Logging
     public enum LogModule
     {
         None = 0,
-        Saving = 1,
-        Analytics = 2,
-        All = Saving | Analytics
+        Other = 1,
+        Saving = 2,
+        Analytics = 4,
+        Ads = 8,
+        All = Other | Saving | Analytics | Ads
     }
 }

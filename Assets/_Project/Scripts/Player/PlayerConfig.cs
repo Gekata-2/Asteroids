@@ -7,5 +7,6 @@ namespace _Project.Scripts.Player
     {
         [field: SerializeField] public float Speed { get; private set; } = 3f;
         [field: SerializeField] public float RotationSpeed { get; private set; } = 270f;
+        [field: SerializeField] public float ImmunityTimespan { get; private set; } = 5f;
     }
 }

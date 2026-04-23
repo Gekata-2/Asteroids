@@ -16,7 +16,6 @@ namespace _Project.Scripts.Installers
             Container.Bind<PauseService>().FromNew().AsSingle();
             Container.Bind<UIManager>().FromNew().AsSingle();
             Container.Bind<CursorService>().FromNew().AsSingle();
-            Container.Bind<ExitGameService>().FromNew().AsSingle();
             Container.BindInterfacesAndSelfTo<TimeService>().FromNew().AsSingle();
             Container.BindInterfacesAndSelfTo<AwardsController>().FromNew().AsSingle().NonLazy();
 

@@ -31,8 +31,23 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         private void OnDestroy()
         {
+            DisposeCancellationTokenSources();
+        }
+
+        private void DisposeCancellationTokenSources()
+        {
+            DisposeCooldownCts();
+            DisposeLaserCts();
+        }
+
+        private void DisposeCooldownCts()
+        {
             _ctsCooldown?.Cancel();
             _ctsCooldown?.Dispose();
+        }
+
+        private void DisposeLaserCts()
+        {
             _ctsLaser?.Cancel();
             _ctsLaser?.Dispose();
         }
@@ -53,8 +68,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
             if (_model.IsOnCooldown)
                 return;
 
-            _ctsCooldown?.Cancel();
-            _ctsCooldown?.Dispose();
+            DisposeCooldownCts();
             _ctsCooldown = new CancellationTokenSource();
 
             CooldownRoutine(_model.Cooldown, _ctsCooldown.Token).Forget();
@@ -65,8 +79,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
             if (!_laser.IsEnabled)
                 _laser.Enable();
 
-            _ctsLaser?.Cancel();
-            _ctsLaser?.Dispose();
+            DisposeLaserCts();
             _ctsLaser = new CancellationTokenSource();
 
             LaserDisableRoutine(_model.Duration, _ctsLaser.Token).Forget();
@@ -122,5 +135,14 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         public void Resume()
             => _isPaused = false;
+
+        public void RestoreAllCharges()
+        {
+            DisposeCancellationTokenSources();
+            _ctsCooldown = new CancellationTokenSource();
+            _ctsLaser = new CancellationTokenSource();
+            
+            _model.RestoreAllCharges();
+        }
     }
 }

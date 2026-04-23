@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace _Project.Scripts.Services.Logging
 {
@@ -9,9 +10,19 @@ namespace _Project.Scripts.Services.Logging
         public UnityConsoleLogger(LogModule config = LogModule.None)
         {
             _logConfig = config;
-            
-            if (_logConfig != LogModule.None) 
+
+            if (_logConfig != LogModule.None)
                 Debug.Log($"Enabled Unity console logging for: {_logConfig}");
+        }
+
+        public void LogWarning(string text)
+        {
+            Debug.LogWarning(text);
+        }
+
+        public void LogException(Exception exception)
+        {
+            Debug.LogException(exception);
         }
 
         public void LogSave(string text)
@@ -23,6 +34,12 @@ namespace _Project.Scripts.Services.Logging
         public void LogAnalytics(string text)
         {
             if (_logConfig.HasFlag(LogModule.Analytics))
+                Debug.Log(text);
+        }
+
+        public void LogAds(string text)
+        {
+            if (_logConfig.HasFlag(LogModule.Ads))
                 Debug.Log(text);
         }
     }

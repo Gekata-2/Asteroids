@@ -55,5 +55,12 @@ namespace _Project.Scripts.Player.Weapons.Laser
             _charges.RestoreCharge();
             ChargesCountChanged?.Invoke(_charges.Current);
         }
+
+        public void RestoreAllCharges()
+        {
+            _charges.RestoreCharges();
+            SetIsOnCooldown(false);
+            SetCooldownTimeLeft(0f);
+        }
     }
 }

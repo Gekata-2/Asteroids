@@ -2,10 +2,13 @@
 using _Project.Scripts.Analytics;
 using _Project.Scripts.AssetsProviding;
 using _Project.Scripts.DataPersistence;
+using _Project.Scripts.Player;
+using _Project.Scripts.Player.Weapons;
 using _Project.Scripts.Services;
 using _Project.Scripts.Services.Pause;
 using _Project.Scripts.Services.SceneManagement;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace _Project.Scripts.Level.GameSession
 {
@@ -14,15 +17,18 @@ namespace _Project.Scripts.Level.GameSession
         public event Action GameOver;
 
         private readonly ISaveLoadService _saveLoadService;
-        private readonly IAnalytics _analytics;
-        private readonly IAssetProvider _assetProvider;
         private readonly SaveProvider _saveProvider;
+
+        private readonly IAnalytics _analytics;
         private readonly AnalyticsDataBuilder _analyticsDataBuilder;
+
+        private readonly IAssetProvider _assetProvider;
 
         private readonly PauseService _pauseService;
         private readonly SceneLoader _sceneLoader;
         private readonly ExitGameService _exitGameService;
         private readonly GameSessionData _gameSessionData;
+        private readonly PlayerConfig _playerConfig;
         private readonly LevelAssetsConfig _levelAssetsConfig;
 
 
@@ -31,25 +37,30 @@ namespace _Project.Scripts.Level.GameSession
         public int Score => _gameSessionData.Score;
 
         public GameOverModel(
+            ISaveLoadService saveLoadService, SaveProvider saveProvider,
+            IAnalytics analytics, AnalyticsDataBuilder analyticsDataBuilder,
+            IAssetProvider assetProvider,
             PauseService pauseService,
             SceneLoader sceneLoader,
             ExitGameService exitGameService,
             GameSessionData gameSessionData,
-            ISaveLoadService saveLoadService, SaveProvider saveProvider,
-            IAnalytics analytics, AnalyticsDataBuilder analyticsDataBuilder,
-            IAssetProvider assetProvider, LevelAssetsConfig levelAssetsConfig)
+            LevelAssetsConfig levelAssetsConfig,
+            PlayerConfig playerConfig)
         {
+            _saveLoadService = saveLoadService;
+            _saveProvider = saveProvider;
+
+            _analytics = analytics;
+            _analyticsDataBuilder = analyticsDataBuilder;
+
+            _assetProvider = assetProvider;
+
             _pauseService = pauseService;
             _sceneLoader = sceneLoader;
             _exitGameService = exitGameService;
             _gameSessionData = gameSessionData;
-
-            _saveLoadService = saveLoadService;
-            _saveProvider = saveProvider;
-            _analytics = analytics;
-            _analyticsDataBuilder = analyticsDataBuilder;
             _levelAssetsConfig = levelAssetsConfig;
-            _assetProvider = assetProvider;
+            _playerConfig = playerConfig;
         }
 
 
@@ -83,6 +94,16 @@ namespace _Project.Scripts.Level.GameSession
             ReleaseUsedAssets();
             _exitGameService.PerformExit();
         }
+
+        public void ContinueGame()
+        {
+            if (_player.TryGetComponent(out WeaponsController weaponsController))
+                weaponsController.ResetLaser();
+
+            _player.ResetLife(_playerConfig.ImmunityTimespan);
+            _pauseService.PerformResume();
+        }
+
 
         private void ReleaseUsedAssets()
         {

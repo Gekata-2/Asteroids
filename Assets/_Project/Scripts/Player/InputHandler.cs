@@ -13,6 +13,7 @@ namespace _Project.Scripts.Player
         event Action PausePerformed;
         event Action SubmitPerformed;
         event Action CancelPerformed;
+        event Action ContinuePlayingPerformed;
 
 
         float PlayerRotation();
@@ -35,6 +36,7 @@ namespace _Project.Scripts.Player
         public event Action PausePerformed;
         public event Action SubmitPerformed;
         public event Action CancelPerformed;
+        public event Action ContinuePlayingPerformed;
 
         private readonly PlayerInputActionMap _playerInput;
 
@@ -51,7 +53,7 @@ namespace _Project.Scripts.Player
             _playerInput.Player.MoveForward.canceled += OnMoveForwardCanceled;
 
             _playerInput.Player.ShootLaser.performed += OnShootLaserPerformed;
-            
+
             _playerInput.Player.ShootMachineGun.performed += OnShootMachineGunPerformed;
             _playerInput.Player.ShootMachineGun.canceled += OnShootMachineGunCanceled;
 
@@ -59,13 +61,14 @@ namespace _Project.Scripts.Player
 
             _playerInput.UI.Submit.performed += OnSubmitPerformed;
             _playerInput.UI.Cancel.performed += OnCancelPerformed;
+            _playerInput.UI.ContinuePlaying.performed += OnContinuePlayingPerformed;
         }
 
         public void Disable()
         {
             _playerInput.Player.Disable();
             _playerInput.UI.Disable();
-            
+
             _playerInput.Player.MoveForward.performed -= OnMoveForwardPerformed;
             _playerInput.Player.MoveForward.canceled -= OnMoveForwardCanceled;
 
@@ -77,6 +80,7 @@ namespace _Project.Scripts.Player
 
             _playerInput.UI.Submit.performed -= OnSubmitPerformed;
             _playerInput.UI.Cancel.performed -= OnCancelPerformed;
+            _playerInput.UI.ContinuePlaying.performed -= OnContinuePlayingPerformed;
         }
 
         public void SetPlayerActionsEnabled(bool isEnabled)
@@ -94,6 +98,7 @@ namespace _Project.Scripts.Player
             else
                 _playerInput.UI.Disable();
         }
+
 
         private void OnPausePerformed(InputAction.CallbackContext context)
             => PausePerformed?.Invoke();
@@ -118,6 +123,9 @@ namespace _Project.Scripts.Player
 
         private void OnCancelPerformed(InputAction.CallbackContext context)
             => CancelPerformed?.Invoke();
+
+        private void OnContinuePlayingPerformed(InputAction.CallbackContext context)
+            => ContinuePlayingPerformed?.Invoke();
 
         public float PlayerRotation()
             => _playerInput.Player.Rotate.ReadValue<float>();

@@ -53,6 +53,9 @@ namespace _Project.Scripts.Player.Weapons
                 _machineGunShooter.TryShoot();
         }
 
+        public void ResetLaser()
+            => _laserShooter.RestoreAllCharges();
+        
         private void OnShootLaserPerformed()
             => _laserShooter.TryShoot();
 
@@ -61,5 +64,6 @@ namespace _Project.Scripts.Player.Weapons
 
         private void OnShootMachineGunPerformed()
             => _isMachineGunShootPressed = true;
+        
     }
 }

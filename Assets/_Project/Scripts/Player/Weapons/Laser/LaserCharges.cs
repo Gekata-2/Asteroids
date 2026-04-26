@@ -29,6 +29,9 @@ namespace _Project.Scripts.Player.Weapons.Laser
             Current = Mathf.Clamp(Current + 1, Current, Max + 1);
         }
 
+        public void RestoreCharges() 
+            => Current = Max;
+
         public bool IsZero()
             => Current == 0;
 

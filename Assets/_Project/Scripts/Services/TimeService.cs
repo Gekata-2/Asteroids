@@ -1,25 +1,30 @@
-﻿using _Project.Scripts.Services.Pause;
+﻿using _Project.Scripts.Services.BeginGame;
+using _Project.Scripts.Services.Pause;
 using UnityEngine;
 using Zenject;
 
 namespace _Project.Scripts.Services
 {
-    public class TimeService : ITickable
+    public class TimeService : ITickable, IGameStarter, IPausable
     {
+        private bool _isPaused;
+        private bool _isEnabled;
+        
         public float TimeElapsed { get; private set; }
-        private readonly PauseService _pauseService;
-
-        public TimeService(PauseService pauseService)
-        {
-            _pauseService = pauseService;
-        }
 
         public void Tick()
         {
-            if (_pauseService.IsGamePaused)
-                return;
-
-            TimeElapsed += Time.deltaTime;
+            if (!_isPaused && _isEnabled)
+                TimeElapsed += Time.deltaTime;
         }
+
+        public void BeginGame()
+            => _isEnabled = true;
+
+        public void Pause()
+            => _isPaused = false;
+
+        public void Resume()
+            => _isPaused = true;
     }
 }

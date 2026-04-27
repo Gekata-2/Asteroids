@@ -1,30 +1,30 @@
-﻿using _Project.Scripts.AssetsProviding;
-using _Project.Scripts.EnemyAI.StateMachine;
+﻿using _Project.Scripts.EnemyAI.StateMachine;
 using _Project.Scripts.EnemyAI.StateMachine.States;
-using _Project.Scripts.Entities.UFO.Configs;
 using _Project.Scripts.Player;
+using _Project.Scripts.Services.AssetsProviding;
 using _Project.Scripts.Services.BeginGame;
+using _Project.Scripts.Services.RemoteConfigs;
 using UnityEngine;
 using Zenject;
 
 namespace _Project.Scripts.Entities.UFO
 {
-    public class UfoFactory : IAssetFetcher
+    public class UfoFactory : IAssetFetcher, IConfigFetcher
     {
         private const string CONTAINER_NAME = "UFO container";
-        private const string ASSET_NAME = "ufo";
 
         private readonly DiContainer _di;
-        private readonly UfoConfig _config;
         private readonly GameObject _container;
+        private readonly AssetsNames _assetsNames;
         private readonly IAssetProvider _assetProvider;
 
+        private UfoConfig _config;
         private Object _prefab;
-        
-        public UfoFactory(DiContainer di, UfoConfig config, IAssetProvider assetProvider)
+
+        public UfoFactory(DiContainer di, AssetsNames assetsNames, IAssetProvider assetProvider)
         {
-            _config = config;
             _assetProvider = assetProvider;
+            _assetsNames = assetsNames;
             _di = di;
 
             _container = new GameObject(CONTAINER_NAME);
@@ -32,7 +32,12 @@ namespace _Project.Scripts.Entities.UFO
 
         public void FetchAssets()
         {
-            _assetProvider.TryGetAsset(ASSET_NAME, out _prefab);
+            _assetProvider.TryGetAsset(_assetsNames.GetName(Asset.Ufo), out _prefab);
+        }
+
+        public void FetchConfig(IConfigsProvider configsProvider)
+        {
+            _config = configsProvider.GetValue<UfoConfig>(ConfigsNames.Ufo);
         }
 
         public Ufo Create(Vector3 position, EnemyTarget target)

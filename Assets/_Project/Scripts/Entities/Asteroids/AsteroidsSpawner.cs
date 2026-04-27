@@ -1,20 +1,21 @@
 using System;
 using System.Linq;
-using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Entities.Asteroids.Pools;
 using _Project.Scripts.Entities.Spawner;
 using _Project.Scripts.Services.Pause;
+using _Project.Scripts.Services.RemoteConfigs;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Entities.Asteroids
 {
-    public class AsteroidsSpawner : MonoBehaviour, IPausable
+    public class AsteroidsSpawner : MonoBehaviour, IPausable, IConfigFetcher
     {
         public event Action<Asteroid, Vector2> AsteroidSpawned;
 
         [SerializeField] private bool _drawGizmos;
+        [SerializeField] private Color _gizmosColor;
 
         private RectangleSideSpawnPositionPicker _spawnPositionPicker;
 
@@ -24,15 +25,14 @@ namespace _Project.Scripts.Entities.Asteroids
         private AsteroidPools _pools;
         private SpawnerTimingConfig _timings;
 
+        private AsteroidsConfigsRegistry _asteroidsConfigsRegistry;
+
         [Inject]
-        private void Construct(AsteroidsConfig asteroidsConfig, SimpleSpawnerConfig spawnerConfig,
-            RectangleSideSpawnPositionPicker spawnPositionPicker, AsteroidPools pools)
+        private void Construct(AsteroidPools pools,
+            AsteroidsConfigsRegistry asteroidsConfigsRegistry)
         {
             _pools = pools;
-            _spawnPositionPicker = spawnPositionPicker;
-            _timings = spawnerConfig.Timings;
-
-            _type = asteroidsConfig.Chain.First().Config.AsteroidType;
+            _asteroidsConfigsRegistry = asteroidsConfigsRegistry;
         }
 
         private void Start()
@@ -52,6 +52,15 @@ namespace _Project.Scripts.Entities.Asteroids
                 SpawnAsteroid();
                 _timer = GetNextTimer();
             }
+        }
+
+        public void FetchConfig(IConfigsProvider configsProvider)
+        {
+            SimpleSpawnerConfig config = configsProvider.GetValue<SimpleSpawnerConfig>(ConfigsNames.AsteroidsSpawner);
+            _timings = config.Timings;
+            _spawnPositionPicker = new RectangleSideSpawnPositionPicker(config.SpawnPositionSize, _gizmosColor);
+
+            _type = _asteroidsConfigsRegistry.Chain.First().AsteroidType;
         }
 
         private void SpawnAsteroid()

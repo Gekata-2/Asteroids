@@ -1,22 +1,24 @@
 ﻿using System;
-using _Project.Scripts.Analytics;
+using _Project.Scripts.Services.Analytics;
+using _Project.Scripts.Services.RemoteConfigs;
 
 namespace _Project.Scripts.Player.Weapons.Laser
 {
-    public class LaserModel
+    public class LaserModel : IConfigFetcher
     {
         private readonly IAnalytics _analytics;
         public event Action<int> ChargesCountChanged;
         public event Action<float> CooldownTimeLeftChanged;
 
-        private readonly LaserConfig _config;
-        private readonly LaserCharges _charges;
+        private LaserConfig _config;
+        private LaserCharges _charges;
+
 
         public float CooldownTimeLeft { get; private set; }
-        
+
         public int UsedCount { get; private set; }
         public bool IsOnCooldown { get; private set; }
-        
+
         public bool IsNoChargesLeft => _charges.IsZero();
         public bool IsChargesFull => _charges.IsFull();
         public float Duration => _config.Duration;
@@ -24,11 +26,9 @@ namespace _Project.Scripts.Player.Weapons.Laser
         public float Lenght => _config.Lenght;
         public int Charges => _charges.Current;
 
-        public LaserModel(PlayerWeaponsConfig playerWeaponsConfig, IAnalytics analytics)
+        public LaserModel(IAnalytics analytics)
         {
             _analytics = analytics;
-            _config = playerWeaponsConfig.Laser;
-            _charges = new LaserCharges(_config.Charges);
         }
 
         public void SetCooldownTimeLeft(float time)
@@ -59,8 +59,17 @@ namespace _Project.Scripts.Player.Weapons.Laser
         public void RestoreAllCharges()
         {
             _charges.RestoreCharges();
+            ChargesCountChanged?.Invoke(_charges.Current);
             SetIsOnCooldown(false);
             SetCooldownTimeLeft(0f);
+        }
+
+        public void FetchConfig(IConfigsProvider configsProvider)
+        {
+            PlayerWeaponsConfig weaponsConfig =
+                configsProvider.GetValue<PlayerWeaponsConfig>(ConfigsNames.PlayerWeapons);
+            _config = weaponsConfig.Laser;
+            _charges = new LaserCharges(_config.Charges);
         }
     }
 }

@@ -28,11 +28,13 @@ namespace _Project.Scripts.Entities.Asteroids
         }
 
         private AsteroidPools _pools;
-        
+        private AsteroidsConfigsRegistry _configsRegistry;
+
         [Inject]
-        private void Construct(AsteroidPools pools)
+        private void Construct(AsteroidPools pools, AsteroidsConfigsRegistry configsRegistry)
         {
             _pools = pools;
+            _configsRegistry = configsRegistry;
         }
 
         public void SetType(AsteroidType type)
@@ -46,10 +48,10 @@ namespace _Project.Scripts.Entities.Asteroids
         public void HandleBullet()
         {
             gameObject.SetActive(false);
-            
+
             if (!SplitChain.IsEmpty())
                 SpawnAsteroidsFromSplitAtPosition(SplitChain, Rigidbody.position);
-            
+
             Destroyed?.Invoke(this);
         }
 
@@ -57,7 +59,7 @@ namespace _Project.Scripts.Entities.Asteroids
             Vector2 position)
         {
             AsteroidsSplitConfig split = asteroidsChainRemainder.Dequeue();
-            AsteroidConfig asteroidConfig = split.Config;
+            AsteroidConfig asteroidConfig = _configsRegistry.GetConfig(split.AsteroidType);
 
             int newAsteroidsCount = Random.Range(split.MinNewAsteroids, split.MaxNewAsteroids + 1);
 
@@ -65,7 +67,7 @@ namespace _Project.Scripts.Entities.Asteroids
 
             for (int i = 0; i < newAsteroidsCount; i++)
             {
-                Asteroid asteroid = _pools.Get(asteroidConfig.AsteroidType);
+                Asteroid asteroid = _pools.Get(split.AsteroidType);
                 asteroid.transform.position = position;
                 asteroid.Initialize(
                     new AsteroidsInitializationData(

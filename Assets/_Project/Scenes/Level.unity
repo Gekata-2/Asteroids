@@ -334,6 +334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Entities.Asteroids.AsteroidsSpawner
   _drawGizmos: 1
+  _gizmosColor: {r: 1, g: 0, b: 0.8084502, a: 1}
 --- !u!1 &449118774
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,6 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entities.UFO.UfosSpawner
   _drawGizmos: 1
+  _gizmosColor: {r: 0, g: 0.9942894, b: 1, a: 1}
 --- !u!1 &563128494
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,18 +581,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bootstrap
   _playerSpawnPoint: {fileID: 1198808307}
   _isCursorVisible: 0
-  _preloadAssets:
-  - <AssetsKeys>k__BackingField:
-    - pause_ui
-    - game_over_ui
-    - player_state_ui
-    - laser_ui
-    - score_ui
-  - <AssetsKeys>k__BackingField:
-    - asteroid_small
-    - ufo
-    - asteroid_big
-    - player
 --- !u!4 &739494896
 Transform:
   m_ObjectHideFlags: 0

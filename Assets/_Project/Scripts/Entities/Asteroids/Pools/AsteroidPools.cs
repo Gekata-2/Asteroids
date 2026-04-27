@@ -7,19 +7,21 @@ namespace _Project.Scripts.Entities.Asteroids.Pools
 {
     public class AsteroidPools : IAssetFetcher, IGameStarter
     {
+        private const string CONTAINER_NAME = "Asteroids Container";
+
         private readonly Dictionary<AsteroidType, AsteroidPool> _pools = new();
         private readonly GameObject _container;
 
         public AsteroidPools(AsteroidPoolsConfig configs, LevelBounds levelBounds, AsteroidPoolFactory poolFactory)
         {
-            GameObject container = new GameObject("Asteroids Container");
+            GameObject container = new GameObject(CONTAINER_NAME);
             Vector2 defaultPosition = new Vector2(levelBounds.Bounds.max.x * 2, levelBounds.Bounds.max.y * 2);
             foreach (var pair in configs.PoolConfigs)
             {
                 AsteroidPoolConfig config = pair.Value;
                 AsteroidType asteroidType = pair.Key;
                 AsteroidPool pool = poolFactory.Create(
-                    new AsteroidPoolData(asteroidType, config.AssetName, container.transform,
+                    new AsteroidPoolData(asteroidType, config.Asset, container.transform,
                         defaultPosition, config.DefaultCapacity, config.MaxSize));
                 _pools.Add(asteroidType, pool);
             }

@@ -3,7 +3,6 @@ using _Project.Scripts.Entities.Asteroids;
 using _Project.Scripts.Level.BoundsHandling;
 using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Services;
-using _Project.Scripts.Services.Awards;
 using _Project.Scripts.Services.BeginGame;
 using _Project.Scripts.UI;
 using UnityEngine;
@@ -13,12 +12,10 @@ namespace _Project.Scripts.Installers
 {
     public class LevelInstaller : MonoInstaller
     {
-        [SerializeField] private ScoreConfig _scoreConfig;
         [SerializeField] private LevelAssetsConfig _levelAssetsConfig;
 
         public override void InstallBindings()
         {
-            Container.Bind<ScoreConfig>().FromScriptableObject(_scoreConfig).AsSingle();
             Container.Bind<LevelAssetsConfig>().FromScriptableObject(_levelAssetsConfig).AsSingle();
 
             Container.BindInterfacesAndSelfTo<EntitiesContainer>().FromNew().AsSingle();

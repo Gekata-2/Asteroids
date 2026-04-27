@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-
-namespace _Project.Scripts.Entities
+﻿namespace _Project.Scripts.Entities
 {
-    public class EntityConfig : ScriptableObject
+    public class EntityConfig
     {
-        [field: SerializeField] public int Score { get; private set; } = 1;
+        public int Score { get; set; } = 1;
     }
 }

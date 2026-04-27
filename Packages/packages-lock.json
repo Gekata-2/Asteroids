@@ -36,6 +36,14 @@
         "com.google.external-dependency-manager": "1.2.186"
       }
     },
+    "com.google.firebase.remote-config": {
+      "version": "file:Firebase/com.google.firebase.remote-config-13.6.0.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {
+        "com.google.firebase.app": "13.6.0"
+      }
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,

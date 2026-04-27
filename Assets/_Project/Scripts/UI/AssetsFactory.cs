@@ -1,4 +1,4 @@
-﻿using _Project.Scripts.AssetsProviding;
+﻿using _Project.Scripts.Services.AssetsProviding;
 using UnityEngine;
 using Zenject;
 

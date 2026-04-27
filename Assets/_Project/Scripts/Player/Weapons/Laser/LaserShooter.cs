@@ -141,7 +141,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
             DisposeCancellationTokenSources();
             _ctsCooldown = new CancellationTokenSource();
             _ctsLaser = new CancellationTokenSource();
-            
+            _laser.Disable();
             _model.RestoreAllCharges();
         }
     }

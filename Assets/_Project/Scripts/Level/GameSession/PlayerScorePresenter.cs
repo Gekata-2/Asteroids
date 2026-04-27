@@ -1,39 +1,42 @@
 ﻿using System;
+using _Project.Scripts.Services.AssetsProviding;
 using _Project.Scripts.Services.Awards;
 using _Project.Scripts.Services.BeginGame;
+using _Project.Scripts.Services.RemoteConfigs;
 using _Project.Scripts.UI;
 using Zenject;
 
 namespace _Project.Scripts.Level.GameSession
 {
-    public class PlayerScorePresenter : IInitializable, IDisposable, IAssetFetcher
+    public class PlayerScorePresenter : IInitializable, IDisposable, IAssetFetcher, IConfigFetcher
     {
-        private const string WINDOW_ASSET_NAME = "score_ui";
-
         private readonly AssetsFactory _assetsFactory;
+        private readonly AssetsNames _assetsNames;
         private readonly GameSessionData _model;
-        private readonly ScoreConfig _scoreConfig;
-        private readonly int _startingScore;
         private ScoreView _view;
 
-        public PlayerScorePresenter(AssetsFactory assetsFactory, GameSessionData model,
-            ScoreConfig scoreConfig)
+        public PlayerScorePresenter(AssetsFactory assetsFactory, GameSessionData model, AssetsNames assetsNames)
         {
             _model = model;
+            _assetsNames = assetsNames;
             _assetsFactory = assetsFactory;
-            _startingScore = scoreConfig.StartingScore;
         }
 
         public void Initialize()
         {
             _model.ScoreChanged += OnScoreChanged;
-            _model.SetScore(_startingScore);
         }
 
         public void FetchAssets()
         {
-            _view = _assetsFactory.Create<ScoreView>(WINDOW_ASSET_NAME);
+            _view = _assetsFactory.Create<ScoreView>(_assetsNames.GetName(Asset.ScoreUI));
             _view.SetScore(_model.Score);
+        }
+
+        public void FetchConfig(IConfigsProvider configsProvider)
+        {
+            ScoreConfig scoreConfig = configsProvider.GetValue<ScoreConfig>(ConfigsNames.Score);
+            _model.SetScore(scoreConfig.StartingScore);
         }
 
         private void OnScoreChanged()

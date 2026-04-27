@@ -1,14 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using _Project.Scripts.Entities.Asteroids.Pools;
 
 namespace _Project.Scripts.Entities.Asteroids.Configs
 {
-    [Serializable]
     public class AsteroidsSplitConfig
     {
-        [field: SerializeField] public AsteroidConfig Config { get; private set; }
-        [field: SerializeField] public int MinNewAsteroids { get; private set; } = 1;
-        [field: SerializeField] public int MaxNewAsteroids { get; private set; } = 1;
-        [field: SerializeField] public float Size { get; private set; } = 1;
+        public AsteroidType AsteroidType { get; set; }
+        public int MinNewAsteroids { get; set; } = 1;
+        public int MaxNewAsteroids { get; set; } = 1;
+        public float Size { get; set; } = 1;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project.Scripts.Services.AssetsProviding;
 using _Project.Scripts.Services.BeginGame;
 using _Project.Scripts.UI;
 
@@ -6,21 +7,21 @@ namespace _Project.Scripts.Player
 {
     public class PlayerStatePresenter : IAssetFetcher, IDisposable
     {
-        private const string WINDOW_ASSET_NAME = "player_state_ui";
-        
         private readonly AssetsFactory _viewFactory;
+        private readonly AssetsNames _assetsNames;
 
         private PlayerMovement _playerModel;
         private PlayerStateView _view;
 
-        public PlayerStatePresenter(AssetsFactory viewFactory)
+        public PlayerStatePresenter(AssetsFactory viewFactory, AssetsNames assetsNames)
         {
             _viewFactory = viewFactory;
+            _assetsNames = assetsNames;
         }
 
         public void FetchAssets()
         {
-            _view = _viewFactory.Create<PlayerStateView>(WINDOW_ASSET_NAME);
+            _view = _viewFactory.Create<PlayerStateView>(_assetsNames.GetName(Asset.PlayerStateUI));
             if (_playerModel != null)
                 _view.Initialize(_playerModel.Position, _playerModel.Rotation, _playerModel.Speed);
         }

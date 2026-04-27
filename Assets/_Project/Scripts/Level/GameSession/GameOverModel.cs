@@ -1,18 +1,18 @@
 ﻿using System;
-using _Project.Scripts.Analytics;
-using _Project.Scripts.AssetsProviding;
 using _Project.Scripts.DataPersistence;
 using _Project.Scripts.Player;
 using _Project.Scripts.Player.Weapons;
 using _Project.Scripts.Services;
+using _Project.Scripts.Services.Analytics;
+using _Project.Scripts.Services.AssetsProviding;
 using _Project.Scripts.Services.Pause;
+using _Project.Scripts.Services.RemoteConfigs;
 using _Project.Scripts.Services.SceneManagement;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace _Project.Scripts.Level.GameSession
 {
-    public class GameOverModel : IDisposable
+    public class GameOverModel : IDisposable, IConfigFetcher
     {
         public event Action GameOver;
 
@@ -22,30 +22,36 @@ namespace _Project.Scripts.Level.GameSession
         private readonly IAnalytics _analytics;
         private readonly AnalyticsDataBuilder _analyticsDataBuilder;
 
+        private readonly AssetsNames _assetsNames;
         private readonly IAssetProvider _assetProvider;
 
         private readonly PauseService _pauseService;
         private readonly SceneLoader _sceneLoader;
         private readonly ExitGameService _exitGameService;
         private readonly GameSessionData _gameSessionData;
-        private readonly PlayerConfig _playerConfig;
+
         private readonly LevelAssetsConfig _levelAssetsConfig;
+        private float _immunityTimespan = 1f;
 
 
         private Player.Player _player;
 
         public int Score => _gameSessionData.Score;
 
+        public void FetchConfig(IConfigsProvider configsProvider)
+        {
+            PlayerConfig playerConfig = configsProvider.GetValue<PlayerConfig>(ConfigsNames.Player);
+            _immunityTimespan = playerConfig.ImmunityTimespan;
+        }
+
         public GameOverModel(
             ISaveLoadService saveLoadService, SaveProvider saveProvider,
             IAnalytics analytics, AnalyticsDataBuilder analyticsDataBuilder,
-            IAssetProvider assetProvider,
+            AssetsNames assetsNames, IAssetProvider assetProvider,
             PauseService pauseService,
             SceneLoader sceneLoader,
             ExitGameService exitGameService,
-            GameSessionData gameSessionData,
-            LevelAssetsConfig levelAssetsConfig,
-            PlayerConfig playerConfig)
+            GameSessionData gameSessionData, LevelAssetsConfig levelAssetsConfig)
         {
             _saveLoadService = saveLoadService;
             _saveProvider = saveProvider;
@@ -60,9 +66,8 @@ namespace _Project.Scripts.Level.GameSession
             _exitGameService = exitGameService;
             _gameSessionData = gameSessionData;
             _levelAssetsConfig = levelAssetsConfig;
-            _playerConfig = playerConfig;
+            _assetsNames = assetsNames;
         }
-
 
         public void SetPlayer(Player.Player player)
         {
@@ -100,15 +105,15 @@ namespace _Project.Scripts.Level.GameSession
             if (_player.TryGetComponent(out WeaponsController weaponsController))
                 weaponsController.ResetLaser();
 
-            _player.ResetLife(_playerConfig.ImmunityTimespan);
+            _player.ResetLife(_immunityTimespan);
             _pauseService.PerformResume();
         }
 
 
         private void ReleaseUsedAssets()
         {
-            foreach (string assetKey in _levelAssetsConfig.UsedAssets)
-                _assetProvider.Release(assetKey);
+            foreach (Asset asset in _levelAssetsConfig.UsedAssets)
+                _assetProvider.Release(_assetsNames.GetName(asset));
         }
 
         public void Dispose()

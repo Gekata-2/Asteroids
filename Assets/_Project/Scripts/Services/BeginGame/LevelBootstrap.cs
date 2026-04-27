@@ -1,8 +1,9 @@
-﻿using _Project.Scripts.Analytics;
-using _Project.Scripts.Entities;
+﻿using _Project.Scripts.Entities;
 using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Player;
+using _Project.Scripts.Services.Analytics;
+using _Project.Scripts.Services.RemoteConfigs;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -59,7 +60,11 @@ namespace _Project.Scripts.Services.BeginGame
 
         private async UniTask BeginGame()
         {
-            await _beginGameModel.PreloadAssets(_levelAssetsConfig.UsedAssets);
+            await UniTask.WhenAll(
+                _beginGameModel.PreloadAssets(_levelAssetsConfig.UsedAssets),
+                _beginGameModel.ActivateConfigsData());
+
+            _beginGameModel.FetchConfigs();
             _beginGameModel.FetchAssets();
 
             Player.Player player = _beginGameModel.SpawnPlayer(_playerSpawnPoint.position);

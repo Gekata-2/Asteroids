@@ -1,5 +1,7 @@
 ﻿using System;
+using _Project.Scripts.Level;
 using _Project.Scripts.Player;
+using _Project.Scripts.Services.AssetsProviding;
 using _Project.Scripts.Services.BeginGame;
 using _Project.Scripts.Services.Pause;
 using _Project.Scripts.Services.UI;
@@ -10,21 +12,21 @@ namespace _Project.Scripts.UI
 {
     public class PausePresenter : IInitializable, IDisposable, IAssetFetcher
     {
-        private const string WINDOW_ASSET_NAME = "pause_ui";
-
         private readonly PauseService _model;
         private readonly UIManager _uiManager;
         private readonly IInput _input;
         private readonly AssetsFactory _assetsFactory;
+        private readonly AssetsNames _assetsNames;
         
         private PauseWindow _view;
 
-        public PausePresenter(PauseService model, UIManager uiManager, IInput input, AssetsFactory assetsFactory)
+        public PausePresenter(PauseService model, UIManager uiManager, IInput input, AssetsNames assetsNames, AssetsFactory assetsFactory)
         {
             _model = model;
             _input = input;
             _uiManager = uiManager;
             _assetsFactory = assetsFactory;
+            _assetsNames = assetsNames;
         }
 
         public void Initialize()
@@ -35,7 +37,7 @@ namespace _Project.Scripts.UI
         
         public void FetchAssets()
         {
-            _view = _assetsFactory.Create<PauseWindow>(WINDOW_ASSET_NAME);
+            _view = _assetsFactory.Create<PauseWindow>(_assetsNames.GetName(Asset.PauseUI));
         }
 
         private void OnPausePerformed()

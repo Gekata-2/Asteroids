@@ -1,5 +1,6 @@
 using System;
 using _Project.Scripts.Entities;
+using _Project.Scripts.Services.RemoteConfigs;
 using UnityEngine;
 using Zenject;
 
@@ -28,9 +29,10 @@ namespace _Project.Scripts.Player
         private Vector2 _prevPosition;
 
         [Inject]
-        public void Construct(IInput input, PlayerConfig config)
+        public void Construct(IInput input, IConfigsProvider configsProvider)
         {
             _input = input;
+            PlayerConfig config = configsProvider.GetValue<PlayerConfig>(ConfigsNames.Player);
             _speed = config.Speed;
             _rotationSpeed = config.RotationSpeed;
         }
@@ -65,7 +67,7 @@ namespace _Project.Scripts.Player
             Move();
         }
 
-        private bool IsPositionChanged(Vector2 oldPos, Vector2 newPos) 
+        private bool IsPositionChanged(Vector2 oldPos, Vector2 newPos)
             => !Mathf.Approximately(oldPos.x, newPos.x) || !Mathf.Approximately(oldPos.y, newPos.y);
 
         private void OnPlayerPerformedMovingForward()

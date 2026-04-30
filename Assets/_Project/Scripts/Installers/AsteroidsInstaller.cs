@@ -1,7 +1,5 @@
 ﻿using _Project.Scripts.Entities.Asteroids;
-using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Entities.Asteroids.Pools;
-using _Project.Scripts.Entities.Spawner;
 using UnityEngine;
 using Zenject;
 
@@ -9,8 +7,8 @@ namespace _Project.Scripts.Installers
 {
     public class AsteroidsInstaller : MonoInstaller
     {
-        [SerializeField] private AsteroidsConfig _asteroidsConfig;
-        [SerializeField] private SimpleSpawnerConfig _spawnerConfig;
+   
+
         [SerializeField] private AsteroidPoolsConfig _poolsConfig;
 
         public override void InstallBindings()
@@ -20,16 +18,11 @@ namespace _Project.Scripts.Installers
 
             Container.Bind<AsteroidPoolsConfig>().FromScriptableObject(_poolsConfig).AsSingle();
             Container.BindInterfacesAndSelfTo<AsteroidPools>().AsSingle();
+            Container.BindInterfacesAndSelfTo<AsteroidsConfigsRegistry>().AsSingle();
 
-            Container.Bind<AsteroidsConfig>().FromScriptableObject(_asteroidsConfig).AsSingle();
-            Container.BindInterfacesAndSelfTo<AsteroidsSpawner>().FromComponentInHierarchy().AsSingle();
-
-            Container.Bind<SimpleSpawnerConfig>().FromScriptableObject(_spawnerConfig)
-                .WhenInjectedInto<AsteroidsSpawner>();
-
-            Container.Bind<RectangleSideSpawnPositionPicker>()
-                .WithArguments(_spawnerConfig.SpawnPositionSize, _spawnerConfig.GizmosColor)
-                .WhenInjectedInto<AsteroidsSpawner>();
+            Container.BindInterfacesAndSelfTo<AsteroidsSpawner>()
+                .FromComponentInHierarchy()
+                .AsSingle();
         }
     }
 }

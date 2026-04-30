@@ -1,13 +1,9 @@
-﻿using System;
-using UnityEngine;
-
-namespace _Project.Scripts.Entities.Spawner
+﻿namespace _Project.Scripts.Entities.Spawner
 {
-    [Serializable]
     public class SpawnerTimingConfig
     {
-        [field: SerializeField] public float MinInterval { get; private set; } = 1f;
-        [field: SerializeField] public float MaxInterval { get; private set; } = 3f;
-        [field: SerializeField] public float StartDelay { get; private set; } = 2f;
+        public float MinInterval { get; set; } = 1f;
+        public float MaxInterval { get; set; } = 3f;
+        public float StartDelay { get; set; } = 2f;
     }
 }

@@ -12,13 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca17ca1b6a8441d947c9dfb65c363d4, type: 3}
   m_Name: Level Assets Config
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Services.LevelAssetsConfig
-  <UsedAssets>k__BackingField:
-  - asteroid_small
-  - ufo
-  - asteroid_big
-  - player
-  - pause_ui
-  - game_over_ui
-  - player_state_ui
-  - laser_ui
-  - score_ui
+  <UsedAssets>k__BackingField: 000000000100000002000000030000000400000005000000060000000700000008000000

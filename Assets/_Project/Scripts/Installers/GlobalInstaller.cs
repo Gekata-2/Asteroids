@@ -1,8 +1,9 @@
-﻿using _Project.Scripts.Analytics;
-using _Project.Scripts.DataPersistence;
+﻿using _Project.Scripts.DataPersistence;
 using _Project.Scripts.Services;
+using _Project.Scripts.Services.Analytics;
 using _Project.Scripts.Services.Logging;
 using _Project.Scripts.Services.Monetization;
+using _Project.Scripts.Services.RemoteConfigs;
 using _Project.Scripts.Services.SceneManagement;
 using UnityEngine;
 using Zenject;
@@ -28,6 +29,8 @@ namespace _Project.Scripts.Installers
             Container.Bind<AdsConfig>().FromScriptableObject(_adsConfig).AsSingle();
             Container.BindFactory<string, UnityAdHandler, UnityAdHandlerFactory>();
             Container.BindInterfacesAndSelfTo<UnityAdsService>().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<FirebaseRemoteConfigsProvider>().AsSingle();
         }
     }
 }

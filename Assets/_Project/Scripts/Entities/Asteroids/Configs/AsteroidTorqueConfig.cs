@@ -1,12 +1,8 @@
-﻿using System;
-using UnityEngine;
-
-namespace _Project.Scripts.Entities.Asteroids.Configs
+﻿namespace _Project.Scripts.Entities.Asteroids.Configs
 {
-    [Serializable]
     public class AsteroidTorqueConfig
     {
-        [field: SerializeField] public float Min { get; private set; } = 3f;
-        [field: SerializeField] public float Max { get; private set; } = -3f;
+        public float Min { get; set; } = 3f;
+        public float Max { get; set; } = -3f;
     }
 }

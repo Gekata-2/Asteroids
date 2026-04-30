@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Entities.Asteroids.Pools;
 using _Project.Scripts.Level.BoundsHandling;
@@ -18,19 +17,21 @@ namespace _Project.Scripts.Entities.Asteroids
         private List<AsteroidsSplitConfig> _asteroidSplitChain;
         private LevelBounds _levelBounds;
         private AsteroidPools _pools;
+        private AsteroidsConfigsRegistry _asteroidsConfigsRegistry;
         private GameSessionData _sessionData;
 
         private readonly List<Asteroid> _asteroids = new();
 
         [Inject]
         private void Construct(EntitiesContainer entitiesContainer, AsteroidsSpawner spawner,
-            AsteroidsConfig asteroidsConfig, LevelBounds levelBounds, AsteroidPools pools, GameSessionData sessionData)
+            LevelBounds levelBounds, AsteroidPools pools,
+            AsteroidsConfigsRegistry asteroidsConfigsRegistry, GameSessionData sessionData)
         {
             _entitiesContainer = entitiesContainer;
             _spawner = spawner;
-            _asteroidSplitChain = asteroidsConfig.Chain;
             _levelBounds = levelBounds;
             _pools = pools;
+            _asteroidsConfigsRegistry = asteroidsConfigsRegistry;
             _sessionData = sessionData;
         }
 
@@ -39,10 +40,6 @@ namespace _Project.Scripts.Entities.Asteroids
             _spawner.AsteroidSpawned += OnAsteroidSpawned;
         }
 
-        public void BeginGame()
-        {
-            _spawner.StartSpawning();
-        }
 
         private void OnDestroy()
         {
@@ -54,10 +51,15 @@ namespace _Project.Scripts.Entities.Asteroids
             _asteroids.Clear();
         }
 
+        public void BeginGame()
+        {
+            _spawner.StartSpawning();
+        }
+
         private void OnAsteroidSpawned(Asteroid asteroid, Vector2 spawnPosition)
         {
-            AsteroidConfig asteroidConfig = _asteroidSplitChain.First().Config;
-            Queue<AsteroidsSplitConfig> splitChain = new(_asteroidSplitChain);
+            AsteroidConfig asteroidConfig = _asteroidsConfigsRegistry.GeFirstConfig();
+            Queue<AsteroidsSplitConfig> splitChain = new(_asteroidsConfigsRegistry.Chain);
             splitChain.Dequeue();
             asteroid.Initialize(
                 new AsteroidsInitializationData(

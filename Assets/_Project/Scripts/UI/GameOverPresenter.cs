@@ -1,7 +1,9 @@
 ﻿using System;
+using _Project.Scripts.Level;
 using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Player;
 using _Project.Scripts.Services;
+using _Project.Scripts.Services.AssetsProviding;
 using _Project.Scripts.Services.BeginGame;
 using _Project.Scripts.Services.Monetization;
 using _Project.Scripts.Services.UI;
@@ -13,9 +15,8 @@ namespace _Project.Scripts.UI
 {
     public class GameOverPresenter : IInitializable, IDisposable, IAssetFetcher
     {
-        private const string WINDOW_ASSET_NAME = "game_over_ui";
-
         private readonly AssetsFactory _assetsFactory;
+        private readonly AssetsNames _assetsNames;
         private readonly GameOverModel _model;
         private readonly UIManager _uiManager;
         private readonly IAdsService _adsService;
@@ -25,13 +26,15 @@ namespace _Project.Scripts.UI
         private GameOverWindow _view;
 
         public GameOverPresenter(GameOverModel model, UIManager uiManager, IInput input,
-            AssetsFactory assetsFactory, IAdsService adsService, CursorService cursorService = null)
+            AssetsNames assetsNames, AssetsFactory assetsFactory, IAdsService adsService,
+            CursorService cursorService = null)
         {
             _model = model;
             _uiManager = uiManager;
             _input = input;
             _assetsFactory = assetsFactory;
             _adsService = adsService;
+            _assetsNames = assetsNames;
             _cursorService = cursorService;
         }
 
@@ -46,7 +49,7 @@ namespace _Project.Scripts.UI
 
         public void FetchAssets()
         {
-            _view = _assetsFactory.Create<GameOverWindow>(WINDOW_ASSET_NAME);
+            _view = _assetsFactory.Create<GameOverWindow>(_assetsNames.GetName(Asset.GameOverUI));
         }
 
         private void OnGameOver()

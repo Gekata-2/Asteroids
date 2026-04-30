@@ -1,6 +1,7 @@
-using _Project.Scripts.Analytics;
 using _Project.Scripts.DataPersistence;
+using _Project.Scripts.Services.Analytics;
 using _Project.Scripts.Services.Monetization;
+using _Project.Scripts.Services.RemoteConfigs;
 using _Project.Scripts.Services.SceneManagement;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -14,18 +15,21 @@ namespace _Project.Scripts.Services.BeginGame
         private ISaveLoadService _saveLoadService;
         private IAnalytics _analytics;
         private IAdsService _adsService;
+        private IConfigsProvider _configsProvider;
 
 
         [Inject]
         private void Construct(SceneLoader sceneLoader,
             ISaveLoadService saveLoadService,
             IAnalytics analytics,
-            IAdsService adsService)
+            IAdsService adsService,
+            IConfigsProvider configsProvider)
         {
             _sceneLoader = sceneLoader;
             _saveLoadService = saveLoadService;
             _analytics = analytics;
             _adsService = adsService;
+            _configsProvider = configsProvider;
         }
 
         private void Start()
@@ -35,7 +39,11 @@ namespace _Project.Scripts.Services.BeginGame
 
         private async UniTask BootGame()
         {
-            await UniTask.WhenAll(_saveLoadService.Load(), _analytics.Initialize(), InitializeAdsService());
+            await UniTask.WhenAll(
+                _saveLoadService.Load(),
+                _analytics.Initialize(),
+                _configsProvider.FetchData(),
+                InitializeAdsService());
 
             _sceneLoader.LoadMainMenu();
         }

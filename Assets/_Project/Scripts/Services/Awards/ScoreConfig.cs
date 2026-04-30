@@ -1,11 +1,8 @@
-﻿using UnityEngine;
-
-namespace _Project.Scripts.Services.Awards
+﻿namespace _Project.Scripts.Services.Awards
 {
-    [CreateAssetMenu(menuName = "Scriptable Objects/Score Config", fileName = "Score Config", order = 0)]
-    public class ScoreConfig : ScriptableObject
+    public class ScoreConfig
     {
-        [field: SerializeField] public AliveDurationScoreConfig AliveDurationScore { get; private set; }
-        [field:SerializeField] public int StartingScore { get; private set; }
+        public AliveDurationScoreConfig AliveDurationScore { get; set; }
+        public int StartingScore { get; set; }
     }
 }

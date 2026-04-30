@@ -1,18 +1,19 @@
-﻿using UnityEngine;
+﻿using _Project.Scripts.Services.AssetsProviding;
+using UnityEngine;
 
 namespace _Project.Scripts.Entities.Asteroids.Pools
 {
     public struct AsteroidPoolData
     {
         public AsteroidType AsteroidType { get; }
-        public string AssetName { get; }
+        public Asset Asset { get; }
         public Transform Container { get; }
         public Vector2 DefaultInactivePosition { get; }
         public int DefaultCapacity { get; }
         public int MaxSize { get; }
 
         public AsteroidPoolData(AsteroidType asteroidType, 
-            string assetName,
+            Asset asset,
             Transform container,
             Vector2 defaultInactivePosition, 
             int defaultCapacity, int maxSize)
@@ -22,7 +23,7 @@ namespace _Project.Scripts.Entities.Asteroids.Pools
             DefaultInactivePosition = defaultInactivePosition;
             DefaultCapacity = defaultCapacity;
             MaxSize = maxSize;
-            AssetName = assetName;
+            Asset = asset;
         }
     }
 }

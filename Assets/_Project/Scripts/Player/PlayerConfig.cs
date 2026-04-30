@@ -1,12 +1,9 @@
-﻿using UnityEngine;
-
-namespace _Project.Scripts.Player
+﻿namespace _Project.Scripts.Player
 {
-    [CreateAssetMenu(menuName = "Scriptable Objects/Player Config", fileName = "Player Config", order = 0)]
-    public class PlayerConfig : ScriptableObject
+    public class PlayerConfig
     {
-        [field: SerializeField] public float Speed { get; private set; } = 3f;
-        [field: SerializeField] public float RotationSpeed { get; private set; } = 270f;
-        [field: SerializeField] public float ImmunityTimespan { get; private set; } = 5f;
+        public float Speed { get; set; }
+        public float RotationSpeed { get; set; }
+        public float ImmunityTimespan { get; set; }
     }
 }

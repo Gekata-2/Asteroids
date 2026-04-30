@@ -1,4 +1,4 @@
-﻿using _Project.Scripts.AssetsProviding;
+﻿using _Project.Scripts.Services.AssetsProviding;
 using _Project.Scripts.Services.BeginGame;
 using UnityEngine;
 using Zenject;
@@ -7,22 +7,22 @@ namespace _Project.Scripts.Player
 {
     public class PlayerFactory : IAssetFetcher
     {
-        private const string ASSET_NAME = "player";
-
         private readonly DiContainer _di;
+        private readonly AssetsNames _assetsNames;
         private readonly IAssetProvider _assetProvider;
 
         private Object _prefab;
 
-        public PlayerFactory(DiContainer di, IAssetProvider assetProvider)
+        public PlayerFactory(DiContainer di, AssetsNames assetsNames, IAssetProvider assetProvider)
         {
             _assetProvider = assetProvider;
+            _assetsNames = assetsNames;
             _di = di;
         }
 
         public void FetchAssets()
         {
-            _assetProvider.TryGetAsset(ASSET_NAME, out _prefab);
+            _assetProvider.TryGetAsset(_assetsNames.GetName(Asset.Player), out _prefab);
         }
 
         public Player Create(Vector3 position)
@@ -32,7 +32,6 @@ namespace _Project.Scripts.Player
                 position,
                 Quaternion.identity,
                 null);
-
 
             return player;
         }

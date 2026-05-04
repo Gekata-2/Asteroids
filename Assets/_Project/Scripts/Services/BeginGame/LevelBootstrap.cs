@@ -3,7 +3,6 @@ using _Project.Scripts.Entities.UFO;
 using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Player;
 using _Project.Scripts.Services.Analytics;
-using _Project.Scripts.Services.RemoteConfigs;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;

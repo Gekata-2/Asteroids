@@ -9,5 +9,6 @@ namespace _Project.Scripts.Services.Logging
         void LogSave(string text);
         void LogAnalytics(string text);
         void LogAds(string text);
+        void LogIAP(string text);
     }
 }

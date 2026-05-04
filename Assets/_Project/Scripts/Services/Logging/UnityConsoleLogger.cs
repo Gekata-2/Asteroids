@@ -42,5 +42,11 @@ namespace _Project.Scripts.Services.Logging
             if (_logConfig.HasFlag(LogModule.Ads))
                 Debug.Log(text);
         }
+
+        public void LogIAP(string text)
+        {
+            if (_logConfig.HasFlag(LogModule.IAP))
+                Debug.Log(text);
+        }
     }
 }

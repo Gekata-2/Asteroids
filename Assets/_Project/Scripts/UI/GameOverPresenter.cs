@@ -1,5 +1,4 @@
 ﻿using System;
-using _Project.Scripts.Level;
 using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Player;
 using _Project.Scripts.Services;
@@ -88,7 +87,7 @@ namespace _Project.Scripts.UI
                 _adsService.LoadInterstitialAd();
                 await UniTask.WaitWhile(() => !_adsService.IsInterstitialAdReady);
             }
-
+            
             _adsService.ShowInterstitialAd(() =>
             {
                 _cursorService?.SetCursorVisibility(false);

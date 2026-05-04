@@ -8,11 +8,13 @@ namespace _Project.Scripts.DataPersistence
     {
         public int Score;
         public float Time;
+        public bool IsAdsRemoved;
 
-        public SaveData(int score, float time)
+        public SaveData(int score, float time, bool isAdsRemoved = false)
         {
             Score = score;
             Time = time;
+            IsAdsRemoved = isAdsRemoved;
         }
 
         public override string ToString()

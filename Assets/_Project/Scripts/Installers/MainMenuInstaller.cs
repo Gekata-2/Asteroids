@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.UI;
+﻿using _Project.Scripts.Services.IAP;
+using _Project.Scripts.UI;
 using _Project.Scripts.UI.Windows;
 using Zenject;
 
@@ -11,6 +12,9 @@ namespace _Project.Scripts.Installers
             Container.Bind<MainMenuWindow>().FromComponentInHierarchy().AsSingle();
             Container.BindInterfacesAndSelfTo<MainMenuPresenter>().AsSingle();
             Container.BindInterfacesAndSelfTo<MainMenuModel>().AsSingle();
+
+            Container.Bind<IAPWindow>().FromComponentInHierarchy().AsSingle();
+            Container.BindInterfacesAndSelfTo<IAPPresenter>().AsSingle();
         }
     }
 }

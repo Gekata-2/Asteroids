@@ -182,8 +182,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press <color=green>Enter</color> to try again, <color=green>R</color> to
-    continue playing or <color=red>Esc</color> to exit...
+  m_text: "Press <color=green>Enter</color> to try again, <color=green>R</color>
+    to continue playing, \n<color=red>M</color> to return to main menu or <color=red>Esc</color>
+    to exit..."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a123ee433ca598242ba7c5bdad747c2d, type: 2}
   m_sharedMaterial: {fileID: -8027889767997481380, guid: a123ee433ca598242ba7c5bdad747c2d, type: 2}

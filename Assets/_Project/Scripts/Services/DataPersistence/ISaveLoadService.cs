@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 
-namespace _Project.Scripts.DataPersistence
+namespace _Project.Scripts.Services.DataPersistence
 {
     public interface ISaveLoadService
     {

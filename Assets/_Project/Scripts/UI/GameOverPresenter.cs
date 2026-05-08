@@ -44,6 +44,7 @@ namespace _Project.Scripts.UI
             _input.SubmitPerformed += OnSubmitPerformed;
             _input.CancelPerformed += OnCancelPerformed;
             _input.ContinuePlayingPerformed += OnContinuePlayingPerformed;
+            _input.ReturnToMainMenuPerformed += OnReturnToMainMenuPerformed;
         }
 
         public void FetchAssets()
@@ -78,6 +79,12 @@ namespace _Project.Scripts.UI
         private bool CanPerformActions()
             => _uiManager.CurrentState == UIState.GameOver && !_adsService.IsShowingAd;
 
+        private void OnReturnToMainMenuPerformed()
+        {
+            if (CanPerformActions())
+                ShowInterstitialAdAndReturnToMainMenu().Forget();
+        }
+
         private async UniTask ShowInterstitialAdAndRestartGame()
         {
             _cursorService?.SetCursorVisibility(true);
@@ -87,7 +94,7 @@ namespace _Project.Scripts.UI
                 _adsService.LoadInterstitialAd();
                 await UniTask.WaitWhile(() => !_adsService.IsInterstitialAdReady);
             }
-            
+
             _adsService.ShowInterstitialAd(() =>
             {
                 _cursorService?.SetCursorVisibility(false);
@@ -95,6 +102,22 @@ namespace _Project.Scripts.UI
             });
         }
 
+        private async UniTask ShowInterstitialAdAndReturnToMainMenu()
+        {
+            _cursorService?.SetCursorVisibility(true);
+
+            if (!_adsService.IsInterstitialAdReady)
+            {
+                _adsService.LoadInterstitialAd();
+                await UniTask.WaitWhile(() => !_adsService.IsInterstitialAdReady);
+            }
+
+            _adsService.ShowInterstitialAd(() =>
+            {
+                _cursorService?.SetCursorVisibility(false);
+                _model.ReturnToMainMenu();
+            });
+        }
 
         private async UniTask ShowRewardedAdAndContinuePlaying()
         {
@@ -122,6 +145,7 @@ namespace _Project.Scripts.UI
             _input.SubmitPerformed -= OnSubmitPerformed;
             _input.CancelPerformed -= OnCancelPerformed;
             _input.ContinuePlayingPerformed -= OnContinuePlayingPerformed;
+            _input.ReturnToMainMenuPerformed -= OnReturnToMainMenuPerformed;
         }
     }
 }

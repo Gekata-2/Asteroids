@@ -3,14 +3,14 @@ using Newtonsoft.Json;
 using UnityEngine;
 using ILogger = _Project.Scripts.Services.Logging.ILogger;
 
-namespace _Project.Scripts.DataPersistence
+namespace _Project.Scripts.Services.DataPersistence
 {
-    public class PlayerPrefsSaveLoadService : ISaveLoadService
+    public class PlayerPrefsSaveService : ILocalSaveLoadService
     {
         private readonly string _key;
         private readonly ILogger _logger;
 
-        public PlayerPrefsSaveLoadService(ILogger logger = null, string key = "Save")
+        public PlayerPrefsSaveService(ILogger logger = null, string key = "Save")
         {
             _logger = logger;
             _key = key;

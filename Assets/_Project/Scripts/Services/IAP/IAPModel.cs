@@ -1,5 +1,5 @@
 ﻿using System;
-using _Project.Scripts.DataPersistence;
+using _Project.Scripts.Services.DataPersistence;
 using _Project.Scripts.Services.Monetization;
 using Cysharp.Threading.Tasks;
 using Zenject;
@@ -14,11 +14,11 @@ namespace _Project.Scripts.Services.IAP
 
         private readonly IIAPService _iapService;
         private readonly IapConfig _iapConfig;
-        private readonly ISaveLoadService _saveLoadService;
+        private readonly SaveLoadService _saveLoadService;
         private readonly IAdsService _adsService;
 
         public IAPModel(IapConfig iapConfig, IIAPService iapService,
-            ISaveLoadService saveLoadService,
+            SaveLoadService saveLoadService,
             IAdsService adsService)
         {
             _iapService = iapService;
@@ -49,15 +49,15 @@ namespace _Project.Scripts.Services.IAP
 
         private async UniTask SaveAdsRemoved()
         {
-            SaveData saveData = await _saveLoadService.Load();
+            SaveData saveData = _saveLoadService.CurrentSave;
             saveData.IsAdsRemoved = true;
             _adsService.SetEnabled(!saveData.IsAdsRemoved);
             await _saveLoadService.Save(saveData);
         }
 
-        public async UniTask FetchPurchasedProducts()
+        public void FetchPurchasedProducts()
         {
-            SaveData saveData = await _saveLoadService.Load();
+            SaveData saveData = _saveLoadService.CurrentSave;
 
             if (saveData.IsAdsRemoved)
                 IAPEntitled?.Invoke(IAP.RemoveAds);

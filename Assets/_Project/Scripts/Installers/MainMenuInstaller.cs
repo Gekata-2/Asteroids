@@ -15,6 +15,9 @@ namespace _Project.Scripts.Installers
 
             Container.Bind<IAPWindow>().FromComponentInHierarchy().AsSingle();
             Container.BindInterfacesAndSelfTo<IAPPresenter>().AsSingle();
+
+            Container.BindInterfacesAndSelfTo<SaveResolvePresenter>().AsSingle();
+            Container.Bind<SaveResolveWindow>().FromComponentInHierarchy().AsSingle();
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
-using _Project.Scripts.DataPersistence;
 using _Project.Scripts.Player;
 using _Project.Scripts.Player.Weapons;
 using _Project.Scripts.Services;
 using _Project.Scripts.Services.Analytics;
 using _Project.Scripts.Services.AssetsProviding;
+using _Project.Scripts.Services.DataPersistence;
 using _Project.Scripts.Services.Pause;
 using _Project.Scripts.Services.RemoteConfigs;
 using _Project.Scripts.Services.SceneManagement;
@@ -16,7 +16,7 @@ namespace _Project.Scripts.Level.GameSession
     {
         public event Action GameOver;
 
-        private readonly ISaveLoadService _saveLoadService;
+        private readonly SaveLoadService _saveLoadService;
         private readonly SaveProvider _saveProvider;
 
         private readonly IAnalytics _analytics;
@@ -45,7 +45,7 @@ namespace _Project.Scripts.Level.GameSession
         }
 
         public GameOverModel(
-            ISaveLoadService saveLoadService, SaveProvider saveProvider,
+            SaveLoadService saveLoadService, SaveProvider saveProvider,
             IAnalytics analytics, AnalyticsDataBuilder analyticsDataBuilder,
             AssetsNames assetsNames, IAssetProvider assetProvider,
             PauseService pauseService,
@@ -85,7 +85,7 @@ namespace _Project.Scripts.Level.GameSession
             _pauseService.PerformPause();
             GameOver?.Invoke();
             _analytics.LogGameOver(_analyticsDataBuilder.CreateGameOverData());
-            SaveData saveData = await _saveProvider.CreateSave();
+            SaveData saveData = _saveProvider.CreateSave();
             await _saveLoadService.Save(saveData);
         }
 
@@ -110,6 +110,11 @@ namespace _Project.Scripts.Level.GameSession
             _pauseService.PerformResume();
         }
 
+        public void ReturnToMainMenu()
+        {
+            ReleaseUsedAssets();
+            _sceneLoader.LoadMainMenu();
+        }
 
         private void ReleaseUsedAssets()
         {

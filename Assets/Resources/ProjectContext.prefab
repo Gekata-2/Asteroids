@@ -107,3 +107,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts._Installers.GlobalInstaller
   _adsConfig: {fileID: 11400000, guid: 18ce61bd86f38b349abb66851ae522ee, type: 2}
+  _iapConfig: {fileID: 11400000, guid: 8ee148dd435f29b478958fc07d53b07f, type: 2}

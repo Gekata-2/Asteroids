@@ -348,6 +348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77e1b4483fa03624eb207eea1cd44ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Services.GameBootstrap
+  _clearNonConsumablesPurchases: 0
 --- !u!4 &1005330922
 Transform:
   m_ObjectHideFlags: 0

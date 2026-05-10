@@ -24,5 +24,6 @@ namespace _Project.Scripts.Services.Monetization
         void LoadBanner(BannerPosition position);
         void ShowBanner();
         void HideBanner();
+        void SetEnabled(bool isEnabled);
     }
 }

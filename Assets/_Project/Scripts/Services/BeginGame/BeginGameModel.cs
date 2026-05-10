@@ -16,10 +16,10 @@ namespace _Project.Scripts.Services.BeginGame
         private readonly IAssetProvider _assetProvider;
         private readonly PlayerFactory _playerFactory;
         private readonly IConfigsProvider _configsProvider;
-        
+
         public BeginGameModel(IAssetProvider assetProvider, PlayerFactory playerFactory,
             IConfigsProvider configsProvider,
-            List<IGameStarter> starters = null, 
+            List<IGameStarter> starters = null,
             List<IAssetFetcher> assetFetchers = null,
             List<IConfigFetcher> configFetchers = null)
         {
@@ -42,7 +42,7 @@ namespace _Project.Scripts.Services.BeginGame
                 await _assetProvider.Preload(assetsGroups.ToArray());
         }
 
-        public async UniTask ActivateConfigsData() 
+        public async UniTask ActivateConfigsData()
             => await _configsProvider.ActivateData();
 
         public void FetchAssets()
@@ -57,7 +57,7 @@ namespace _Project.Scripts.Services.BeginGame
                 fetcher.FetchConfig(_configsProvider);
         }
 
-        public Player.Player SpawnPlayer(Vector3 spawnPosition) 
+        public Player.Player SpawnPlayer(Vector3 spawnPosition)
             => _playerFactory.Create(spawnPosition);
 
         public void BeginGame()

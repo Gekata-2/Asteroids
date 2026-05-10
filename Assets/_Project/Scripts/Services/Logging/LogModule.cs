@@ -10,6 +10,7 @@ namespace _Project.Scripts.Services.Logging
         Saving = 2,
         Analytics = 4,
         Ads = 8,
-        All = Other | Saving | Analytics | Ads
+        IAP = 16,
+        All = Other | Saving | Analytics | Ads | IAP
     }
 }

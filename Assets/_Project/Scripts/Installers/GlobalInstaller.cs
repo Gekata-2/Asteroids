@@ -1,6 +1,7 @@
 ﻿using _Project.Scripts.DataPersistence;
 using _Project.Scripts.Services;
 using _Project.Scripts.Services.Analytics;
+using _Project.Scripts.Services.IAP;
 using _Project.Scripts.Services.Logging;
 using _Project.Scripts.Services.Monetization;
 using _Project.Scripts.Services.RemoteConfigs;
@@ -13,6 +14,7 @@ namespace _Project.Scripts.Installers
     public class GlobalInstaller : MonoInstaller
     {
         [SerializeField] private AdsConfig _adsConfig;
+        [SerializeField] private IapConfig _iapConfig;
 
         public override void InstallBindings()
         {
@@ -31,6 +33,9 @@ namespace _Project.Scripts.Installers
             Container.BindInterfacesAndSelfTo<UnityAdsService>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<FirebaseRemoteConfigsProvider>().AsSingle();
+            Container.BindInterfacesAndSelfTo<UnityIAPService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<IAPModel>().AsSingle();
+            Container.Bind<IapConfig>().FromScriptableObject(_iapConfig).AsSingle();
         }
     }
 }

@@ -15,6 +15,7 @@ namespace _Project.Scripts.Services.Monetization
 
         private string _gameId;
         private string _bannerId;
+        private bool _isEnabled;
 
         public bool IsBannerLoaded { get; private set; }
         public bool IsBannerShown { get; private set; }
@@ -73,7 +74,12 @@ namespace _Project.Scripts.Services.Monetization
             => _interstitialAdsHandler.LoadAd();
 
         public void ShowInterstitialAd(Action onCompleted = null)
-            => _interstitialAdsHandler.ShowAd(onCompleted);
+        {
+            if (_isEnabled)
+                _interstitialAdsHandler.ShowAd(onCompleted);
+            else
+                onCompleted?.Invoke();
+        }
 
         public void LoadRewardedAd()
             => _rewardedAdsHandler.LoadAd();
@@ -113,6 +119,9 @@ namespace _Project.Scripts.Services.Monetization
 
         public void HideBanner()
             => Advertisement.Banner.Hide();
+
+        public void SetEnabled(bool isEnabled)
+            => _isEnabled = isEnabled;
 
         private void OnBannerShown()
             => IsBannerShown = true;

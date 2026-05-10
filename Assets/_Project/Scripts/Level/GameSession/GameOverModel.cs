@@ -85,7 +85,8 @@ namespace _Project.Scripts.Level.GameSession
             _pauseService.PerformPause();
             GameOver?.Invoke();
             _analytics.LogGameOver(_analyticsDataBuilder.CreateGameOverData());
-            await _saveLoadService.Save(_saveProvider.CreateSave());
+            SaveData saveData = await _saveProvider.CreateSave();
+            await _saveLoadService.Save(saveData);
         }
 
         public void RestartGame()

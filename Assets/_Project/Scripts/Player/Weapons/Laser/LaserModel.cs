@@ -1,10 +1,12 @@
 ﻿using System;
-using _Project.Scripts.Services.Analytics;
+using _Project.Scripts.Meta.Analytics;
+using _Project.Scripts.Player.Weapons.Configs;
 using _Project.Scripts.Services.RemoteConfigs;
+using Zenject;
 
 namespace _Project.Scripts.Player.Weapons.Laser
 {
-    public class LaserModel : IConfigFetcher
+    public class LaserModel : IInitializable
     {
         private readonly IAnalytics _analytics;
         public event Action<int> ChargesCountChanged;
@@ -12,6 +14,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         private LaserConfig _config;
         private LaserCharges _charges;
+        private readonly IConfigsProvider _configsProvider;
 
 
         public float CooldownTimeLeft { get; private set; }
@@ -26,9 +29,18 @@ namespace _Project.Scripts.Player.Weapons.Laser
         public float Lenght => _config.Lenght;
         public int Charges => _charges.Current;
 
-        public LaserModel(IAnalytics analytics)
+        public LaserModel(IAnalytics analytics, IConfigsProvider configsProvider)
         {
             _analytics = analytics;
+            _configsProvider = configsProvider;
+        }
+
+        public void Initialize()
+        {
+            PlayerWeaponsConfig weaponsConfig =
+                _configsProvider.GetValue<PlayerWeaponsConfig>(ConfigsNames.PlayerWeapons);
+            _config = weaponsConfig.Laser;
+            _charges = new LaserCharges(_config.Charges);
         }
 
         public void SetCooldownTimeLeft(float time)
@@ -62,14 +74,6 @@ namespace _Project.Scripts.Player.Weapons.Laser
             ChargesCountChanged?.Invoke(_charges.Current);
             SetIsOnCooldown(false);
             SetCooldownTimeLeft(0f);
-        }
-
-        public void FetchConfig(IConfigsProvider configsProvider)
-        {
-            PlayerWeaponsConfig weaponsConfig =
-                configsProvider.GetValue<PlayerWeaponsConfig>(ConfigsNames.PlayerWeapons);
-            _config = weaponsConfig.Laser;
-            _charges = new LaserCharges(_config.Charges);
         }
     }
 }

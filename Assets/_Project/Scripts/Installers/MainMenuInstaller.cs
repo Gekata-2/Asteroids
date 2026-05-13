@@ -1,6 +1,8 @@
-﻿using _Project.Scripts.Services.IAP;
+﻿using _Project.Scripts.MainMenu;
+using _Project.Scripts.Meta.IAP;
+using _Project.Scripts.Meta.IAP.UI;
+using _Project.Scripts.Services.DataPersistence.SaveResolving;
 using _Project.Scripts.UI;
-using _Project.Scripts.UI.Windows;
 using Zenject;
 
 namespace _Project.Scripts.Installers

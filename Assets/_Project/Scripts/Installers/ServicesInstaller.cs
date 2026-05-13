@@ -1,7 +1,6 @@
-﻿using _Project.Scripts.Services;
-using _Project.Scripts.Services.Analytics;
-using _Project.Scripts.Services.AssetsProviding;
-using _Project.Scripts.Services.Awards;
+﻿using _Project.Scripts.Awards;
+using _Project.Scripts.Meta.Analytics;
+using _Project.Scripts.Services;
 using _Project.Scripts.Services.DataPersistence;
 using _Project.Scripts.Services.Pause;
 using _Project.Scripts.Services.UI;
@@ -20,9 +19,6 @@ namespace _Project.Scripts.Installers
 
             Container.Bind<AnalyticsDataBuilder>().AsSingle();
             Container.Bind<SaveProvider>().AsSingle();
-
-            Container.Bind<AssetsNames>().AsSingle();
-            Container.BindInterfacesAndSelfTo<AddressablesProvider>().AsSingle();
         }
     }
 }

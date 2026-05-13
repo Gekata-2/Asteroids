@@ -291,6 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player.MachineGunShooter
   _bulletsOrigin: {fileID: 679582953562117720}
   _bulletPrefab: {fileID: 5508270340655722120, guid: a678647388e63964d86eb63410d65925, type: 3}
+  _effectOrigin: {fileID: 679582953562117720}
   _maxSize: 60
   _defaultCapacity: 30
 --- !u!114 &8789946487600211437

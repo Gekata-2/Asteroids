@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Entities.UFO
 {
-    public class UfosSpawner : MonoBehaviour, IPausable, IConfigFetcher
+    public class UfosSpawner : MonoBehaviour, IPausable, IInitializable
     {
         public event Action<Ufo> UfoSpawned;
 
@@ -18,6 +18,7 @@ namespace _Project.Scripts.Entities.UFO
         [SerializeField] private Color _gizmosColor;
 
         private RectangleSideSpawnPositionPicker _spawnPositionPicker;
+        private IConfigsProvider _configsProvider;
 
         private SpawnerTimingConfig _timings;
         private GameObject _container;
@@ -27,9 +28,17 @@ namespace _Project.Scripts.Entities.UFO
         private float _timer;
 
         [Inject]
-        private void Construct(UfoFactory ufoFactory)
+        private void Construct(UfoFactory ufoFactory, IConfigsProvider configsProvider)
         {
             _ufoFactory = ufoFactory;
+            _configsProvider = configsProvider;
+        }
+
+        public void Initialize()
+        {
+            SimpleSpawnerConfig spawnerConfig = _configsProvider.GetValue<SimpleSpawnerConfig>(ConfigsNames.UfoSpawner);
+            _timings = spawnerConfig.Timings;
+            _spawnPositionPicker = new RectangleSideSpawnPositionPicker(spawnerConfig.SpawnPositionSize, _gizmosColor);
         }
 
         private void Start()
@@ -51,12 +60,6 @@ namespace _Project.Scripts.Entities.UFO
             }
         }
 
-        public void FetchConfig(IConfigsProvider configsProvider)
-        {
-            SimpleSpawnerConfig spawnerConfig = configsProvider.GetValue<SimpleSpawnerConfig>(ConfigsNames.UfoSpawner);
-            _timings = spawnerConfig.Timings;
-            _spawnPositionPicker = new RectangleSideSpawnPositionPicker(spawnerConfig.SpawnPositionSize, _gizmosColor);
-        }
 
         private void SpawnUfo()
         {

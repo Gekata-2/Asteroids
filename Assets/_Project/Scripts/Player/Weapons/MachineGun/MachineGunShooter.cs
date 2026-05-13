@@ -2,6 +2,8 @@
 using System.Threading;
 using _Project.Scripts.Extensions;
 using _Project.Scripts.Services.Pause;
+using _Project.Scripts.Sfx;
+using _Project.Scripts.Vfx;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -13,26 +15,32 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
     {
         [SerializeField] private Transform _bulletsOrigin;
         [SerializeField] private Bullet _bulletPrefab;
+        [SerializeField] private Transform _effectOrigin;
 
-        [Header("Bullets Pool")] 
-        [SerializeField, Min(1)] private int _maxSize = 60;
+        [Header("Bullets Pool")] [SerializeField, Min(1)]
+        private int _maxSize = 60;
+
         [SerializeField, Min(1)] private int _defaultCapacity = 30;
-        
+
         private bool _isPaused;
 
         private MachineGunModel _model;
         private PauseService _pauseService;
-        
+
         private ObjectPool<Bullet> _bulletsPool;
         private List<Bullet> _activeBullets;
 
         private CancellationTokenSource _cooldownCts;
+        private VfxSystem _vfxSystem;
+        private AudioSystem _audioSystem;
 
         [Inject]
-        private void Construct(MachineGunModel model, PauseService pauseService)
+        private void Construct(MachineGunModel model, PauseService pauseService, VfxSystem vfxSystem, AudioSystem audioSystem)
         {
             _model = model;
             _pauseService = pauseService;
+            _vfxSystem = vfxSystem;
+            _audioSystem = audioSystem;
         }
 
         private void Awake()
@@ -125,7 +133,9 @@ namespace _Project.Scripts.Player.Weapons.MachineGun
 
             (bulletTransform.position, bulletTransform.rotation) = (_bulletsOrigin.position, _bulletsOrigin.rotation);
             bullet.Initialize(new BulletData(_model.BulletSpeed, bulletTransform.up, _model.BulletLifeTime));
-            
+            _vfxSystem.PlayVfx(VFX.MachineGunShoot, _effectOrigin.position);
+            _audioSystem.PlaySfx(SFX.MachineGunShoot,_effectOrigin.position);
+
             _model.IncreaseShotsFired();
 
             CooldownRoutine(_model.FireCooldown, _cooldownCts.Token).Forget();

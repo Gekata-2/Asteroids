@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 namespace _Project.Scripts.Entities.Asteroids
 {
-    public class AsteroidsSpawner : MonoBehaviour, IPausable, IConfigFetcher
+    public class AsteroidsSpawner : MonoBehaviour, IPausable, IInitializable
     {
         public event Action<Asteroid, Vector2> AsteroidSpawned;
 
@@ -26,13 +26,25 @@ namespace _Project.Scripts.Entities.Asteroids
         private SpawnerTimingConfig _timings;
 
         private AsteroidsConfigsRegistry _asteroidsConfigsRegistry;
+        private IConfigsProvider _configsProvider;
 
         [Inject]
-        private void Construct(AsteroidPools pools,
-            AsteroidsConfigsRegistry asteroidsConfigsRegistry)
+        private void Construct(
+            AsteroidPools pools,
+            AsteroidsConfigsRegistry asteroidsConfigsRegistry,
+            IConfigsProvider configsProvider)
         {
             _pools = pools;
             _asteroidsConfigsRegistry = asteroidsConfigsRegistry;
+            _configsProvider = configsProvider;
+        }
+
+        public void Initialize()
+        {
+            SimpleSpawnerConfig config = _configsProvider.GetValue<SimpleSpawnerConfig>(ConfigsNames.AsteroidsSpawner);
+            _timings = config.Timings;
+            _spawnPositionPicker = new RectangleSideSpawnPositionPicker(config.SpawnPositionSize, _gizmosColor);
+            _type = _asteroidsConfigsRegistry.Chain.First().AsteroidType;
         }
 
         private void Start()
@@ -54,14 +66,6 @@ namespace _Project.Scripts.Entities.Asteroids
             }
         }
 
-        public void FetchConfig(IConfigsProvider configsProvider)
-        {
-            SimpleSpawnerConfig config = configsProvider.GetValue<SimpleSpawnerConfig>(ConfigsNames.AsteroidsSpawner);
-            _timings = config.Timings;
-            _spawnPositionPicker = new RectangleSideSpawnPositionPicker(config.SpawnPositionSize, _gizmosColor);
-
-            _type = _asteroidsConfigsRegistry.Chain.First().AsteroidType;
-        }
 
         private void SpawnAsteroid()
         {

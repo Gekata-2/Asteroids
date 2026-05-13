@@ -1,5 +1,5 @@
 ﻿using _Project.Scripts.Extensions;
-using _Project.Scripts.Services.AssetsProviding;
+using _Project.Scripts.Services.AssetsManagement;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -9,7 +9,7 @@ namespace _Project.Scripts.Entities.Asteroids.Pools
     {
         private readonly ObjectPool<Asteroid> _pool;
         private readonly AsteroidFactory _factory;
-        private readonly AssetsNames _assetsNames;
+     
         private readonly IAssetProvider _assetProvider;
         private readonly AsteroidPoolData _data;
         private readonly int _prewarmSize;
@@ -17,13 +17,11 @@ namespace _Project.Scripts.Entities.Asteroids.Pools
         private Object _prefab;
 
         public AsteroidPool(AsteroidFactory factory,
-            AsteroidPoolData data,
-            AssetsNames assetsNames, IAssetProvider assetProvider)
+            AsteroidPoolData data,IAssetProvider assetProvider)
         {
             _factory = factory;
             _data = data;
             _assetProvider = assetProvider;
-            _assetsNames = assetsNames;
             _pool = new ObjectPool<Asteroid>(
                 CreateAsteroid,
                 OnTakeAsteroidFromPool,
@@ -38,7 +36,7 @@ namespace _Project.Scripts.Entities.Asteroids.Pools
             => _pool.PreWarm(_data.DefaultCapacity);
 
         public void FetchPrefab()
-            => _assetProvider.TryGetAsset(_assetsNames.GetName(_data.Asset), out _prefab);
+            => _assetProvider.TryGetAsset(AssetsNames.GetName(_data.Asset), out _prefab);
 
         public void Release(Asteroid asteroid)
             => _pool.Release(asteroid);

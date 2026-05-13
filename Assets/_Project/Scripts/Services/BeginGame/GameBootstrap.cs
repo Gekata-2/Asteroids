@@ -1,10 +1,10 @@
 using System;
+using _Project.Scripts.Meta.Analytics;
+using _Project.Scripts.Meta.IAP;
+using _Project.Scripts.Meta.Monetization;
 using _Project.Scripts.Player;
-using _Project.Scripts.Services.Analytics;
 using _Project.Scripts.Services.Authorization;
 using _Project.Scripts.Services.DataPersistence;
-using _Project.Scripts.Services.IAP;
-using _Project.Scripts.Services.Monetization;
 using _Project.Scripts.Services.Network;
 using _Project.Scripts.Services.RemoteConfigs;
 using _Project.Scripts.Services.SceneManagement;
@@ -39,7 +39,8 @@ namespace _Project.Scripts.Services.BeginGame
             IConfigsProvider configsProvider,
             IAuthorizationService authorizationService,
             IInput input,
-            INetworkConnectionService networkConnectionService, SaveLoadService saveService)
+            INetworkConnectionService networkConnectionService,
+            SaveLoadService saveService)
         {
             _sceneLoader = sceneLoader;
             _iapService = iapService;
@@ -80,6 +81,7 @@ namespace _Project.Scripts.Services.BeginGame
             await _authorizationService.Initialize();
             await _authorizationService.Authorize("test");
         }
+
 
         private async UniTask<SaveData> RetrieveSave()
         {

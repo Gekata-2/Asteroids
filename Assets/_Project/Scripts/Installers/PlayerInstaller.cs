@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Level.GameSession;
-using _Project.Scripts.Player;
+﻿using _Project.Scripts.Player;
 using _Project.Scripts.Player.Weapons.Laser;
 using _Project.Scripts.Player.Weapons.MachineGun;
+using _Project.Scripts.Services.AssetsManagement;
 using _Project.Scripts.UI;
 using Zenject;
 

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Entities.Asteroids.Pools;
+using _Project.Scripts.Level;
 using _Project.Scripts.Level.BoundsHandling;
-using _Project.Scripts.Level.GameSession;
 using _Project.Scripts.Services.BeginGame;
 using UnityEngine;
 using Zenject;

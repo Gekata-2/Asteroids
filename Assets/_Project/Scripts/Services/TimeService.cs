@@ -22,9 +22,9 @@ namespace _Project.Scripts.Services
             => _isEnabled = true;
 
         public void Pause()
-            => _isPaused = false;
+            => _isPaused = true;
 
         public void Resume()
-            => _isPaused = true;
+            => _isPaused = false;
     }
 }

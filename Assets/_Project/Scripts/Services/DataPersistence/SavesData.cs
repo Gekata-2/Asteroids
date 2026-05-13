@@ -10,7 +10,10 @@
         {
             LocalSave = localSave;
             CloudSave = cloudSave;
-            IsSyncingRequired = LocalSave.Date != cloudSave.Date;
+            if (CloudSave == null)
+                IsSyncingRequired = false;
+            else
+                IsSyncingRequired = LocalSave.Date != cloudSave.Date;
         }
     }
 }

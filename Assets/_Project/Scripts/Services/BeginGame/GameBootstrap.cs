@@ -55,7 +55,6 @@ namespace _Project.Scripts.Services.BeginGame
 
         private void Start()
         {
-            
             BootGame().Forget();
         }
 

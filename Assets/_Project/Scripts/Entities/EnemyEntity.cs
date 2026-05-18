@@ -1,6 +1,4 @@
-﻿using _Project.Scripts.Entities.UFO;
-
-namespace _Project.Scripts.Entities
+﻿namespace _Project.Scripts.Entities
 {
     public abstract class EnemyEntity : Entity
     {

@@ -1,7 +1,11 @@
-using _Project.Scripts.DataPersistence;
-using _Project.Scripts.Services.Analytics;
-using _Project.Scripts.Services.IAP;
-using _Project.Scripts.Services.Monetization;
+using System;
+using _Project.Scripts.Meta.Analytics;
+using _Project.Scripts.Meta.IAP;
+using _Project.Scripts.Meta.Monetization;
+using _Project.Scripts.Player;
+using _Project.Scripts.Services.Authorization;
+using _Project.Scripts.Services.DataPersistence;
+using _Project.Scripts.Services.Network;
 using _Project.Scripts.Services.RemoteConfigs;
 using _Project.Scripts.Services.SceneManagement;
 using Cysharp.Threading.Tasks;
@@ -16,24 +20,38 @@ namespace _Project.Scripts.Services.BeginGame
 
         private SceneLoader _sceneLoader;
         private IIAPService _iapService;
-        private ISaveLoadService _saveLoadService;
+
         private IAnalytics _analytics;
         private IAdsService _adsService;
         private IConfigsProvider _configsProvider;
+        private IAuthorizationService _authorizationService;
+        private IInput _input;
+        private INetworkConnectionService _connectionService;
+
+        private SaveLoadService _saveService;
 
         [Inject]
-        private void Construct(SceneLoader sceneLoader, IIAPService iapService,
-            ISaveLoadService saveLoadService,
+        private void Construct(
+            SceneLoader sceneLoader,
+            IIAPService iapService,
             IAnalytics analytics,
             IAdsService adsService,
-            IConfigsProvider configsProvider)
+            IConfigsProvider configsProvider,
+            IAuthorizationService authorizationService,
+            IInput input,
+            INetworkConnectionService networkConnectionService,
+            SaveLoadService saveService)
         {
             _sceneLoader = sceneLoader;
             _iapService = iapService;
-            _saveLoadService = saveLoadService;
+
             _analytics = analytics;
             _adsService = adsService;
             _configsProvider = configsProvider;
+            _authorizationService = authorizationService;
+            _input = input;
+            _connectionService = networkConnectionService;
+            _saveService = saveService;
         }
 
         private void Start()
@@ -43,16 +61,44 @@ namespace _Project.Scripts.Services.BeginGame
 
         private async UniTask BootGame()
         {
+            await LogIn();
+            SaveData saveData = await RetrieveSave();
+
             await UniTask.WhenAll(
                 _analytics.Initialize(),
                 _configsProvider.FetchData(),
                 _iapService.Initialize(),
-                InitializeAdsService(), ClearNonConsumables());
+                InitializeAdsService(!saveData.IsAdsRemoved),
+                ClearNonConsumables(saveData));
 
+            _input.EnableGlobalActions();
+            _connectionService.Connect().Forget();
             _sceneLoader.LoadMainMenu();
         }
 
-        private async UniTask InitializeAdsService()
+        private async UniTask LogIn()
+        {
+            await _authorizationService.Initialize();
+            await _authorizationService.Authorize("test");
+        }
+
+
+        private async UniTask<SaveData> RetrieveSave()
+        {
+            SaveData save = await _saveService.Load();
+            if (save != null)
+                return save;
+
+            save = CreateFreshSave();
+            await _saveService.Save(save);
+
+            return save;
+        }
+
+        private SaveData CreateFreshSave()
+            => new(0, 0, DateTime.Now);
+
+        private async UniTask InitializeAdsService(bool isAdsEnabled)
         {
             _adsService.Initialize();
             await UniTask.WaitUntil(() => _adsService.IsInitialized);
@@ -61,17 +107,15 @@ namespace _Project.Scripts.Services.BeginGame
             _adsService.LoadRewardedAd();
             await UniTask.WaitUntil(() => _adsService.IsInterstitialAdReady && _adsService.IsRewardedAdReady);
 
-            SaveData save = await _saveLoadService.Load();
-            _adsService.SetEnabled(!save.IsAdsRemoved);
+            _adsService.SetEnabled(isAdsEnabled);
         }
 
-        private async UniTask ClearNonConsumables()
+        private async UniTask ClearNonConsumables(SaveData saveData)
         {
             if (_clearNonConsumablesPurchases)
             {
-                SaveData saveData = await _saveLoadService.Load();
                 saveData.IsAdsRemoved = false;
-                await _saveLoadService.Save(saveData);
+                await _saveService.Save(saveData);
             }
         }
     }

@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using _Project.Scripts.Level.BoundsHandling;
+using _Project.Scripts.ObjectPools;
+using _Project.Scripts.Services.AssetsManagement;
 using _Project.Scripts.Services.BeginGame;
+using _Project.Scripts.Sfx;
 using UnityEngine;
 
 namespace _Project.Scripts.Entities.Asteroids.Pools
@@ -10,19 +13,17 @@ namespace _Project.Scripts.Entities.Asteroids.Pools
         private const string CONTAINER_NAME = "Asteroids Container";
 
         private readonly Dictionary<AsteroidType, AsteroidPool> _pools = new();
-        private readonly GameObject _container;
 
-        public AsteroidPools(AsteroidPoolsConfig configs, LevelBounds levelBounds, AsteroidPoolFactory poolFactory)
+        public AsteroidPools(PoolsConfigs configs, AsteroidPoolFactory poolFactory)
         {
             GameObject container = new GameObject(CONTAINER_NAME);
-            Vector2 defaultPosition = new Vector2(levelBounds.Bounds.max.x * 2, levelBounds.Bounds.max.y * 2);
-            foreach (var pair in configs.PoolConfigs)
+            foreach (var pair in configs.AsteroidsPools)
             {
-                AsteroidPoolConfig config = pair.Value;
+                AssetPoolConfig config = pair.Value;
                 AsteroidType asteroidType = pair.Key;
                 AsteroidPool pool = poolFactory.Create(
                     new AsteroidPoolData(asteroidType, config.Asset, container.transform,
-                        defaultPosition, config.DefaultCapacity, config.MaxSize));
+                        configs.InactiveObjectPosition, config.DefaultCapacity, config.MaxSize));
                 _pools.Add(asteroidType, pool);
             }
         }

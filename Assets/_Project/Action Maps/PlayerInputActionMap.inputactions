@@ -234,6 +234,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ReturnToMainMenu",
+                    "type": "Button",
+                    "id": "8182810f-7051-48a0-9f3a-9b35d0b9addb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -663,6 +672,45 @@
                     "processors": "",
                     "groups": "",
                     "action": "ContinuePlaying",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc4ffb3e-f64d-48e5-b5fb-f535756e227c",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReturnToMainMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Global",
+            "id": "40bc8108-4ee7-48be-a463-f874abc2a072",
+            "actions": [
+                {
+                    "name": "SwitchConnection",
+                    "type": "Button",
+                    "id": "11b674fb-dec4-4b03-ae3d-7295fd8ecdad",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "104dc923-d735-4117-8ad2-837399603d64",
+                    "path": "<Keyboard>/f7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchConnection",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

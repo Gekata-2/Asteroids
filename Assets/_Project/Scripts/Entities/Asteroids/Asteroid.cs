@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using _Project.Scripts.Entities.Asteroids.Configs;
 using _Project.Scripts.Entities.Asteroids.Pools;
 using _Project.Scripts.Entities.UFO;
+using _Project.Scripts.Sfx;
+using _Project.Scripts.Vfx;
 using ModestTree;
 using UnityEngine;
 using Zenject;
@@ -16,8 +18,23 @@ namespace _Project.Scripts.Entities.Asteroids
         public event Action<Asteroid> Destroyed;
         public event Action<List<Asteroid>> CreatedDebris;
 
+        private AsteroidPools _pools;
+        private AsteroidsConfigsRegistry _configsRegistry;
+        private VfxSystem _vfxSystem;
+        private AudioSystem _audioSystem;
+
         private Queue<AsteroidsSplitConfig> SplitChain { get; set; }
         public AsteroidType Type { get; private set; }
+
+        [Inject]
+        private void Construct(AsteroidPools pools, AsteroidsConfigsRegistry configsRegistry, VfxSystem vfxSystem,
+            AudioSystem audioSystem)
+        {
+            _pools = pools;
+            _configsRegistry = configsRegistry;
+            _vfxSystem = vfxSystem;
+            _audioSystem = audioSystem;
+        }
 
         public void Initialize(AsteroidsInitializationData initializationData)
         {
@@ -25,16 +42,6 @@ namespace _Project.Scripts.Entities.Asteroids
             SplitChain = initializationData.SplitChain;
             Rigidbody.AddTorque(initializationData.Torque);
             Rigidbody.linearVelocity = initializationData.Speed * initializationData.MoveDirection.normalized;
-        }
-
-        private AsteroidPools _pools;
-        private AsteroidsConfigsRegistry _configsRegistry;
-
-        [Inject]
-        private void Construct(AsteroidPools pools, AsteroidsConfigsRegistry configsRegistry)
-        {
-            _pools = pools;
-            _configsRegistry = configsRegistry;
         }
 
         public void SetType(AsteroidType type)
@@ -52,6 +59,8 @@ namespace _Project.Scripts.Entities.Asteroids
             if (!SplitChain.IsEmpty())
                 SpawnAsteroidsFromSplitAtPosition(SplitChain, Rigidbody.position);
 
+            _vfxSystem.PlayVfx(VFX.AsteroidDestroyed, transform.position);
+            _audioSystem.PlaySfx(SFX.EnemyDestroyed, transform.position);
             Destroyed?.Invoke(this);
         }
 

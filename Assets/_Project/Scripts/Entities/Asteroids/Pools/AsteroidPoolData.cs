@@ -1,4 +1,4 @@
-﻿using _Project.Scripts.Services.AssetsProviding;
+﻿using _Project.Scripts.Services.AssetsManagement;
 using UnityEngine;
 
 namespace _Project.Scripts.Entities.Asteroids.Pools

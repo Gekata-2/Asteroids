@@ -13,13 +13,17 @@ namespace _Project.Scripts.Player
         event Action PausePerformed;
         event Action SubmitPerformed;
         event Action CancelPerformed;
+        event Action ReturnToMainMenuPerformed;
         event Action ContinuePlayingPerformed;
+        event Action ConnectionSwitchPerformed;
 
 
         float PlayerRotation();
 
         void Enable();
         void Disable();
+        void EnableGlobalActions();
+        void DisableGlobalActions();
 
         void SetPlayerActionsEnabled(bool isEnabled);
         void SetUIActionsEnabled(bool isEnabled);
@@ -36,7 +40,9 @@ namespace _Project.Scripts.Player
         public event Action PausePerformed;
         public event Action SubmitPerformed;
         public event Action CancelPerformed;
+        public event Action ReturnToMainMenuPerformed;
         public event Action ContinuePlayingPerformed;
+        public event Action ConnectionSwitchPerformed;
 
         private readonly PlayerInputActionMap _playerInput;
 
@@ -62,7 +68,9 @@ namespace _Project.Scripts.Player
             _playerInput.UI.Submit.performed += OnSubmitPerformed;
             _playerInput.UI.Cancel.performed += OnCancelPerformed;
             _playerInput.UI.ContinuePlaying.performed += OnContinuePlayingPerformed;
+            _playerInput.UI.ReturnToMainMenu.performed += OnReturnToMainMenuPerformed;
         }
+
 
         public void Disable()
         {
@@ -81,6 +89,19 @@ namespace _Project.Scripts.Player
             _playerInput.UI.Submit.performed -= OnSubmitPerformed;
             _playerInput.UI.Cancel.performed -= OnCancelPerformed;
             _playerInput.UI.ContinuePlaying.performed -= OnContinuePlayingPerformed;
+            _playerInput.UI.ReturnToMainMenu.performed -= OnReturnToMainMenuPerformed;
+        }
+
+        public void EnableGlobalActions()
+        {
+            _playerInput.Global.Enable();
+            _playerInput.Global.SwitchConnection.performed += OnSwitchConnectionPerformed;
+        }
+
+        public void DisableGlobalActions()
+        {
+            _playerInput.Global.Disable();
+            _playerInput.Global.SwitchConnection.performed -= OnSwitchConnectionPerformed;
         }
 
         public void SetPlayerActionsEnabled(bool isEnabled)
@@ -103,6 +124,9 @@ namespace _Project.Scripts.Player
         private void OnPausePerformed(InputAction.CallbackContext context)
             => PausePerformed?.Invoke();
 
+        private void OnSwitchConnectionPerformed(InputAction.CallbackContext context)
+            => ConnectionSwitchPerformed?.Invoke();
+
         private void OnShootLaserPerformed(InputAction.CallbackContext context)
             => ShootLaserPerformed?.Invoke();
 
@@ -123,6 +147,9 @@ namespace _Project.Scripts.Player
 
         private void OnCancelPerformed(InputAction.CallbackContext context)
             => CancelPerformed?.Invoke();
+
+        private void OnReturnToMainMenuPerformed(InputAction.CallbackContext context)
+            => ReturnToMainMenuPerformed?.Invoke();
 
         private void OnContinuePlayingPerformed(InputAction.CallbackContext context)
             => ContinuePlayingPerformed?.Invoke();

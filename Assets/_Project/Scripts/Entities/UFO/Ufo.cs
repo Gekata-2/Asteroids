@@ -2,7 +2,11 @@
 using _Project.Scripts.EnemyAI.StateMachine;
 using _Project.Scripts.Entities.Asteroids;
 using _Project.Scripts.Entities.UFO.Configs;
+using _Project.Scripts.Sfx;
+using _Project.Scripts.Vfx;
 using UnityEngine;
+using UnityEngine.VFX;
+using Zenject;
 
 namespace _Project.Scripts.Entities.UFO
 {
@@ -23,6 +27,16 @@ namespace _Project.Scripts.Entities.UFO
         public bool HasBeenHitByBullet { get; private set; }
         public bool HasBeenSweepedByLaser { get; private set; }
 
+
+        private AudioSystem _audioSystem;
+        private VfxSystem _vfxSystem;
+
+        [Inject]
+        private void Construct(AudioSystem audioSystem, VfxSystem vfxSystem)
+        {
+            _audioSystem = audioSystem;
+            _vfxSystem = vfxSystem;
+        }
 
         public void Initialize(UfoConfig ufoConfig)
         {
@@ -47,7 +61,7 @@ namespace _Project.Scripts.Entities.UFO
         {
             if (!_isActive)
                 return;
-            
+
             _stateMachine.FixedUpdate();
         }
 
@@ -71,6 +85,8 @@ namespace _Project.Scripts.Entities.UFO
 
         public void Die()
         {
+            _vfxSystem.PlayVfx(VFX.UfoDestroyed, Position);
+            _audioSystem.PlaySfx(SFX.EnemyDestroyed, Position);
             Died?.Invoke(this);
             Destroy(gameObject);
         }

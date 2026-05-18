@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ca17ca1b6a8441d947c9dfb65c363d4, type: 3}
+  m_Name: Assets Bundle Config
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Services.LevelAssetsConfig
+  <UsedAssets>k__BackingField: 000000000100000002000000030000000400000005000000060000000700000008000000
+  <UsedSfx>k__BackingField: 00000000010000000200000003000000
+  <UsedVfx>k__BackingField: 000000000100000002000000

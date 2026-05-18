@@ -469,8 +469,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d89d8c0c6b441ea0318cc8e6c40c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.UFOsInstaller
-  _ufoConfig: {fileID: 11400000, guid: 064801225bef42d458a30b479c78588b, type: 2}
-  _spawnerConfig: {fileID: 11400000, guid: bffdeb19e9b23a34dbccc6e75e436849, type: 2}
 --- !u!1 &667685350
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,6 +595,51 @@ Transform:
   - {fileID: 1198808307}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &798859077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 798859078}
+  - component: {fileID: 798859079}
+  m_Layer: 0
+  m_Name: Vfx
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &798859078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798859077}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1549877144}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &798859079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798859077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f453e5beb8cc43d7a240715e39bc2d3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Vfx.VfxInstaller
+  _configs: {fileID: 11400000, guid: 06c4fc4429dba584b987b17ff50dc632, type: 2}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,8 +873,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 843cc66438e441988219b72c762f717a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.PlayerInstaller
-  _playerConfig: {fileID: 11400000, guid: 59bb1d3877dbd1c4294d6b737e9a4b1d, type: 2}
-  _weaponsConfig: {fileID: 11400000, guid: a536a75de87d3f54ab599035666a5f5b, type: 2}
 --- !u!4 &1296308045
 Transform:
   m_ObjectHideFlags: 0
@@ -920,8 +961,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee08125330c24f74b867d2be12bb8873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Installers.AsteroidsInstaller
-  _asteroidsConfig: {fileID: 11400000, guid: 1dfcf413176dead4485e6d6888352e6f, type: 2}
-  _spawnerConfig: {fileID: 11400000, guid: 5ed469316618e514baf36771f95f4ff4, type: 2}
   _poolsConfig: {fileID: 11400000, guid: 0d9c9d7ad432e174f8184ebdb6eedc1a, type: 2}
 --- !u!4 &1317088369
 Transform:
@@ -1018,6 +1057,7 @@ MonoBehaviour:
   - {fileID: 1317088368}
   - {fileID: 449118777}
   - {fileID: 563128496}
+  - {fileID: 798859079}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -1053,6 +1093,7 @@ Transform:
   - {fileID: 1296308045}
   - {fileID: 1317088369}
   - {fileID: 563128495}
+  - {fileID: 798859078}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1681604403
@@ -1131,7 +1172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43e9489a9b4b2354c9c6d5a1e2baa39b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _scoreConfig: {fileID: 11400000, guid: 4f8b00a7ba3772b419bcf9f83bafa472, type: 2}
   _levelAssetsConfig: {fileID: 11400000, guid: f6074af2052f4514ea7b81b46c6a8955, type: 2}
 --- !u!4 &1815354542
 Transform:

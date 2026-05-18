@@ -1,7 +1,7 @@
-﻿using _Project.Scripts.Level.GameSession;
-using _Project.Scripts.Player;
+﻿using _Project.Scripts.Player;
 using _Project.Scripts.Player.Weapons.Laser;
 using _Project.Scripts.Player.Weapons.MachineGun;
+using _Project.Scripts.Services.AssetsManagement;
 using _Project.Scripts.UI;
 using Zenject;
 
@@ -13,8 +13,6 @@ namespace _Project.Scripts.Installers
         {
             Container.BindInterfacesAndSelfTo<PlayerFactory>().AsSingle();
 
-            Container.Bind<PlayerInputActionMap>().AsSingle();
-            Container.Bind<IInput>().To<InputHandler>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<PlayerStatePresenter>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<PlayerScorePresenter>().AsSingle();

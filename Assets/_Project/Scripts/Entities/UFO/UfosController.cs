@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using _Project.Scripts.Level.GameSession;
+using _Project.Scripts.Level;
 using _Project.Scripts.Services.BeginGame;
 using Zenject;
 

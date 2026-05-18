@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84572e93cc90485eafbc80b8b51dbc30, type: 3}
+  m_Name: AudioRegistry
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Sfx.AudioRegistry
+  <Data>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value:
+        <Asset>k__BackingField: 13
+        <MixerGroup>k__BackingField: {fileID: 4567283021763703565, guid: b16ac1bef09346c409c11dada5821621, type: 2}
+        <RandomPitch>k__BackingField: 1
+    - Key: 1
+      Value:
+        <Asset>k__BackingField: 12
+        <MixerGroup>k__BackingField: {fileID: 4567283021763703565, guid: b16ac1bef09346c409c11dada5821621, type: 2}
+        <RandomPitch>k__BackingField: 1
+    - Key: 2
+      Value:
+        <Asset>k__BackingField: 14
+        <MixerGroup>k__BackingField: {fileID: -5330885260143464587, guid: b16ac1bef09346c409c11dada5821621, type: 2}
+        <RandomPitch>k__BackingField: 0
+    - Key: 3
+      Value:
+        <Asset>k__BackingField: 15
+        <MixerGroup>k__BackingField: {fileID: -5330885260143464587, guid: b16ac1bef09346c409c11dada5821621, type: 2}
+        <RandomPitch>k__BackingField: 0

@@ -12,10 +12,10 @@ namespace _Project.Scripts.Installers
 
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<NetworkWindow>().FromComponentInNewPrefab(_networkWindowPrefab)
+            Container.Bind<NetworkWindow>().FromComponentInNewPrefab(_networkWindowPrefab)
                 .AsSingle();
-            Container.BindInterfacesAndSelfTo<NetworkPresenter>().FromNew().AsSingle();
-            Container.BindInterfacesAndSelfTo<DummyNetworkConnectionService>().AsSingle();
+            Container.BindInterfacesTo<NetworkPresenter>().FromNew().AsSingle();
+            Container.BindInterfacesTo<DummyNetworkConnectionService>().AsSingle();
         }
     }
 }

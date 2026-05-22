@@ -11,8 +11,8 @@ namespace _Project.Scripts.Installers
 
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<AnonymousAuthorizationService>().AsSingle();
-            Container.BindInterfacesAndSelfTo<UnityIAPService>().AsSingle();
+            Container.BindInterfacesTo<AnonymousAuthorizationService>().AsSingle();
+            Container.BindInterfacesTo<UnityIAPService>().AsSingle();
             Container.BindInterfacesAndSelfTo<IAPModel>().AsSingle();
             Container.Bind<IapConfig>().FromScriptableObject(_iapConfig).AsSingle();
         }

@@ -48,7 +48,7 @@ namespace _Project.Scripts.Entities.Asteroids
         private AsteroidConfig GetConfigByName(string asteroidType)
             => _configs.TryGetValue(asteroidType, out AsteroidConfig config) ? config : null;
 
-        public AsteroidConfig GeFirstConfig()
+        public AsteroidConfig GetFirstConfig()
             => GetConfig(Chain.First().AsteroidType);
     }
 }

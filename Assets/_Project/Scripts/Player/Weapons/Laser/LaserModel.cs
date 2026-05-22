@@ -8,7 +8,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
 {
     public class LaserModel : IInitializable
     {
-        private readonly IAnalytics _analytics;
+        private readonly IAnalyticsService _analyticsService;
         public event Action<int> ChargesCountChanged;
         public event Action<float> CooldownTimeLeftChanged;
 
@@ -26,12 +26,12 @@ namespace _Project.Scripts.Player.Weapons.Laser
         public bool IsChargesFull => _charges.IsFull();
         public float Duration => _config.Duration;
         public float Cooldown => _config.Cooldown;
-        public float Lenght => _config.Lenght;
+        public float Length => _config.Length;
         public int Charges => _charges.Current;
 
-        public LaserModel(IAnalytics analytics, IConfigsProvider configsProvider)
+        public LaserModel(IAnalyticsService analyticsService, IConfigsProvider configsProvider)
         {
-            _analytics = analytics;
+            _analyticsService = analyticsService;
             _configsProvider = configsProvider;
         }
 
@@ -58,7 +58,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
         {
             ++UsedCount;
             _charges.UseCharge();
-            _analytics.LogLaserUsed();
+            _analyticsService.LogLaserUsed();
             ChargesCountChanged?.Invoke(_charges.Current);
         }
 

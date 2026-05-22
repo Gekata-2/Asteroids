@@ -25,7 +25,7 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         private void Start()
         {
-            _laser.SetLength(_model.Lenght);
+            _laser.SetLength(_model.Length);
             _laser.Disable();
         }
 

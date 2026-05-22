@@ -20,7 +20,7 @@ namespace _Project.Scripts.GameOver
         private readonly SaveLoadService _saveLoadService;
         private readonly SaveProvider _saveProvider;
 
-        private readonly IAnalytics _analytics;
+        private readonly IAnalyticsService _analyticsService;
         private readonly AnalyticsDataBuilder _analyticsDataBuilder;
 
         private readonly PauseService _pauseService;
@@ -36,7 +36,7 @@ namespace _Project.Scripts.GameOver
         
         public GameOverModel(
             SaveLoadService saveLoadService, SaveProvider saveProvider,
-            IAnalytics analytics, AnalyticsDataBuilder analyticsDataBuilder,
+            IAnalyticsService analyticsService, AnalyticsDataBuilder analyticsDataBuilder,
             PauseService pauseService,
             SceneLoader sceneLoader,
             ExitGameService exitGameService,
@@ -46,7 +46,7 @@ namespace _Project.Scripts.GameOver
             _saveLoadService = saveLoadService;
             _saveProvider = saveProvider;
 
-            _analytics = analytics;
+            _analyticsService = analyticsService;
             _analyticsDataBuilder = analyticsDataBuilder;
 
             _pauseService = pauseService;
@@ -77,7 +77,7 @@ namespace _Project.Scripts.GameOver
         {
             _pauseService.PerformPause();
             GameOver?.Invoke();
-            _analytics.LogGameOver(_analyticsDataBuilder.CreateGameOverData());
+            _analyticsService.LogGameOver(_analyticsDataBuilder.CreateGameOverData());
             SaveData saveData = _saveProvider.CreateSave();
             await _saveLoadService.Save(saveData);
         }
@@ -108,6 +108,8 @@ namespace _Project.Scripts.GameOver
 
         public void Dispose()
         {
+            if (_player==null) return;
+            
             _player.PlayerDead -= OnPlayerDead;
         }
     }

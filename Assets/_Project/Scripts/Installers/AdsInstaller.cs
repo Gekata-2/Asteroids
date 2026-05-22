@@ -13,9 +13,9 @@ namespace _Project.Scripts.Installers
             Container.Bind<AdsConfig>().FromScriptableObject(_adsConfig).AsSingle();
             Container.BindFactory<string, UnityAdHandler, UnityAdHandlerFactory>();
 #if UNITY_EDITOR || UNITY_ANDROID || UNITY_IOS
-            Container.BindInterfacesAndSelfTo<UnityAdsService>().AsSingle();
+            Container.Bind<IAdsService>().To<UnityAdsService>().AsSingle();
 #elif UNITY_STANDALONE_WIN
-            Container.BindInterfacesAndSelfTo<WindowsAdsService>().AsSingle();
+            Container.Bind<IAdsService>().To<WindowsAdsService>().AsSingle();
 #endif
         }
     }

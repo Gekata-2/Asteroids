@@ -21,7 +21,7 @@ namespace _Project.Scripts.Services.BeginGame
         private SceneLoader _sceneLoader;
         private IIAPService _iapService;
 
-        private IAnalytics _analytics;
+        private IAnalyticsService _analyticsService;
         private IAdsService _adsService;
         private IConfigsProvider _configsProvider;
         private IAuthorizationService _authorizationService;
@@ -34,7 +34,7 @@ namespace _Project.Scripts.Services.BeginGame
         private void Construct(
             SceneLoader sceneLoader,
             IIAPService iapService,
-            IAnalytics analytics,
+            IAnalyticsService analyticsService,
             IAdsService adsService,
             IConfigsProvider configsProvider,
             IAuthorizationService authorizationService,
@@ -45,7 +45,7 @@ namespace _Project.Scripts.Services.BeginGame
             _sceneLoader = sceneLoader;
             _iapService = iapService;
 
-            _analytics = analytics;
+            _analyticsService = analyticsService;
             _adsService = adsService;
             _configsProvider = configsProvider;
             _authorizationService = authorizationService;
@@ -65,7 +65,7 @@ namespace _Project.Scripts.Services.BeginGame
             SaveData saveData = await RetrieveSave();
 
             await UniTask.WhenAll(
-                _analytics.Initialize(),
+                _analyticsService.Initialize(),
                 _configsProvider.FetchData(),
                 _iapService.Initialize(),
                 InitializeAdsService(!saveData.IsAdsRemoved),

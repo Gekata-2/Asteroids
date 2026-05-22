@@ -7,7 +7,7 @@ namespace _Project.Scripts.Installers
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<InputHandler>().AsSingle();
+            Container.BindInterfacesTo<InputHandler>().AsSingle();
             Container.Bind<PlayerInputActionMap>().AsSingle();
         }
     }

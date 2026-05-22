@@ -11,15 +11,15 @@ namespace _Project.Scripts.Services.Pause
         private readonly PauseModel _model;
         private readonly UIManager _uiManager;
         private readonly IInput _input;
-        private readonly AssetsFactory _assetsFactory;
+        private readonly PauseWindowFactory _windowFactory;
         private PauseWindow _view;
 
-        public PausePresenter(PauseModel model, UIManager uiManager, IInput input, AssetsFactory assetsFactory)
+        public PausePresenter(PauseModel model, UIManager uiManager, IInput input, PauseWindowFactory windowFactory)
         {
             _model = model;
             _input = input;
             _uiManager = uiManager;
-            _assetsFactory = assetsFactory;
+            _windowFactory = windowFactory;
         }
 
         public void Initialize()
@@ -32,7 +32,7 @@ namespace _Project.Scripts.Services.Pause
 
         public void FetchAssets()
         {
-            _view = _assetsFactory.Create<PauseWindow>(AssetsNames.GetName(Asset.PauseUI));
+            _view = _windowFactory.Create();
         }
 
         private void OnPausePerformed()
@@ -57,7 +57,7 @@ namespace _Project.Scripts.Services.Pause
 
         private void OnCancelPerformed()
         {
-            if (_uiManager.CurrentState == UIState.Pause) 
+            if (_uiManager.CurrentState == UIState.Pause)
                 _model.ExitToMainMenu();
         }
 

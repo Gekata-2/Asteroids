@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using _Project.Scripts.Meta.IAP;
 using _Project.Scripts.Meta.Monetization;
 using _Project.Scripts.Services;
@@ -80,7 +79,7 @@ namespace _Project.Scripts.MainMenu
             await _assetProvider.Preload(_assetBundleConfig.UsedVfx.Select(AssetsNames.GetName).ToArray());
         }
 
-        private async Task LoadSave()
+        private async UniTask LoadSave()
         {
             SavesData savesData = await _saveLoadService.GetSavesData();
 

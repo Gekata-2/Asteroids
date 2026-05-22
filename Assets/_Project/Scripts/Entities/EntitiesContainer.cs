@@ -8,7 +8,7 @@ namespace _Project.Scripts.Entities
     {
         private readonly List<Entity> _entities;
 
-        public EntitiesContainer(List<Entity> entities = null)
+        public EntitiesContainer(List<Entity> entities)
         {
             _entities = entities;
         }

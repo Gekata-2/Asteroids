@@ -5,7 +5,7 @@ namespace _Project.Scripts.Player.UI
 {
     public class PlayerStateView : MonoBehaviour
     {
-        private const string DEGREE_UNICOD = "\u00b0";
+        private const string DEGREE_UNICODE = "\u00b0";
 
         [SerializeField] private TMP_Text _xCoordText;
         [SerializeField] private TMP_Text _yCoordText;
@@ -26,7 +26,7 @@ namespace _Project.Scripts.Player.UI
         }
         
         public void SetAngle(float angle)
-            => _angleText.text = $"{angle:0.#}{DEGREE_UNICOD}";
+            => _angleText.text = $"{angle:0.#}{DEGREE_UNICODE}";
 
         public void SetSpeed(float speed)
             => _speedText.text = $"{speed:0.#}";

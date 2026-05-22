@@ -3,7 +3,6 @@ using _Project.Scripts.Meta.Monetization;
 using _Project.Scripts.Player;
 using _Project.Scripts.Services;
 using _Project.Scripts.Services.AssetsManagement;
-using _Project.Scripts.Services.BeginGame;
 using _Project.Scripts.Services.UI;
 using Cysharp.Threading.Tasks;
 using Zenject;
@@ -12,25 +11,22 @@ namespace _Project.Scripts.GameOver
 {
     public class GameOverPresenter : IInitializable, IDisposable, IAssetFetcher
     {
-        private readonly AssetsFactory _assetsFactory;
-      
         private readonly GameOverModel _model;
         private readonly UIManager _uiManager;
         private readonly IAdsService _adsService;
         private readonly IInput _input;
         private readonly CursorService _cursorService;
+        private readonly GameOverWindowFactory _windowFactory;
 
         private GameOverWindow _view;
 
-        public GameOverPresenter(GameOverModel model, UIManager uiManager, IInput input,
-           AssetsFactory assetsFactory, IAdsService adsService,
-            CursorService cursorService = null)
+        public GameOverPresenter(GameOverModel model, UIManager uiManager, IInput input, IAdsService adsService, GameOverWindowFactory windowFactory, CursorService cursorService = null)
         {
             _model = model;
             _uiManager = uiManager;
             _input = input;
-            _assetsFactory = assetsFactory;
             _adsService = adsService;
+            _windowFactory = windowFactory;
             _cursorService = cursorService;
         }
 
@@ -46,7 +42,7 @@ namespace _Project.Scripts.GameOver
 
         public void FetchAssets()
         {
-            _view = _assetsFactory.Create<GameOverWindow>(AssetsNames.GetName(Asset.GameOverUI));
+            _view = _windowFactory.Create();
         }
 
         private void OnGameOver()

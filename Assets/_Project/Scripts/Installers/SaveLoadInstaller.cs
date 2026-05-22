@@ -11,7 +11,7 @@ namespace _Project.Scripts.Installers
         {
             Container.Bind<ILocalSaveLoadService>().To<PlayerPrefsSaveService>().AsCached();
             Container.Bind<ICloudSaveLoadService>().To<UnityCloudSaveService>().AsCached();
-            Container.BindInterfacesAndSelfTo<SaveLoadService>().AsSingle();
+            Container.Bind<SaveLoadService>().AsSingle();
         }
     }
 }

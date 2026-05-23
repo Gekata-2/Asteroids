@@ -17,12 +17,9 @@ namespace _Project.Scripts.Services.BeginGame
 
         public BeginGameModel(PlayerFactory playerFactory,
             IConfigsProvider configsProvider,
-            List<IGameStarter> starters = null,
-            List<IAssetFetcher> assetFetchers = null)
+            List<IGameStarter> starters,
+            List<IAssetFetcher> assetFetchers)
         {
-            if (assetFetchers == null) _assetFetchers = new List<IAssetFetcher>();
-            if (starters == null) _starters = new List<IGameStarter>();
-
             _playerFactory = playerFactory;
             _configsProvider = configsProvider;
             _starters = starters;

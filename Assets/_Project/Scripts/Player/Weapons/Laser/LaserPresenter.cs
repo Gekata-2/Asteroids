@@ -1,7 +1,6 @@
 ﻿using System;
 using _Project.Scripts.Player.Weapons.Laser.UI;
 using _Project.Scripts.Services.AssetsManagement;
-using _Project.Scripts.Services.BeginGame;
 using Zenject;
 
 namespace _Project.Scripts.Player.Weapons.Laser
@@ -9,13 +8,13 @@ namespace _Project.Scripts.Player.Weapons.Laser
     public class LaserPresenter : IInitializable, IDisposable, IAssetFetcher
     {
         private readonly LaserModel _model;
-        private readonly AssetsFactory _assetsFactory;
+        private readonly LaserViewFactory _viewFactory;
         private LaserView _view;
 
-        public LaserPresenter(LaserModel model, AssetsFactory assetsFactory)
+        public LaserPresenter(LaserModel model, LaserViewFactory viewFactory)
         {
             _model = model;
-            _assetsFactory = assetsFactory;
+            _viewFactory = viewFactory;
         }
 
         public void Initialize()
@@ -26,16 +25,16 @@ namespace _Project.Scripts.Player.Weapons.Laser
 
         public void FetchAssets()
         {
-            _view = _assetsFactory.Create<LaserView>(AssetsNames.GetName(Asset.LaserUI));
+            _view = _viewFactory.Create();
             _view.SetChargesCount(_model.Charges);
             _view.SetProgress(_model.CooldownTimeLeft, _model.Cooldown);
         }
 
         private void OnCooldownTimeLeftChanged(float value)
-            => _view.SetProgress(value, _model.Cooldown);
+            => _view?.SetProgress(value, _model.Cooldown);
 
         private void OnChargesCountChanged(int count)
-            => _view.SetChargesCount(count);
+            => _view?.SetChargesCount(count);
 
         public void Dispose()
         {

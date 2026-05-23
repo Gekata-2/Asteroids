@@ -10,20 +10,18 @@ namespace _Project.Scripts.Player
 {
     public class PlayerScorePresenter : IInitializable, IDisposable, IAssetFetcher
     {
-        private readonly AssetsFactory _assetsFactory;
         private readonly IConfigsProvider _configsProvider;
         private readonly GameSessionData _model;
+        private readonly ScoreViewFactory _viewFactory;
         
         private ScoreView _view;
 
-        public PlayerScorePresenter(
-            AssetsFactory assetsFactory,
-            GameSessionData model,
-            IConfigsProvider configsProvider)
+        public PlayerScorePresenter(GameSessionData model,
+            IConfigsProvider configsProvider, ScoreViewFactory viewFactory)
         {
             _model = model;
             _configsProvider = configsProvider;
-            _assetsFactory = assetsFactory;
+            _viewFactory = viewFactory;
         }
 
         public void Initialize()
@@ -35,7 +33,7 @@ namespace _Project.Scripts.Player
 
         public void FetchAssets()
         {
-            _view = _assetsFactory.Create<ScoreView>(AssetsNames.GetName(Asset.ScoreUI));
+            _view = _viewFactory.Create();
             _view.SetScore(_model.Score);
         }
 

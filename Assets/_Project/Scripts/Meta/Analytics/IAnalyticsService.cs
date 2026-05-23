@@ -2,7 +2,7 @@
 
 namespace _Project.Scripts.Meta.Analytics
 {
-    public interface IAnalytics
+    public interface IAnalyticsService
     {
         UniTask Initialize();
         void LogGameStarted();

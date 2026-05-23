@@ -12,10 +12,9 @@ namespace _Project.Scripts.Installers
             Container.Bind<SceneLoader>().AsSingle();
             Container.Bind<ExitGameService>().FromNew().AsSingle();
 
-            Container.BindInterfacesAndSelfTo<UnityConsoleLogger>().AsSingle()
+            Container.BindInterfacesTo<UnityConsoleLogger>().AsSingle()
                 .WithArguments(LogModule.All).NonLazy();
-
-
+            
             Container.Bind<CursorService>().FromNew().AsSingle();
         }
     }

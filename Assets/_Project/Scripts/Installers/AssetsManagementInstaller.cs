@@ -1,5 +1,4 @@
-﻿using _Project.Scripts.Services;
-using _Project.Scripts.Services.AssetsManagement;
+﻿using _Project.Scripts.Services.AssetsManagement;
 using UnityEngine;
 using Zenject;
 
@@ -12,7 +11,7 @@ namespace _Project.Scripts.Installers
         public override void InstallBindings()
         {
             Container.Bind<AssetBundleConfig>().FromScriptableObject(assetBundleConfig).AsSingle();
-            Container.BindInterfacesAndSelfTo<AddressablesProvider>().AsSingle();
+            Container.BindInterfacesTo<AddressablesProvider>().AsSingle();
         }
     }
 }

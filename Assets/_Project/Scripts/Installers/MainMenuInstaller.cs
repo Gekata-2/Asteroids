@@ -12,11 +12,11 @@ namespace _Project.Scripts.Installers
         public override void InstallBindings()
         {
             Container.Bind<MainMenuWindow>().FromComponentInHierarchy().AsSingle();
-            Container.BindInterfacesAndSelfTo<MainMenuPresenter>().AsSingle();
-            Container.BindInterfacesAndSelfTo<MainMenuModel>().AsSingle();
+            Container.BindInterfacesTo<MainMenuPresenter>().AsSingle();
+            Container.Bind<MainMenuModel>().AsSingle();
 
             Container.Bind<IAPWindow>().FromComponentInHierarchy().AsSingle();
-            Container.BindInterfacesAndSelfTo<IAPPresenter>().AsSingle();
+            Container.BindInterfacesTo<IAPPresenter>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<SaveResolvePresenter>().AsSingle();
             Container.Bind<SaveResolveWindow>().FromComponentInHierarchy().AsSingle();

@@ -14,7 +14,7 @@ namespace _Project.Scripts.Installers
         {
             Container.BindFactory<SoundEmitter, SoundEmitterFactory>().FromComponentInNewPrefab(_prefab);
             Container.BindFactory<MusicEmitter,MusicEmitterFactory>().FromComponentInNewPrefab(_musicEmitterPrefab);
-            Container.BindInterfacesAndSelfTo<AudioSystem>().AsSingle();
+            Container.Bind<AudioSystem>().AsSingle();
             Container.Bind<AudioRegistry>().FromScriptableObject(_audioRegistry).AsSingle();
         }
     }

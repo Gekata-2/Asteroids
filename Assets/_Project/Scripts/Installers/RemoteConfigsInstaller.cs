@@ -7,7 +7,7 @@ namespace _Project.Scripts.Installers
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<FirebaseRemoteConfigsProvider>().AsSingle();
+            Container.BindInterfacesTo<FirebaseRemoteConfigsProvider>().AsSingle();
         }
     }
 }

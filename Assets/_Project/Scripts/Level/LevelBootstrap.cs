@@ -23,7 +23,7 @@ namespace _Project.Scripts.Level
         private CursorService _cursorService;
         private GameOverModel _gameOverModel;
         private UfosSpawner _ufosSpawner;
-        private IAnalytics _analytics;
+        private IAnalyticsService _analyticsService;
         private BeginGameModel _beginGameModel;
         private AudioSystem _audioSystem;
 
@@ -35,7 +35,7 @@ namespace _Project.Scripts.Level
             CursorService cursorService,
             UfosSpawner ufosSpawner,
             GameOverModel gameOverModel,
-            IAnalytics analytics,
+            IAnalyticsService analyticsService,
             BeginGameModel beginGameModel,
             AudioSystem audioSystem)
         {
@@ -45,7 +45,7 @@ namespace _Project.Scripts.Level
             _cursorService = cursorService;
             _ufosSpawner = ufosSpawner;
             _gameOverModel = gameOverModel;
-            _analytics = analytics;
+            _analyticsService = analyticsService;
             _beginGameModel = beginGameModel;
             _audioSystem = audioSystem;
         }
@@ -76,7 +76,7 @@ namespace _Project.Scripts.Level
 
             _beginGameModel.BeginGame();
 
-            _analytics.LogGameStarted();
+            _analyticsService.LogGameStarted();
         }
 
         private void OnDestroy()

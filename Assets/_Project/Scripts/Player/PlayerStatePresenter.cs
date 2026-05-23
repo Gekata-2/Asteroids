@@ -6,18 +6,19 @@ namespace _Project.Scripts.Player
 {
     public class PlayerStatePresenter : IAssetFetcher, IDisposable
     {
-        private readonly AssetsFactory _viewFactory;
+    
+        private readonly PlayerStateViewFactory _viewFactory;
         private PlayerMovement _playerModel;
         private PlayerStateView _view;
 
-        public PlayerStatePresenter(AssetsFactory viewFactory)
+        public PlayerStatePresenter(PlayerStateViewFactory viewFactory)
         {
             _viewFactory = viewFactory;
         }
 
         public void FetchAssets()
         {
-            _view = _viewFactory.Create<PlayerStateView>(AssetsNames.GetName(Asset.PlayerStateUI));
+            _view = _viewFactory.Create();
             if (_playerModel != null)
                 _view.Initialize(_playerModel.Position, _playerModel.Rotation, _playerModel.Speed);
         }
@@ -54,6 +55,8 @@ namespace _Project.Scripts.Player
 
         public void Dispose()
         {
+            if (_playerModel == null) return;
+            
             _playerModel.PositionChanged -= OnPositionChanged;
             _playerModel.RotationChanged -= OnRotationChanged;
             _playerModel.SpeedChanged -= OnSpeedChanged;

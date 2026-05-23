@@ -7,7 +7,7 @@ namespace _Project.Scripts.Player.Weapons.Configs
     public class LaserConfig
     {
         [field: SerializeField] public float Cooldown { get; set; } = 15f;
-        [field: SerializeField] public float Lenght { get; set; } = 4f;
+        [field: SerializeField] public float Length { get; set; } = 4f;
         [field: SerializeField] public float Duration { get; set; } = 2f;
         [field: SerializeField] public int Charges { get; set; } = 1;
     }

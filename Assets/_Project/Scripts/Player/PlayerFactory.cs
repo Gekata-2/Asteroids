@@ -1,21 +1,19 @@
 ﻿using _Project.Scripts.Services.AssetsManagement;
-using _Project.Scripts.Services.BeginGame;
 using UnityEngine;
-using Zenject;
 
 namespace _Project.Scripts.Player
 {
     public class PlayerFactory : IAssetFetcher
     {
-        private readonly DiContainer _di;
+        private readonly PlayerPrefabFactory _prefabFactory;
         private readonly IAssetProvider _assetProvider;
 
         private Object _prefab;
 
-        public PlayerFactory(DiContainer di, IAssetProvider assetProvider)
+        public PlayerFactory(PlayerPrefabFactory prefabFactory, IAssetProvider assetProvider)
         {
             _assetProvider = assetProvider;
-            _di = di;
+            _prefabFactory = prefabFactory;
         }
 
         public void FetchAssets()
@@ -25,11 +23,8 @@ namespace _Project.Scripts.Player
 
         public Player Create(Vector3 position)
         {
-            Player player = _di.InstantiatePrefabForComponent<Player>(
-                _prefab,
-                position,
-                Quaternion.identity,
-                null);
+            Player player = _prefabFactory.Create(_prefab);
+            player.transform.position = position;
 
             return player;
         }

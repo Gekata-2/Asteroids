@@ -7,7 +7,7 @@ namespace _Project.Scripts.Installers
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<FirebaseAnalyticsService>().AsSingle();
+            Container.BindInterfacesTo<FirebaseAnalyticsService>().AsSingle();
         }
     }
 }

@@ -11,8 +11,8 @@ namespace _Project.Scripts.Entities.UFO
     public class UfoFactory : IAssetFetcher, IInitializable
     {
         private const string CONTAINER_NAME = "UFO container";
-
-        private readonly DiContainer _di;
+        
+        private readonly UfoPrefabFactory _prefabFactory;
         private readonly GameObject _container;
         private readonly IAssetProvider _assetProvider;
         private readonly IConfigsProvider _configsProvider;
@@ -20,11 +20,11 @@ namespace _Project.Scripts.Entities.UFO
         private UfoConfig _config;
         private Object _prefab;
 
-        public UfoFactory(DiContainer di, IAssetProvider assetProvider, IConfigsProvider configsProvider)
+        public UfoFactory(UfoPrefabFactory prefabFactory, IAssetProvider assetProvider, IConfigsProvider configsProvider)
         {
             _assetProvider = assetProvider;
             _configsProvider = configsProvider;
-            _di = di;
+            _prefabFactory = prefabFactory;
 
             _container = new GameObject(CONTAINER_NAME);
         }
@@ -41,11 +41,9 @@ namespace _Project.Scripts.Entities.UFO
 
         public Ufo Create(Vector3 position, EnemyTarget target)
         {
-            Ufo ufo = _di.InstantiatePrefabForComponent<Ufo>(
-                _prefab,
-                position,
-                Quaternion.identity,
-                _container.transform);
+            Ufo ufo = _prefabFactory.Create(_prefab);
+            ufo.transform.parent = _container.transform;
+            ufo.SetPositionImmediate(position);
 
             StateMachine stateMachine = CreateStateMachine(ufo, target);
             ufo.Initialize(_config);

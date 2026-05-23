@@ -7,7 +7,7 @@ using ILogger = _Project.Scripts.Services.Logging.ILogger;
 
 namespace _Project.Scripts.Meta.Analytics
 {
-    public class FirebaseAnalyticsService : IAnalytics
+    public class FirebaseAnalyticsService : IAnalyticsService
     {
         private readonly ILogger _logger;
 

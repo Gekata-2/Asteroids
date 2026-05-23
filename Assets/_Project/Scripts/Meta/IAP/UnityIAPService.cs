@@ -29,6 +29,7 @@ namespace _Project.Scripts.Meta.IAP
             catalogProvider.AddProduct(_iapConfig.GetStoreName(IAP.RemoveAds), ProductType.NonConsumable);
 
             _storeController = UnityIAPServices.StoreController();
+            
             _storeController.OnStoreConnected += OnStoreConnected;
             _storeController.OnStoreDisconnected += OnStoreDisconnected;
 

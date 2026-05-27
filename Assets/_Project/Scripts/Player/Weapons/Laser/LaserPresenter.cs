@@ -31,10 +31,16 @@ namespace _Project.Scripts.Player.Weapons.Laser
         }
 
         private void OnCooldownTimeLeftChanged(float value)
-            => _view?.SetProgress(value, _model.Cooldown);
+        {
+            if (_view != null)
+                _view.SetProgress(value, _model.Cooldown);
+        }
 
         private void OnChargesCountChanged(int count)
-            => _view?.SetChargesCount(count);
+        {
+            if (_view != null) 
+                _view?.SetChargesCount(count);
+        }
 
         public void Dispose()
         {

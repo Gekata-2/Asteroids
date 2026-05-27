@@ -65,13 +65,13 @@ namespace _Project.Scripts.Level
         private async UniTask BeginGame()
         {
             await UniTask.WhenAll(_beginGameModel.ActivateConfigsData());
-            
+
             _beginGameModel.FetchAssets();
 
             Player.Player player = _beginGameModel.SpawnPlayer(_playerSpawnPoint.position);
-            _playerStatePresenter.SetPlayerModel(player.GetComponent<PlayerMovement>());
-            _entitiesContainer.AddEntity(player.GetComponent<Entity>());
-            _ufosSpawner.SetTarget(player.GetComponent<EnemyTarget>());
+            _playerStatePresenter.SetPlayerModel(player.PlayerMovement);
+            _entitiesContainer.AddEntity(player.Entity);
+            _ufosSpawner.SetTarget(player.EnemyTarget);
             _gameOverModel.SetPlayer(player);
 
             _beginGameModel.BeginGame();

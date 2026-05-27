@@ -29,7 +29,7 @@ namespace _Project.Scripts.Player
         private Vector2 _prevPosition;
 
         [Inject]
-        public void Construct(IInput input, IConfigsProvider configsProvider)
+        private void Construct(IInput input, IConfigsProvider configsProvider)
         {
             _input = input;
             PlayerConfig config = configsProvider.GetValue<PlayerConfig>(ConfigsNames.Player);

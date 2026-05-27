@@ -11,6 +11,13 @@ namespace _Project.Scripts.Player
         public event Action PlayerDead;
 
         [SerializeField] private bool _isActive = true;
+        [SerializeField] private PlayerMovement _playerMovement;
+        [SerializeField] private EnemyTarget _enemyTarget;
+
+        public PlayerMovement PlayerMovement => _playerMovement;
+        public Entity Entity => _playerMovement;
+        public EnemyTarget EnemyTarget => _enemyTarget;
+        
 
         private CancellationTokenSource _ctsImmunity;
         private bool _isImmuneToDamage;

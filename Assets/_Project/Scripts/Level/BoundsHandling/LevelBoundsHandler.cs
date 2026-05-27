@@ -20,7 +20,7 @@ namespace _Project.Scripts.Level.BoundsHandling
         }
 
         [Inject]
-        public void Construct(LevelBounds levelBounds)
+        private void Construct(LevelBounds levelBounds)
         {
             _levelBounds = levelBounds;
         }

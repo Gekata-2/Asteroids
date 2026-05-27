@@ -13,7 +13,7 @@ namespace _Project.Scripts.Entities.UFO
         private readonly List<Ufo> _ufos = new();
 
         [Inject]
-        public void Construct(EntitiesContainer entitiesContainer,
+        private void Construct(EntitiesContainer entitiesContainer,
             UfosSpawner ufosSpawner, GameSessionData sessionData)
         {
             _ufosSpawner = ufosSpawner;
